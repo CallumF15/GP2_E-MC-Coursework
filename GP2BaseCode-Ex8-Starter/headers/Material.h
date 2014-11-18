@@ -50,9 +50,15 @@ public:
 
 	float getSpecularPower();
 	void setSpecularPower(float power);
+
+	void loadDiffuseMap(const std::string& filename);
+	GLuint getDiffuseMap();
+
+
 protected:
 private:
     GLuint m_ShaderProgram;
+	GLuint m_DiffuseMap;
 	vec4 m_AmbientColour;
 	vec4 m_DiffuseColour;
 	vec4 m_SpecularColour;

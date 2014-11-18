@@ -8,6 +8,7 @@
 
 #include "Material.h"
 #include "Shader.h"
+#include "Texture.h"
 
 Material::Material()
 {
@@ -17,6 +18,7 @@ Material::Material()
 	m_DiffuseColour = vec4(0.75f, 0.75f, 0.75f, 1.0f);
 	m_SpecularColour = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	m_SpecularPower = 200.0f;
+	m_DiffuseMap= 0;
 }
 
 Material::~Material()
@@ -26,11 +28,14 @@ Material::~Material()
 
 void Material::destroy()
 {
+	glDeleteTextures(1, &m_DiffuseMap);
     glDeleteProgram(m_ShaderProgram);
 }
 
 void Material::bind()
 {
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE0, m_DiffuseMap);
     glUseProgram(m_ShaderProgram);
 }
 
@@ -55,7 +60,6 @@ bool Material::loadShader(const std::string& vsFilename,const std::string& fsFil
     glBindAttribLocation(m_ShaderProgram, 0, "vertexPosition");
 	glBindAttribLocation(m_ShaderProgram, 1, "vertexNormals");
 	glBindAttribLocation(m_ShaderProgram,2, "vertexTexCoords");
-	glBindAttribLocation(m_ShaderProgram, 3, "vertexColour");
 
     return true;
 }
@@ -103,4 +107,15 @@ float Material::getSpecularPower()
 void Material::setSpecularPower(float power)
 {
 	m_SpecularPower = power;
+}
+
+void Material::loadDiffuseMap(const std::string& filename)
+{
+	loadTextureFromFile(filename);
+
+}
+
+GLuint Material::getDiffuseMap()
+{
+	return m_DiffuseMap;
 }
