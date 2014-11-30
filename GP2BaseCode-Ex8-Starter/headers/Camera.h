@@ -19,6 +19,8 @@ using glm::vec3;
 
 #include "Component.h"
 
+enum MovementType { FORWARD, BACKWARD, STRAFE_LEFT, STRAFE_RIGHT };
+
 class Camera:public Component
 {
 public:
@@ -39,8 +41,21 @@ public:
     
 	mat4& getView();
 	mat4& getProjection();
+
+	void translate(glm::vec3& direction);
+	void applyMovement(MovementType movement);
+	
+
+
+
+
+
 protected:
 private:
+	glm::vec3 m_position;
+	glm::vec3 m_direction;
+
+
 	vec3 m_LookAt;
 	vec3 m_Up;
     

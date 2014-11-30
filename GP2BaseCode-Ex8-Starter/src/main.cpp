@@ -58,7 +58,7 @@ const std::string MODEL_PATH = "models/";
 #include "Light.h"
 #include "FBXLoader.h"
 
-
+Camera * c = new Camera();
 //SDL Window
 SDL_Window * window = NULL;
 //SDL GL Context
@@ -234,7 +234,7 @@ void Initialise()
     t->setPosition(0.0f,0.0f,10.0f);
     mainCamera->setTransform(t);
     
-    Camera * c=new Camera();
+    //Camera * c=new Camera();
     c->setAspectRatio((float)(WINDOW_WIDTH/WINDOW_HEIGHT));
     c->setFOV(45.0f);
     c->setNearClip(0.1f);
@@ -456,20 +456,39 @@ int main(int argc, char * arg[])
 	while (running)
     {
         //While we still have events in the queue
-        while (SDL_PollEvent(&event)) {
-            //Get event type
-            if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE) {
-                //set our boolean which controls the loop to false
-                running = false;
-            }
-        }
-		update();
-        //render
-		render();
-       
-        
-    }
-    
+		while (SDL_PollEvent(&event)) {
+
+			switch (event.type){
+
+			case SDL_QUIT:
+				running = false;
+				break;
+			case SDL_WINDOWEVENT_CLOSE:
+				running = false;
+				break;
+
+			case SDL_KEYDOWN:
+				switch (event.key.keysym.sym){
+
+				case SDLK_w:
+					c->applyMovement(FORWARD);
+					break;
+				case SDLK_s:
+					c->applyMovement(BACKWARD);
+					break;
+
+				case SDLK_a:
+					break;
+			
+				}
+			}
+		}
+			update();
+			//render
+			render();
+
+
+		}
 
 	CleanUp();
     
