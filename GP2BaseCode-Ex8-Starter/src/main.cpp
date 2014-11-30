@@ -401,27 +401,7 @@ void render()
 
 //Main Method
 int main(int argc, char * arg[])
-{
-    // Setup asset path, no real work required for Windows. Mac needs to load assets from a bundle
-    // ----------------------------------------------------------------------------
-    // http://stackoverflow.com/questions/516200/relative-paths-not-working-in-xcode-c
-    // This makes relative paths work in C++ in Xcode by changing directory to the Resources folder inside the .app bundle
-#ifdef __APPLE__
-    CFBundleRef mainBundle = CFBundleGetMainBundle();
-    CFURLRef resourcesURL = CFBundleCopyResourcesDirectoryURL(mainBundle);
-    char path[PATH_MAX];
-    if (!CFURLGetFileSystemRepresentation(resourcesURL, TRUE, (UInt8 *)path, PATH_MAX))
-    {
-        // error!
-    }
-    CFRelease(resourcesURL);
-    
-    chdir(path);
-    std::cout << "Current Path: " << path << std::endl;
-#endif
-    
-
-    
+{  
     // init everyting - SDL, if it is nonzero we have a problem
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
@@ -454,8 +434,8 @@ int main(int argc, char * arg[])
     SDL_Event event;
     //Game Loop
 	while (running)
-    {
-        //While we still have events in the queue
+	{
+		//While we still have events in the queue
 		while (SDL_PollEvent(&event)) {
 
 			switch (event.type){
@@ -478,17 +458,25 @@ int main(int argc, char * arg[])
 					break;
 
 				case SDLK_a:
+					c->applyMovement(STRAFE_LEFT);
 					break;
-			
+				case SDLK_d:
+					c->applyMovement(STRAFE_RIGHT);
+					break;
+				case SDLK_DOWN:
+					c->translate(vec3(1.0, 1.0, 1.0));
+					break;
+
+				}
+				switch (event.motion.state){
+					//mouse stuff here
+				
 				}
 			}
 		}
-			update();
-			//render
-			render();
-
-
-		}
+		update();
+		render();
+	}
 
 	CleanUp();
     
