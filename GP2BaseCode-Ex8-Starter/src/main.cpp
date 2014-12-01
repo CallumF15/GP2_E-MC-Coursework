@@ -94,7 +94,6 @@ Vertex triangleData[] = {
 		{ vec3(0.5f, 0.5f, -0.5f), vec3(0.25f, -0.25f, -0.5f), vec2(1.0f, 0.0f), }// Top Right
 };
 
-
 GLuint indices[]={
     //front
     0,1,2,

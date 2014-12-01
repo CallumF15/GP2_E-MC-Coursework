@@ -38,8 +38,15 @@ Camera::~Camera()
     
 }
 
+
 void Camera::update()
 {
+	
+
+	
+
+
+
 	//get the position from the transform
 	vec3 position = m_Parent->getTransform()->getPosition();
     
@@ -58,28 +65,23 @@ void Camera::translate(glm::vec3& direction)
 
 void Camera::applyMovement(MovementType movement)
 {
-	//Transform transform;
-	//transform.setRotation(1, 1, 1); 
-	
-
 	switch (movement)
 	{
 	case FORWARD:
-		m_position += direction;
+		m_position += m_direction;
 		break;
 	case BACKWARD:
-		m_position -= direction;
+		m_position -= m_direction;
 		break;
 	case STRAFE_LEFT:
-		m_position -= right;
+		//m_position -= right;
 		//m_position += glm::normalize(glm::cross(m_direction, m_Up));
 		break;
 	case STRAFE_RIGHT:
-		m_position += right;
+		//m_position += right;
 		//m_position -= glm::normalize(glm::cross(m_direction, m_Up));
 		break;
 	}
-	calculateMovement();
 	
 }
 

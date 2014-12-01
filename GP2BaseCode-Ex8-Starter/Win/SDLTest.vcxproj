@@ -22,6 +22,7 @@
     <ClCompile Include="..\src\Shader.cpp" />
     <ClCompile Include="..\src\Texture.cpp" />
     <ClCompile Include="..\src\Transform.cpp" />
+    <ClCompile Include="primitiveType.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\headers\Camera.h" />
@@ -35,6 +36,7 @@
     <ClInclude Include="..\headers\Texture.h" />
     <ClInclude Include="..\headers\Transform.h" />
     <ClInclude Include="..\headers\Vertex.h" />
+    <ClInclude Include="primitiveType.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\assets\shaders\ambientFS.glsl" />
