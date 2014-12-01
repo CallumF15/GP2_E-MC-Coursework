@@ -6,6 +6,8 @@ using glm::mat4;
 using glm::vec4;
 using glm::vec3;
 
+#include <sstream>
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -469,8 +471,20 @@ int main(int argc, char * arg[])
 
 				}
 				switch (event.motion.state){
-					//mouse stuff here
-				
+
+				case SDL_MOUSEMOTION:
+					
+					int mouseX = event.motion.x;
+					int mouseY = event.motion.y;
+					c->setMousePosition(mouseX, mouseY);
+
+					std::stringstream ss;
+					ss << "X: " << mouseX << " Y: " << mouseY;
+					
+					SDL_SetWindowTitle(window, ss.str().c_str());
+
+					break;
+
 				}
 			}
 		}

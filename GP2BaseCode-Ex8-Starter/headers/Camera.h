@@ -44,6 +44,9 @@ public:
 
 	void translate(glm::vec3& direction);
 	void applyMovement(MovementType movement);
+	void setMousePosition(int X, int Y);
+
+	void calculateMovement();
 	
 
 
@@ -52,6 +55,20 @@ public:
 
 protected:
 private:
+	//my variables
+	int m_MouseX, m_MouseY;
+
+	vec3 direction;
+	vec3 right;
+	// position
+	vec3 position = vec3(0, 0, 5);
+	// horizontal angle : toward -Z
+	float horizontalAngle = 3.14f;
+	// vertical angle : 0, look at the horizon
+	float verticalAngle = 0.0f;
+
+	//end myVariables
+
 	glm::vec3 m_position;
 	glm::vec3 m_direction;
 
