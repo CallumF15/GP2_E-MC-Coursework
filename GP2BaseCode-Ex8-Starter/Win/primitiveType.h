@@ -2,17 +2,25 @@
 #define primitiveType_h
 
 
-#include <GL/glew.h>
-//#include "Vertex.h"
+//#include <GL/glew.h>
+
+#include "Vertex.h"
+#include <glm/glm.hpp>
+using glm::vec3;
 
 
-//#include <glm/glm.hpp>
-//using glm::vec3;
+#include <string>
 
 #include "Component.h"
 
-static class primitiveType : public Component{
 
+enum primitiveShape 
+{ 
+	cube, 
+	triangle
+};
+
+class primitiveType : public Component{
 
 public:
 
@@ -20,19 +28,12 @@ public:
 	~primitiveType();
 
 	void render(); //needed to render primitive to screen.
+	void setUpPrimitive(primitiveShape shape, std::string name, vec3 pos, GameObject* objectShape, Transform* transform, Material* material, Mesh* mesh);
 
-	static void cube();
-
-
-
-
+	std::vector<GameObject*> displayList;
 
 private:
-
-	//Vertex triangleVertices;
-
-	//Vertex cubeIndices;
-
+	 primitiveShape CheckShape(primitiveShape shape);
 
 };
 

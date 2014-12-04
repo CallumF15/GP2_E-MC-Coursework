@@ -14,6 +14,7 @@
 //1. get mouse position
 //2. change code to make camera 3D
 
+
 Camera::Camera()
 {
 	m_Type = "Camera";

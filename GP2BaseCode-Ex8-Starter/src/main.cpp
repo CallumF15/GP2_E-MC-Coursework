@@ -282,6 +282,8 @@ void Initialise()
     mesh->copyVertexData(8,sizeof(Vertex), (void**)triangleData);
     mesh->copyIndexData(36,sizeof(int), (void**)indices);
 
+
+	//Below is FBX model code (change at somepoint);
 	std::string modelPath = ASSET_PATH + MODEL_PATH + "armoredrecon.fbx";
 	GameObject * go = loadFBXFromFile(modelPath);
 	for (int i = 0; i < go->getChildCount(); i++)
