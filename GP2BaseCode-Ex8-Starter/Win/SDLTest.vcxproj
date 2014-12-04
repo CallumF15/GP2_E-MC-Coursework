@@ -19,10 +19,10 @@
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\Material.cpp" />
     <ClCompile Include="..\src\Mesh.cpp" />
+    <ClCompile Include="..\src\primitiveType.cpp" />
     <ClCompile Include="..\src\Shader.cpp" />
     <ClCompile Include="..\src\Texture.cpp" />
     <ClCompile Include="..\src\Transform.cpp" />
-    <ClCompile Include="primitiveType.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\headers\Camera.h" />
@@ -32,11 +32,11 @@
     <ClInclude Include="..\headers\Light.h" />
     <ClInclude Include="..\headers\Material.h" />
     <ClInclude Include="..\headers\Mesh.h" />
+    <ClInclude Include="..\headers\primitiveType.h" />
     <ClInclude Include="..\headers\Shader.h" />
     <ClInclude Include="..\headers\Texture.h" />
     <ClInclude Include="..\headers\Transform.h" />
     <ClInclude Include="..\headers\Vertex.h" />
-    <ClInclude Include="primitiveType.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\assets\shaders\ambientFS.glsl" />

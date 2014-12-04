@@ -51,7 +51,7 @@
     <ClCompile Include="..\src\FBXLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="primitiveType.cpp">
+    <ClCompile Include="..\src\primitiveType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,7 +89,7 @@
     <ClInclude Include="..\headers\FBXLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="primitiveType.h">
+    <ClInclude Include="..\headers\primitiveType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

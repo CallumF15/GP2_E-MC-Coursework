@@ -36,6 +36,7 @@ public:
 	~primitiveType();
 
 	void render(); //needed to render primitive to screen.
+	void update();
 	void setUpPrimitive(std::string name, vec3 pos, GameObject* objectShape, Transform* transform, Material* material, Mesh* mesh);
 
 	std::vector<GameObject*> displayList;

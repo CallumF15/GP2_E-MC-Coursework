@@ -49,6 +49,7 @@ const std::string MODEL_PATH = "models/";
 #endif
 
 //Our headers
+
 #include "Vertex.h"
 #include "Shader.h"
 #include "Texture.h"
@@ -58,7 +59,9 @@ const std::string MODEL_PATH = "models/";
 #include "Material.h"
 #include "Camera.h"
 #include "Light.h"
+#include "primitiveType.h"
 #include "FBXLoader.h"
+
 
 Camera * c = new Camera();
 //SDL Window
@@ -79,6 +82,7 @@ std::vector<GameObject*> displayList;
 GameObject * mainCamera;
 GameObject * mainLight;
 
+primitiveType type;
 
 Vertex triangleDatas[] = {
 		{ vec3(-0.5f, 0.5f, 0.5f), vec3(0.25f,0.25f,0.5f),vec2(0.0f, 0.0f) },// Top Left
@@ -146,22 +150,24 @@ void InitWindow(int width, int height, bool fullscreen)
 
 void CleanUp()
 {
-    auto iter=displayList.begin();
-	while(iter!=displayList.end())
+	//change all of "displayList to -> type.displayList.begin();
+
+	auto iter = type.displayList.begin();
+	while (iter != type.displayList.end())
     {
         (*iter)->destroy();
         if ((*iter))
         {
             delete (*iter);
             (*iter)=NULL;
-            iter=displayList.erase(iter);
+			iter = type.displayList.erase(iter);
         }
         else
         {
             iter++;
         }
     }
-    displayList.clear();
+	type.displayList.clear();
     
 	// clean up, reverse order!!!
 	SDL_GL_DeleteContext(glcontext);
@@ -242,45 +248,57 @@ void Initialise()
     c->setFarClip(1000.0f);
     
     mainCamera->setCamera(c);
-    displayList.push_back(mainCamera);
+	type.displayList.push_back(mainCamera);
     
 	mainLight = new GameObject();
 	mainLight->setName("MainLight");
 
-	t = new Transform();
+	//t = new Transform();
 	t->setPosition(0.0f, 0.0f, 0.0f);
 	mainLight->setTransform(t);
 
 	Light * light = new Light();
 	mainLight->setLight(light);
-	displayList.push_back(mainLight);
+	type.displayList.push_back(mainLight);
 
 
-    GameObject * cube=new GameObject();
-    cube->setName("Cube");
-    Transform *transform=new Transform();
-    transform ->setPosition(0.0f,0.0f,0.0f);
-    cube ->setTransform(transform);
-    
-    Material * material=new Material();
-    std::string vsPath = ASSET_PATH + SHADER_PATH+"/specularVS.glsl";
-    std::string fsPath = ASSET_PATH + SHADER_PATH + "/specularFS.glsl";
-    material -> loadShader(vsPath,fsPath);
-    cube->setMaterial(material);
-    
-    Mesh * mesh=new Mesh();
-    cube->setMesh(mesh);
-    displayList.push_back(cube);
+	//Not sure if the cube appears on screen, need to get camera moving to see?
+	Mesh * mesh = new Mesh();
+	Transform *q = new Transform();
+	Material * material = new Material();
+	GameObject * cubeObject = new GameObject();
+	primitiveShape shape;
+	shape = cube;
+
+	primitiveType* primitivetype = new primitiveType(shape);
+	primitivetype->setUpPrimitive("cube", vec3(0.0f, 0.0f, -10.0f), cubeObject, t, material, mesh);
+	
+
+   
+	//cubeObject->setName("Cube");
+ //   Transform *transform=new Transform();
+ //   transform ->setPosition(0.0f,0.0f,0.0f);
+	//cubeObject->setTransform(transform);
+ //   
+ //   
+ //   std::string vsPath = ASSET_PATH + SHADER_PATH+"/specularVS.glsl";
+ //   std::string fsPath = ASSET_PATH + SHADER_PATH + "/specularFS.glsl";
+ //   material -> loadShader(vsPath,fsPath);
+	//cubeObject->setMaterial(material);
+ //   
+ //   
+	//cubeObject->setMesh(mesh);
+	//displayList.push_back(cubeObject);
 
     
     //alternative sytanx
-    for(auto iter=displayList.begin();iter!=displayList.end();iter++)
-    {
-        (*iter)->init();
-    }
-    
-    mesh->copyVertexData(8,sizeof(Vertex), (void**)triangleDatas);
-    mesh->copyIndexData(36,sizeof(int), (void**)indices);
+	//for (auto iter = type.displayList.begin(); iter != type.displayList.end(); iter++)
+ //   {
+ //       (*iter)->init();
+ //   }
+ //   
+ //   mesh->copyVertexData(8,sizeof(Vertex), (void**)triangleDatas);
+ //   mesh->copyIndexData(36,sizeof(int), (void**)indices);
 
 
 	//Below is FBX model code (change at somepoint);
@@ -297,7 +315,7 @@ void Initialise()
 		go->getChild(i)->setMaterial(material);
 	}
 	go->getTransform()->setPosition(0.0f, 0.0f, -10.0f);
-	displayList.push_back(go);
+	type.displayList.push_back(go);
 }
 
 
@@ -305,7 +323,7 @@ void Initialise()
 void update()
 {
     //alternative sytanx
-    for(auto iter=displayList.begin();iter!=displayList.end();iter++)
+    for(auto iter=type.displayList.begin();iter!=type.displayList.end();iter++)
     {
         (*iter)->update();
     }
@@ -392,7 +410,7 @@ void render()
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     
     //alternative sytanx
-	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
+	for (auto iter = type.displayList.begin(); iter != type.displayList.end(); iter++)
 	{
 		renderGameObject((*iter));
 	}

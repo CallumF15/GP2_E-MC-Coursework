@@ -1,6 +1,11 @@
 #include "primitiveType.h"
 
 
+const std::string ASSET_PATH = "../assets/";
+const std::string SHADER_PATH = "shaders/";
+const std::string TEXTURE_PATH = "textures/";
+const std::string FONT_PATH = "fonts/";
+const std::string MODEL_PATH = "models/";
 
 Vertex triangleData[] =
 {
@@ -65,6 +70,9 @@ void primitiveType::render()
 
 
 }
+void primitiveType::update(){
+
+}
 
 
 //I think its moaning at this
@@ -102,9 +110,9 @@ void primitiveType::CheckShape(primitiveShape shape)
 	 transform->setPosition(x, y, z);
 	 objectShape->setTransform(transform);
 
-	 //std::string vsPath = ASSET_PATH + SHADER_PATH + "/specularVS.glsl";
-	 //std::string fsPath = ASSET_PATH + SHADER_PATH + "/specularFS.glsl";
-	 //material->loadShader(vsPath, fsPath);
+	 std::string vsPath = ASSET_PATH + SHADER_PATH + "/specularVS.glsl";
+	 std::string fsPath = ASSET_PATH + SHADER_PATH + "/specularFS.glsl";
+	 material->loadShader(vsPath, fsPath);
 	 objectShape->setMaterial(material);
 	 objectShape->setMesh(mesh);
 
