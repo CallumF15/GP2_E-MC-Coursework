@@ -4,6 +4,13 @@
 
 //#include <GL/glew.h>
 
+#include "GameObject.h"
+#include "Transform.h"
+#include "Texture.h"
+#include "Material.h"
+#include "Mesh.h"
+
+
 #include "Vertex.h"
 #include <vector>
 #include <glm/glm.hpp>

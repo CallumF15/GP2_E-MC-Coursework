@@ -1,10 +1,5 @@
 #include "primitiveType.h"
 
-#include "GameObject.h"
-#include "Transform.h"
-#include "Texture.h"
-#include "Material.h"
-#include "Mesh.h"
 
 
 Vertex triangleData[] =
@@ -77,16 +72,15 @@ void primitiveType::CheckShape(primitiveShape shape)
 {
 	 if (shape == cube){
 		 indices == cubeIndices;
-		 //return cube;
 	 }	 
 	else
 		if (shape == triangle)
 		{
 		 indices == triangleIndices;
-		 //return triangle;
 		}
 }
 
+//Allow's you to create a shape at a given position
  void primitiveType::setUpPrimitive(std::string name, vec3 pos, GameObject* objectShape, Transform* transform, Material* material, Mesh* mesh) 
  {
 

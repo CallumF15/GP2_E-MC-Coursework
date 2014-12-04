@@ -80,7 +80,7 @@ GameObject * mainCamera;
 GameObject * mainLight;
 
 
-Vertex triangleData[] = {
+Vertex triangleDatas[] = {
 		{ vec3(-0.5f, 0.5f, 0.5f), vec3(0.25f,0.25f,0.5f),vec2(0.0f, 0.0f) },// Top Left
 		{ vec3(-0.5f, -0.5f, 0.5f), vec3(0.25f, 0.25f, 0.5f), vec2(0.0f, 1.0f) },// Bottom Left
 		{ vec3(0.5f, -0.5f, 0.5f), vec3(0.25f, -0.25f, 0.5f), vec2(1.0f, 1.0f) }, //Bottom Right
@@ -279,7 +279,7 @@ void Initialise()
         (*iter)->init();
     }
     
-    mesh->copyVertexData(8,sizeof(Vertex), (void**)triangleData);
+    mesh->copyVertexData(8,sizeof(Vertex), (void**)triangleDatas);
     mesh->copyIndexData(36,sizeof(int), (void**)indices);
 
 
