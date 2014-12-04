@@ -5,6 +5,7 @@
 //#include <GL/glew.h>
 
 #include "Vertex.h"
+#include <vector>
 #include <glm/glm.hpp>
 using glm::vec3;
 
@@ -20,20 +21,22 @@ enum primitiveShape
 	triangle
 };
 
-class primitiveType : public Component{
+static class primitiveType : public Component{
 
 public:
-
 	primitiveType();
+	primitiveType(primitiveShape shapes);
 	~primitiveType();
 
 	void render(); //needed to render primitive to screen.
-	void setUpPrimitive(primitiveShape shape, std::string name, vec3 pos, GameObject* objectShape, Transform* transform, Material* material, Mesh* mesh);
+	void setUpPrimitive(std::string name, vec3 pos, GameObject* objectShape, Transform* transform, Material* material, Mesh* mesh);
 
 	std::vector<GameObject*> displayList;
 
 private:
-	 primitiveShape CheckShape(primitiveShape shape);
+	 void CheckShape(primitiveShape shape);
+
+	 primitiveShape shape;
 
 };
 

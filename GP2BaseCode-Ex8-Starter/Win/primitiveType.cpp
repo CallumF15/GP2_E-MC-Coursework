@@ -50,14 +50,14 @@ GLuint cubeIndices[] = {
 	4, 7, 6
 };
 
-
-
-
 primitiveType::primitiveType()
 {
 
+}
 
-
+primitiveType::primitiveType(primitiveShape shapes)
+{
+	shape = shapes;
 }
 
 primitiveType::~primitiveType(){
@@ -71,21 +71,23 @@ void primitiveType::render()
 
 }
 
-primitiveShape primitiveType::CheckShape(primitiveShape shape)
+
+//I think its moaning at this
+void primitiveType::CheckShape(primitiveShape shape)
 {
 	 if (shape == cube){
 		 indices == cubeIndices;
-		 return cube;
+		 //return cube;
 	 }	 
 	else
 		if (shape == triangle)
 		{
 		 indices == triangleIndices;
-		 return triangle;
+		 //return triangle;
 		}
 }
 
- void primitiveType::setUpPrimitive(primitiveShape shape, std::string name, vec3 pos, GameObject* objectShape, Transform* transform, Material* material, Mesh* mesh) 
+ void primitiveType::setUpPrimitive(std::string name, vec3 pos, GameObject* objectShape, Transform* transform, Material* material, Mesh* mesh) 
  {
 
 	 //this method should setup any primitive we want

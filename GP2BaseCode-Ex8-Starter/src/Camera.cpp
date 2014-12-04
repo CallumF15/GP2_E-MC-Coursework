@@ -42,17 +42,11 @@ Camera::~Camera()
 
 void Camera::update()
 {
-	
-
-	
-
-
-
 	//get the position from the transform
 	vec3 position = m_Parent->getTransform()->getPosition();
     
 	m_Projection = glm::perspective(m_FOV, m_AspectRatio, m_NearClip, m_FarClip);
-	m_View = glm::lookAt(position, m_position + direction, m_Up);
+	m_View = glm::lookAt(position, m_position + direction, up); //<- changed m_Up to up
 
 }
 
@@ -101,7 +95,7 @@ void Camera::calculateMovement()
 		cos(horizontalAngle - 3.14f / 2.0f)
 		);
 
-	vec3 up = glm::cross(right, m_direction);
+	 up = glm::cross(right, m_direction);
 }
 
 void Camera::setMousePosition(int mouseX, int mouseY)

@@ -60,6 +60,7 @@ private:
 
 	vec3 direction;
 	vec3 right;
+	vec3 up;
 	// position
 	vec3 position = vec3(0, 0, 5);
 	// horizontal angle : toward -Z
