@@ -48,7 +48,7 @@ public:
 	void setMousePosition(int X, int Y);
 
 	void calculateMovement();
-	
+	void setTime(float deltatime);
 
 
 
@@ -60,6 +60,8 @@ private:
 	int m_MouseX, m_MouseY;
 	float mouseSpeed = 0.005f; 
 	float speed = 3.0f;
+
+	float m_deltatime;
 
 	vec3 direction;
 	vec3 right;

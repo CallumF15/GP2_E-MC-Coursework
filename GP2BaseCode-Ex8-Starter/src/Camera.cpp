@@ -46,7 +46,7 @@ void Camera::update()
 	vec3 position = m_Parent->getTransform()->getPosition();
     
 	m_Projection = glm::perspective(m_FOV, m_AspectRatio, m_NearClip, m_FarClip);
-	m_View = glm::lookAt(position, m_position + direction, m_Up);
+	m_View = glm::lookAt(position, m_position + direction, up);
 
 }
 
@@ -63,18 +63,16 @@ void Camera::applyMovement(MovementType movement)
 	switch (movement)
 	{
 	case FORWARD:
-		m_position += direction * speed;
+		m_position += direction *m_deltatime *  speed;
 		break;
 	case BACKWARD:
-		m_position -= direction * speed;
+		m_position -= direction * m_deltatime * speed;
 		break;
 	case STRAFE_LEFT:
-		m_position -= right * speed;
-		//m_position += glm::normalize(glm::cross(m_direction, m_Up));
+		m_position -= right * m_deltatime * speed;
 		break;
 	case STRAFE_RIGHT:
-		m_position += right * speed;
-		//m_position -= glm::normalize(glm::cross(m_direction, m_Up));
+		m_position += right * m_deltatime * speed;
 		break;
 	}
 	
@@ -97,8 +95,13 @@ void Camera::calculateMovement()
 		cos(horizontalAngle - 3.14f / 2.0f)
 		);
 
-	 m_Up = glm::cross(right, direction);
+	 up = glm::cross(right, direction);
 
+}
+
+void Camera::setTime(float deltatime)
+{
+	m_deltatime = deltatime;
 }
 
 void Camera::setMousePosition(int mouseX, int mouseY)
