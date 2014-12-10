@@ -9,6 +9,7 @@
 #ifndef Camera_h
 #define Camera_h
 
+#include <GLFW\glfw3.h>
 
 #include <glm/glm.hpp>
 using glm::mat4;
@@ -57,6 +58,8 @@ protected:
 private:
 	//my variables
 	int m_MouseX, m_MouseY;
+	float mouseSpeed = 0.005f; 
+	float speed = 3.0f;
 
 	vec3 direction;
 	vec3 right;

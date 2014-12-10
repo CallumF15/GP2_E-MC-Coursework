@@ -82,7 +82,7 @@ std::vector<GameObject*> displayList;
 GameObject * mainCamera;
 GameObject * mainLight;
 
-primitiveType type;
+primitiveType* type;
 
 Vertex triangleDatas[] = {
 		{ vec3(-0.5f, 0.5f, 0.5f), vec3(0.25f,0.25f,0.5f),vec2(0.0f, 0.0f) },// Top Left
@@ -152,22 +152,22 @@ void CleanUp()
 {
 	//change all of "displayList to -> type.displayList.begin();
 
-	auto iter = type.displayList.begin();
-	while (iter != type.displayList.end())
+	auto iter = type->displayList.begin();
+	while (iter != type->displayList.end())
     {
         (*iter)->destroy();
         if ((*iter))
         {
             delete (*iter);
             (*iter)=NULL;
-			iter = type.displayList.erase(iter);
+			iter = type->displayList.erase(iter);
         }
         else
         {
             iter++;
         }
     }
-	type.displayList.clear();
+	type->displayList.clear();
     
 	// clean up, reverse order!!!
 	SDL_GL_DeleteContext(glcontext);
@@ -234,6 +234,18 @@ void setViewport( int width, int height )
 
 void Initialise()
 {
+	
+	//Not sure if the cube appears on screen, need to get camera moving to see?
+	Mesh * mesh = new Mesh();
+	Transform *q = new Transform();
+	Material * material = new Material();
+	GameObject * cubeObject = new GameObject();
+	primitiveShape shape;
+	shape = cube;
+	type = new primitiveType(shape);
+
+
+
     mainCamera=new GameObject();
     mainCamera->setName("MainCamera");
     
@@ -248,58 +260,21 @@ void Initialise()
     c->setFarClip(1000.0f);
     
     mainCamera->setCamera(c);
-	type.displayList.push_back(mainCamera);
+	type->displayList.push_back(mainCamera);
     
 	mainLight = new GameObject();
 	mainLight->setName("MainLight");
 
-	//t = new Transform();
+	t = new Transform();
 	t->setPosition(0.0f, 0.0f, 0.0f);
 	mainLight->setTransform(t);
 
 	Light * light = new Light();
 	mainLight->setLight(light);
-	type.displayList.push_back(mainLight);
+	type->displayList.push_back(mainLight);
 
-
-	//Not sure if the cube appears on screen, need to get camera moving to see?
-	Mesh * mesh = new Mesh();
-	Transform *q = new Transform();
-	Material * material = new Material();
-	GameObject * cubeObject = new GameObject();
-	primitiveShape shape;
-	shape = cube;
-
-	primitiveType* primitivetype = new primitiveType(shape);
-	primitivetype->setUpPrimitive("cube", vec3(0.0f, 0.0f, -10.0f), cubeObject, t, material, mesh);
-	
-
-   
-	//cubeObject->setName("Cube");
- //   Transform *transform=new Transform();
- //   transform ->setPosition(0.0f,0.0f,0.0f);
-	//cubeObject->setTransform(transform);
- //   
- //   
- //   std::string vsPath = ASSET_PATH + SHADER_PATH+"/specularVS.glsl";
- //   std::string fsPath = ASSET_PATH + SHADER_PATH + "/specularFS.glsl";
- //   material -> loadShader(vsPath,fsPath);
-	//cubeObject->setMaterial(material);
- //   
- //   
-	//cubeObject->setMesh(mesh);
-	//displayList.push_back(cubeObject);
-
-    
-    //alternative sytanx
-	//for (auto iter = type.displayList.begin(); iter != type.displayList.end(); iter++)
- //   {
- //       (*iter)->init();
- //   }
- //   
- //   mesh->copyVertexData(8,sizeof(Vertex), (void**)triangleDatas);
- //   mesh->copyIndexData(36,sizeof(int), (void**)indices);
-
+	//type->displayList.push_back(mainLight);
+	//type->setUpPrimitive("cube", vec3(0.0f, 0.0f, -10.0f), cubeObject, q, material, mesh);
 
 	//Below is FBX model code (change at somepoint);
 	std::string modelPath = ASSET_PATH + MODEL_PATH + "armoredrecon.fbx";
@@ -315,7 +290,7 @@ void Initialise()
 		go->getChild(i)->setMaterial(material);
 	}
 	go->getTransform()->setPosition(0.0f, 0.0f, -10.0f);
-	type.displayList.push_back(go);
+	type->displayList.push_back(go);
 }
 
 
@@ -323,7 +298,7 @@ void Initialise()
 void update()
 {
     //alternative sytanx
-    for(auto iter=type.displayList.begin();iter!=type.displayList.end();iter++)
+	for (auto iter = type->displayList.begin(); iter != type->displayList.end(); iter++)
     {
         (*iter)->update();
     }
@@ -410,7 +385,7 @@ void render()
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     
     //alternative sytanx
-	for (auto iter = type.displayList.begin(); iter != type.displayList.end(); iter++)
+	for (auto iter = type->displayList.begin(); iter != type->displayList.end(); iter++)
 	{
 		renderGameObject((*iter));
 	}
@@ -484,17 +459,13 @@ int main(int argc, char * arg[])
 				case SDLK_d:
 					c->applyMovement(STRAFE_RIGHT);
 					break;
-				case SDLK_DOWN:
-					c->translate(vec3(1.0, 1.0, 1.0));
-					break;
-
 				}
-				switch (event.motion.state){
 
-				case SDL_MOUSEMOTION:
-					
-					int mouseX = event.motion.x;
-					int mouseY = event.motion.y;
+			case SDL_MOUSEMOTION:
+
+					int mouseX = event.motion.x = 640 / 2;
+					int mouseY = event.motion.y = 480 / 2;
+
 					c->setMousePosition(mouseX, mouseY);
 
 					std::stringstream ss;
@@ -503,8 +474,6 @@ int main(int argc, char * arg[])
 					SDL_SetWindowTitle(window, ss.str().c_str());
 
 					break;
-
-				}
 			}
 		}
 		update();

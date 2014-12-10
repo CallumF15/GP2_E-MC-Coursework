@@ -24,6 +24,7 @@ Vertex triangleData[] =
 
 GLuint triangleIndices[];
 GLuint indices[];
+
 GLuint cubeIndices[] = {
 	//front
 	0, 1, 2,

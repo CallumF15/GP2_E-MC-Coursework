@@ -63,17 +63,17 @@ void Camera::applyMovement(MovementType movement)
 	switch (movement)
 	{
 	case FORWARD:
-		m_position += m_direction;
+		m_position += direction * speed;
 		break;
 	case BACKWARD:
-		m_position -= m_direction;
+		m_position -= direction * speed;
 		break;
 	case STRAFE_LEFT:
-		//m_position -= right;
+		m_position -= right * speed;
 		//m_position += glm::normalize(glm::cross(m_direction, m_Up));
 		break;
 	case STRAFE_RIGHT:
-		//m_position += right;
+		m_position += right * speed;
 		//m_position -= glm::normalize(glm::cross(m_direction, m_Up));
 		break;
 	}
@@ -82,6 +82,9 @@ void Camera::applyMovement(MovementType movement)
 
 void Camera::calculateMovement()
 {
+	horizontalAngle += mouseSpeed  * float(640 / 2 - m_MouseX);
+	verticalAngle += mouseSpeed  * float(480 / 2 - m_MouseY);
+
 	 direction = vec3(
 		cos(verticalAngle) * sin(horizontalAngle),
 		sin(verticalAngle),
@@ -95,14 +98,15 @@ void Camera::calculateMovement()
 		cos(horizontalAngle - 3.14f / 2.0f)
 		);
 
-	 up = glm::cross(right, m_direction);
+	 m_Up = glm::cross(right, m_direction);
+
 }
 
 void Camera::setMousePosition(int mouseX, int mouseY)
 {
 	//Center the mouses position
-	m_MouseX = mouseX / 2;
-	m_MouseY = mouseY / 2;
+	m_MouseX = mouseX;
+	m_MouseY = mouseY;
 }
 
 
