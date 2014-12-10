@@ -14,11 +14,6 @@
 #define M_PI 3.1415926525
 #endif
 
-//TODO LIST:
-//1. get mouse position
-//2. change code to make camera 3D
-
-
 Camera::Camera()
 {
 	m_Type = "Camera";
@@ -47,21 +42,19 @@ Camera::~Camera()
 void Camera::update()
 {
 	//get the position from the transform
-	vec3 position = m_Parent->getTransform()->getPosition();
-    
+	//vec3 position = m_Parent->getTransform()->getPosition();
+	position = m_Parent->getTransform()->getPosition();
 	m_Projection = glm::perspective(m_FOV, m_AspectRatio, m_NearClip, m_FarClip);
-	m_View = glm::lookAt(position, m_position + direction, up);
+	m_View = glm::lookAt(position, lookvec, m_Up);
 
 }
 
 
 //Methods
-
 void Camera::translate(glm::vec3& direction)
 {
 	m_position += direction;
 }
-
 void Camera::applyMovement(MovementType movement)
 {
 	switch (movement)
@@ -81,7 +74,6 @@ void Camera::applyMovement(MovementType movement)
 	}
 	
 }
-
 void Camera::calculateMovement()
 {
 	horizontalAngle += mouseSpeed  * float(640 / 2 - m_MouseX);
@@ -99,7 +91,7 @@ void Camera::calculateMovement()
 		cos(horizontalAngle - 3.14f / 2.0f)
 		);
 
-	 up = glm::cross(right, direction);
+	// up = glm::cross(right, direction);
 
 }
 
@@ -128,11 +120,10 @@ void Camera::moveCameraUp(float distance, float direction){
 	camY += glm::sin(radian)*distance;
 }
 
-void Camera::control(float moveVelocity, float mouseVelocity, bool mi){
+void Camera::control(SDL_Window* window, float moveVelocity, float mouseVelocity, bool mi){
 	if (mi){
 		int midX = 320;
 		int midY = 240;
-		
 		
 		int tmpx, tmpy;
 		tmpx = m_MouseX;
@@ -141,14 +132,12 @@ void Camera::control(float moveVelocity, float mouseVelocity, bool mi){
 		camPitch += mouseVelocity * (midY - tmpy);
 		lockCamera();
 
-		SDL_Window* window;
-		SDL_GetWindowData(window, 0);
 		SDL_WarpMouseInWindow(window, midX, midY);
-		movement();
+		movement(mouseVelocity, moveVelocity);
 	}
 }
 
-void Camera::movement()
+void Camera::movement(float mouseVelocity, float moveVelocity)
 {
 	SDL_Event events;
 
@@ -160,19 +149,19 @@ void Camera::movement()
 
 			case SDLK_w:
 				if (camPitch != 90 && camPitch != -90)
-					//moveCamera(moveVel, 0.0);
-					//moveCameraUp(moveVel, 0.0);
+					moveCamera(moveVelocity, 0.0);
+					moveCameraUp(moveVelocity, 0.0);
 				break;
 			case SDLK_s:
 				if (camPitch != 90 && camPitch != -90)
-					//moveCamera(moveVel, 180.0);
-				//moveCameraUp(moveVel, 180.0);
+					moveCamera(moveVelocity, 180.0);
+				moveCameraUp(moveVelocity, 180.0);
 				break;
 			case SDLK_a:
-				//moveCamera(moveVel, 90.0);
+				moveCamera(moveVelocity, 90.0);
 				break;
 			case SDLK_d:
-				//moveCamera(moveVel, 270.0);
+				moveCamera(moveVelocity, 270.0);
 				break;
 
 			case SDL_MOUSEMOTION:
@@ -189,8 +178,21 @@ void Camera::movement()
 				break;
 			}
 		}
-		glRotatef(-camPitch, 1.0, 0.0, 0.0);
-		glRotatef(-camYaw, 0.0, 1.0, 0.0);
+
+		//direction = vec3(
+		//	cos(camPitch) * sin(camYaw),
+		//	sin(verticalAngle),
+		//	cos(camPitch) * cos(camYaw)
+		//	);
+
+		int lookz = m_position.x + (int)(30 * glm::cos(camYaw));
+		int lookx = m_position.y + (int)(30 * glm::sin(camYaw));
+		int looky = m_position.y + (int)(30 * glm::tan(camPitch));
+		lookvec = vec3(lookx, looky, lookz);
+		
+		//m_Parent->getTransform()->setRotation()
+		//glRotatef(-camPitch, 1.0, 0.0, 0.0);
+		//glRotatef(-camYaw, 0.0, 1.0, 0.0);
 	}
 }
 

@@ -253,6 +253,7 @@ void Initialise()
     Transform *t=new Transform();
     t->setPosition(0.0f,0.0f,10.0f);
     mainCamera->setTransform(t);
+	//here I think to update camera;
     
     //Camera * c=new Camera();
     c->setAspectRatio((float)(WINDOW_WIDTH/WINDOW_HEIGHT));
@@ -384,6 +385,8 @@ void render()
 	glClearDepth(1.0f);
     //clear the colour and depth buffer
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+	//maybe here
     
     //alternative sytanx
 	for (auto iter = type->displayList.begin(); iter != type->displayList.end(); iter++)
@@ -438,8 +441,20 @@ int main(int argc, char * arg[])
 		float deltaTime = timeSinceStart - oldTimeSinceStart;
 		oldTimeSinceStart = timeSinceStart;
 
+
+
 		//While we still have events in the queue
 		while (SDL_PollEvent(&event)) {
+
+
+			int mouseX = event.motion.x;
+			int mouseY = event.motion.y;
+
+			c->setMousePosition(mouseX, mouseY);
+
+			c->control(window, 0.2, 0.2, true);
+			c->updateCamera();
+
 
 			switch (event.type){
 
@@ -450,44 +465,25 @@ int main(int argc, char * arg[])
 				running = false;
 				break;
 
-			case SDL_KEYDOWN:
-				switch (event.key.keysym.sym){
+			case SDL_MOUSEMOTION:			
+				//int mouseX = event.motion.x; 
+				//int mouseY = event.motion.y;
 
-				case SDLK_w:
-					c->applyMovement(FORWARD);
-					break;
-				case SDLK_s:
-					c->applyMovement(BACKWARD);
-					break;
+				//c->setMousePosition(mouseX, mouseY);
 
-				case SDLK_a:
-					c->applyMovement(STRAFE_LEFT);
-					break;
-				case SDLK_d:
-					c->applyMovement(STRAFE_RIGHT);
-					break;
-				}
+				//event.motion.x = 640 / 2;
+				//event.motion.y = 480 / 2;
 
-			case SDL_MOUSEMOTION:
+				//c->setTime(deltaTime);
 
-				int mouseX = event.motion.x; 
-				int mouseY = event.motion.y;
+				//std::stringstream ss;
+				//ss << "X: " << mouseX << " Y: " << mouseY;
 
-				c->setMousePosition(mouseX, mouseY);
-
-				event.motion.x = 640 / 2;
-				event.motion.y = 480 / 2;
-
-				c->setTime(deltaTime);
-
-				std::stringstream ss;
-				ss << "X: " << mouseX << " Y: " << mouseY;
-
-				SDL_SetWindowTitle(window, ss.str().c_str());
+				//SDL_SetWindowTitle(window, ss.str().c_str());
 
 				break;
 			}
-			c->calculateMovement();
+			//c->calculateMovement();
 		}
 		update();
 		render();

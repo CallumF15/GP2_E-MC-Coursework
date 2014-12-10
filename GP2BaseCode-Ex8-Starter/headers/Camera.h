@@ -54,8 +54,8 @@ public:
 	void lockCamera();
 	void moveCamera(float distance, float direction);
 	void moveCameraUp(float distance, float direction);
-	void control(float moveVelocity, float mouseVelocity, bool mi);
-	void movement();
+	void control(SDL_Window* window, float moveVelocity, float mouseVelocity, bool mi);
+	void movement(float mouseVelocity, float moveVelocity);
 	void updateCamera();
 
 
@@ -73,7 +73,6 @@ private:
 
 	vec3 direction;
 	vec3 right;
-	vec3 up;
 	// position
 	vec3 position = vec3(0, 0, 5);
 	// horizontal angle : toward -Z
@@ -82,7 +81,8 @@ private:
 	float verticalAngle = 0.0f;
 
 	//yaw/pitch...
-
+	
+	vec3 lookvec;
 	float camPitch = 0.0f;
 	float camYaw = 0.0f;
 	float camX = 0.0f, camY = 0.0f, camZ = 0.0f;
