@@ -148,14 +148,16 @@ void Camera::movement(float mouseVelocity, float moveVelocity)
 			switch (events.key.keysym.sym){
 
 			case SDLK_w:
-				if (camPitch != 90 && camPitch != -90)
+				if (camPitch != 90 && camPitch != -90){
 					moveCamera(moveVelocity, 0.0);
 					moveCameraUp(moveVelocity, 0.0);
+				}
 				break;
 			case SDLK_s:
-				if (camPitch != 90 && camPitch != -90)
+				if (camPitch != 90 && camPitch != -90){
 					moveCamera(moveVelocity, 180.0);
-				moveCameraUp(moveVelocity, 180.0);
+					moveCameraUp(moveVelocity, 180.0);
+				}
 				break;
 			case SDLK_a:
 				moveCamera(moveVelocity, 90.0);
@@ -191,8 +193,8 @@ void Camera::movement(float mouseVelocity, float moveVelocity)
 		lookvec = vec3(lookx, looky, lookz);
 		
 		//m_Parent->getTransform()->setRotation()
-		//glRotatef(-camPitch, 1.0, 0.0, 0.0);
-		//glRotatef(-camYaw, 0.0, 1.0, 0.0);
+		glRotatef(-camPitch, 1.0, 0.0, 0.0);
+		glRotatef(-camYaw, 0.0, 1.0, 0.0);
 	}
 }
 

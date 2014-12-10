@@ -452,7 +452,7 @@ int main(int argc, char * arg[])
 
 			c->setMousePosition(mouseX, mouseY);
 
-			c->control(window, 0.2, 0.2, true);
+			c->control(window, 0.1, 0.1, true);
 			c->updateCamera();
 
 
