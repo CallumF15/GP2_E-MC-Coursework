@@ -463,18 +463,24 @@ int main(int argc, char * arg[])
 
 			case SDL_MOUSEMOTION:
 
-					int mouseX = event.motion.x = 640 / 2;
-					int mouseY = event.motion.y = 480 / 2;
+				int mouseX = event.motion.x; 
+				int mouseY = event.motion.y;
 
-					c->setMousePosition(mouseX, mouseY);
+				c->setMousePosition(mouseX, mouseY);
 
-					std::stringstream ss;
-					ss << "X: " << mouseX << " Y: " << mouseY;
-					
-					SDL_SetWindowTitle(window, ss.str().c_str());
+				event.motion.x = 640 / 2;
+				event.motion.y = 480 / 2;
 
-					break;
+
+
+				std::stringstream ss;
+				ss << "X: " << mouseX << " Y: " << mouseY;
+
+				SDL_SetWindowTitle(window, ss.str().c_str());
+
+				break;
 			}
+			c->calculateMovement();
 		}
 		update();
 		render();

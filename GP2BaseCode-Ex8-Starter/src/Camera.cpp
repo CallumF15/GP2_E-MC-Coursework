@@ -91,14 +91,13 @@ void Camera::calculateMovement()
 		cos(verticalAngle) * cos(horizontalAngle)
 		);
 
-
 	right = glm::vec3(
 		sin(horizontalAngle - 3.14f / 2.0f),
 		0,
 		cos(horizontalAngle - 3.14f / 2.0f)
 		);
 
-	 m_Up = glm::cross(right, m_direction);
+	 m_Up = glm::cross(right, direction);
 
 }
 
