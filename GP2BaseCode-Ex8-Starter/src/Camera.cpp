@@ -10,6 +10,10 @@
 #include "GameObject.h"
 #include "Transform.h"
 
+#ifndef M_PI
+#define M_PI 3.1415926525
+#endif
+
 //TODO LIST:
 //1. get mouse position
 //2. change code to make camera 3D
@@ -98,6 +102,106 @@ void Camera::calculateMovement()
 	 up = glm::cross(right, direction);
 
 }
+
+void Camera::lockCamera()
+{
+	if (camPitch > 90)
+		camPitch = 90;
+	if (camPitch < -90)
+		camPitch = -90;
+	if (camYaw < 0.0)
+		camYaw += 360;
+	if (camYaw > 360)
+		camYaw -= 360;
+}
+
+void Camera::moveCamera(float distance, float direction){
+
+	float radian = (camYaw + direction)* M_PI / 180.0;
+	camX -= glm::sin(radian)*distance;
+	camZ -= glm::cos(radian)*distance;
+}
+
+void Camera::moveCameraUp(float distance, float direction){
+
+	float radian = (camPitch + direction)* M_PI / 180.0;
+	camY += glm::sin(radian)*distance;
+}
+
+void Camera::control(float moveVelocity, float mouseVelocity, bool mi){
+	if (mi){
+		int midX = 320;
+		int midY = 240;
+		
+		
+		int tmpx, tmpy;
+		tmpx = m_MouseX;
+		tmpy = m_MouseY;
+		camYaw += mouseVelocity * (midX - tmpx);
+		camPitch += mouseVelocity * (midY - tmpy);
+		lockCamera();
+
+		SDL_Window* window;
+		SDL_GetWindowData(window, 0);
+		SDL_WarpMouseInWindow(window, midX, midY);
+		movement();
+	}
+}
+
+void Camera::movement()
+{
+	SDL_Event events;
+
+	while (SDL_PollEvent(&events)) {
+		switch (events.type){
+
+		case SDL_KEYDOWN:
+			switch (events.key.keysym.sym){
+
+			case SDLK_w:
+				if (camPitch != 90 && camPitch != -90)
+					//moveCamera(moveVel, 0.0);
+					//moveCameraUp(moveVel, 0.0);
+				break;
+			case SDLK_s:
+				if (camPitch != 90 && camPitch != -90)
+					//moveCamera(moveVel, 180.0);
+				//moveCameraUp(moveVel, 180.0);
+				break;
+			case SDLK_a:
+				//moveCamera(moveVel, 90.0);
+				break;
+			case SDLK_d:
+				//moveCamera(moveVel, 270.0);
+				break;
+
+			case SDL_MOUSEMOTION:
+
+				mouseIn = true;
+				SDL_ShowCursor(SDL_DISABLE);
+
+				int mouseX = events.motion.x;
+				int mouseY = events.motion.y;
+
+				setMousePosition(mouseX, mouseY);
+
+
+				break;
+			}
+		}
+		glRotatef(-camPitch, 1.0, 0.0, 0.0);
+		glRotatef(-camYaw, 0.0, 1.0, 0.0);
+	}
+}
+
+void Camera::updateCamera(){
+	glTranslatef(-camX, -camY, -camZ);
+}
+
+
+
+
+
 
 void Camera::setTime(float deltatime)
 {

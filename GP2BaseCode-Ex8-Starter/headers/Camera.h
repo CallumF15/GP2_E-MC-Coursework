@@ -9,6 +9,7 @@
 #ifndef Camera_h
 #define Camera_h
 
+#include <SDL.h>
 #include <GLFW\glfw3.h>
 
 #include <glm/glm.hpp>
@@ -50,6 +51,13 @@ public:
 	void calculateMovement();
 	void setTime(float deltatime);
 
+	void lockCamera();
+	void moveCamera(float distance, float direction);
+	void moveCameraUp(float distance, float direction);
+	void control(float moveVelocity, float mouseVelocity, bool mi);
+	void movement();
+	void updateCamera();
+
 
 
 
@@ -73,7 +81,16 @@ private:
 	// vertical angle : 0, look at the horizon
 	float verticalAngle = 0.0f;
 
+	//yaw/pitch...
+
+	float camPitch = 0.0f;
+	float camYaw = 0.0f;
+	float camX = 0.0f, camY = 0.0f, camZ = 0.0f;
+	bool mouseIn = false;
+
 	//end myVariables
+
+
 
 	glm::vec3 m_position;
 	glm::vec3 m_direction;
