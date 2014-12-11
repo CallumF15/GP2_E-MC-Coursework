@@ -18,6 +18,8 @@ using glm::vec3;
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Component.h"
+//#include "3dMAth.h"
+#include <math.h>
 
 class Camera:public Component
 {
@@ -39,6 +41,9 @@ public:
     
 	mat4& getView();
 	mat4& getProjection();
+	
+	
+
 protected:
 private:
 	vec3 m_LookAt;
@@ -51,6 +56,7 @@ private:
 	float m_FarClip;
 	float m_FOV;
 	float m_AspectRatio;
+	
 };
 
 #endif

@@ -21,6 +21,7 @@ Camera::Camera()
 	m_AspectRatio=16.0f/9.0f;
 	m_View = mat4();
 	m_Projection = mat4();
+	
 }
 
 Camera::~Camera()
@@ -35,6 +36,7 @@ void Camera::update()
     
 	m_Projection = glm::perspective(m_FOV, m_AspectRatio, m_NearClip, m_FarClip);
 	m_View = glm::lookAt(position, m_LookAt, m_Up);
+	
 }
 
 void Camera::setLook(float x, float y, float z)
@@ -77,3 +79,4 @@ mat4& Camera::getProjection()
 {
     return m_Projection;
 }
+

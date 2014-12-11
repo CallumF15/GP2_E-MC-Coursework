@@ -78,46 +78,46 @@ GameObject * mainCamera;
 GameObject * mainLight;
 
 
-Vertex triangleData[] = {
-		{ vec3(-0.5f, 0.5f, 0.5f), vec3(0.25f,0.25f,0.5f),vec2(0.0f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f) },// Top Left
-		{ vec3(-0.5f, -0.5f, 0.5f), vec3(0.25f, 0.25f, 0.5f), vec2(0.0f, 1.0f), vec4(0.0f, 1.0f, 0.0f, 1.0f) },// Bottom Left
-		{ vec3(0.5f, -0.5f, 0.5f), vec3(0.25f, -0.25f, 0.5f), vec2(1.0f, 1.0f), vec4(0.0f, 0.0f, 1.0f, 1.0f) }, //Bottom Right
-		{ vec3(0.5f, 0.5f, 0.5f), vec3(0.25f, -0.25f, 0.5f), vec2(1.0f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f) },// Top Right
+//Vertex triangleData[] = {
+	//	{ vec3(-0.5f, 0.5f, 0.5f), vec3(0.25f,0.25f,0.5f),vec2(0.0f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f) },// Top Left
+		//{ vec3(-0.5f, -0.5f, 0.5f), vec3(0.25f, 0.25f, 0.5f), vec2(0.0f, 1.0f), vec4(0.0f, 1.0f, 0.0f, 1.0f) },// Bottom Left
+		//{ vec3(0.5f, -0.5f, 0.5f), vec3(0.25f, -0.25f, 0.5f), vec2(1.0f, 1.0f), vec4(0.0f, 0.0f, 1.0f, 1.0f) }, //Bottom Right
+		//{ vec3(0.5f, 0.5f, 0.5f), vec3(0.25f, -0.25f, 0.5f), vec2(1.0f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f) },// Top Right
 		
 		
 		//back
-		{ vec3(-0.5f, 0.5f, -0.5f), vec3(0.25f, 0.25f, -0.5f), vec2(0.0f, 0.0f), vec4(0.0f, 0.0f, 1.0f, 1.0f) },// Top Left
-		{ vec3(-0.5f, -0.5f, -0.5f), vec3(0.25f, 0.25f, -0.5f), vec2(0.0f, 1.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f) },// Bottom Left
-		{ vec3(0.5f, -0.5f, -0.5f), vec3(0.25f, -0.25f, -0.5f), vec2(1.0f, 1.0f), vec4(0.0f, 0.0f, 0.0f, 1.0f) }, //Bottom Right
-		{ vec3(0.5f, 0.5f, -0.5f), vec3(0.25f, -0.25f, -0.5f), vec2(1.0f, 0.0f), vec4(0.0f, 1.0f, 0.0f, 1.0f) }// Top Right
-};
+		//{ vec3(-0.5f, 0.5f, -0.5f), vec3(0.25f, 0.25f, -0.5f), vec2(0.0f, 0.0f), vec4(0.0f, 0.0f, 1.0f, 1.0f) },// Top Left
+		//{ vec3(-0.5f, -0.5f, -0.5f), vec3(0.25f, 0.25f, -0.5f), vec2(0.0f, 1.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f) },// Bottom Left
+		//{ vec3(0.5f, -0.5f, -0.5f), vec3(0.25f, -0.25f, -0.5f), vec2(1.0f, 1.0f), vec4(0.0f, 0.0f, 0.0f, 1.0f) }, //Bottom Right
+		//{ vec3(0.5f, 0.5f, -0.5f), vec3(0.25f, -0.25f, -0.5f), vec2(1.0f, 0.0f), vec4(0.0f, 1.0f, 0.0f, 1.0f) }// Top Right
+//};
 
 
-GLuint indices[]={
+//GLuint indices[]={
     //front
-    0,1,2,
-    0,3,2,
+  //  0,1,2,
+    //0,3,2,
     
     //left
-    4,5,1,
-    4,1,0,
+    //4,5,1,
+    //4,1,0,
     
     //right
-    3,7,2,
-    7,6,2,
+    //3,7,2,
+    //7,6,2,
     
     //bottom
-    1,5,2,
-    6,2,1,
+    //1,5,2,
+    //6,2,1,
     
     //top
-    5,0,7,
-    5,7,3,
+   // 5,0,7,
+   // 5,7,3,
     
     //back
-    4,5,6,
-    4,7,6
-};
+    //4,5,6,
+    //4,7,6
+//};
 
 void CheckForErrors()
 {
@@ -132,7 +132,7 @@ void InitWindow(int width, int height, bool fullscreen)
 {
 	//Create a window
 	window = SDL_CreateWindow(
-		"Lab 6",             // window title
+		"Coursework",             // window title
 		SDL_WINDOWPOS_CENTERED,     // x position, centered
 		SDL_WINDOWPOS_CENTERED,     // y position, centered
 		width,                        // width, in pixels
@@ -278,10 +278,10 @@ void Initialise()
         (*iter)->init();
     }
     
-    mesh->copyVertexData(8,sizeof(Vertex), (void**)triangleData);
-    mesh->copyIndexData(36,sizeof(int), (void**)indices);
+//    mesh->copyVertexData(8,sizeof(Vertex), (void**)triangleData);
+  //  mesh->copyIndexData(36,sizeof(int), (void**)indices);
 
-	std::string modelPath = ASSET_PATH + MODEL_PATH + "armoredrecon.fbx";
+	std::string modelPath = ASSET_PATH + MODEL_PATH + "1h_axe.fbx";
 	GameObject * go = loadFBXFromFile(modelPath);
 	for (int i = 0; i < go->getChildCount(); i++)
 	{
