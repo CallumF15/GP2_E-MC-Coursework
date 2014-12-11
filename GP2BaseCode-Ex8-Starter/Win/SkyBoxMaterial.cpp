@@ -27,5 +27,33 @@ void SkyBoxMaterial::bind(){
 void SkyBoxMaterial::unbind(){
 	glDepthMask(GL_TRUE);
 }
-void SkyBoxMaterial::loadCubeTexture(const std::string& filenamePosZ, const std::string filenameNegZ, const std::string& filenamePosX, const std::string& filenameNegX, 
-	const std::string& filenamePosY, const std::string& filenameNegY);
+void SkyBoxMaterial::loadCubeTexture(const std::string& filenamePosZ, const std::string filenameNegZ, const std::string& filenamePosX, const std::string& filenameNegX,
+	const std::string& filenamePosY, const std::string& filenameNegY){
+	glActiveTexture(GL_TEXTURE0);
+	glGenTextures(1, &m_CubeTexture);
+
+
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_BASE_LEVEL, 0);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAX_LEVEL, 0);
+
+	loadCubeMapSide(filenamePosZ, GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
+	loadCubeMapSide(filenameNegZ, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
+
+
+//this could be wrong the code that was refferenced from Brian broke off from pattern
+//in the stead of filenamePosX he used filenamePosZ again making note just incase it needs to be changed
+
+
+	loadCubeMapSide(filenamePosZ, GL_TEXTURE_CUBE_MAP_POSITIVE_X);
+	loadCubeMapSide(filenameNegZ, GL_TEXTURE_CUBE_MAP_NEGATIVE_X);
+	loadCubeMapSide(filenamePosY, GL_TEXTURE_CUBE_MAP_POSITIVE_Y);
+	loadCubeMapSide(filenameNegY, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y);
+}
+GLunit SkyBoxMaterial::getCubeTexture(){
+	return m_CubeTexture;
+}
