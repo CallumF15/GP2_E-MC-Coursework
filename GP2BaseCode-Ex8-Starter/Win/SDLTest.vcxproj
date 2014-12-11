@@ -23,6 +23,7 @@
     <ClCompile Include="..\src\Shader.cpp" />
     <ClCompile Include="..\src\Texture.cpp" />
     <ClCompile Include="..\src\Transform.cpp" />
+    <ClCompile Include="SkyBoxMaterial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\headers\Camera.h" />
