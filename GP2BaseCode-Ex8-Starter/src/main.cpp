@@ -464,6 +464,10 @@ int main(int argc, char * arg[])
 			case SDL_WINDOWEVENT_CLOSE:
 				running = false;
 				break;
+			case SDL_KEYDOWN:
+				if (event.key.keysym.sym == SDLK_ESCAPE)
+					running = false;
+				break;
 
 			case SDL_MOUSEMOTION:			
 				//int mouseX = event.motion.x; 
