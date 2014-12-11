@@ -23,5 +23,9 @@ void SkyBoxMaterial::bind(){
 
 	GLint vertexPosLocation = glGetAttribLocation(m_ShaderProgram, "vertextPosition");
 	glVertexAttribPointer(vertexPosLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
-
 }
+void SkyBoxMaterial::unbind(){
+	glDepthMask(GL_TRUE);
+}
+void SkyBoxMaterial::loadCubeTexture(const std::string& filenamePosZ, const std::string filenameNegZ, const std::string& filenamePosX, const std::string& filenameNegX, 
+	const std::string& filenamePosY, const std::string& filenameNegY);
