@@ -16,6 +16,12 @@ void SkyBoxMaterial::destroy(){
 	}
 }
 void SkyBoxMaterial::bind(){
+	glDepthMask(GL_FALSE);
+	glUseProgram(m_ShaderProgram);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_CubeTexture);
 
+	GLint vertexPosLocation = glGetAttribLocation(m_ShaderProgram, "vertextPosition");
+	glVertexAttribPointer(vertexPosLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
 
 }
