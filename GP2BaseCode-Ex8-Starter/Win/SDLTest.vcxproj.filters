@@ -148,5 +148,11 @@
     <None Include="..\assets\shaders\directionalLightTextureVS.glsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="..\assets\shaders\SkyVS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\shaders\SkyFS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
