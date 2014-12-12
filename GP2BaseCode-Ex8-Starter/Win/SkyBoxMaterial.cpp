@@ -6,7 +6,7 @@ SkyBoxMaterial::SkyBoxMaterial(){
 
 	m_CubeTexture = 0;
 }
-SkyBoxMaterial::SkyBoxMaterial(){
+SkyBoxMaterial::~SkyBoxMaterial(){
 
 }
 void SkyBoxMaterial::destroy(){
@@ -54,6 +54,6 @@ void SkyBoxMaterial::loadCubeTexture(const std::string& filenamePosZ, const std:
 	loadCubeMapSide(filenamePosY, GL_TEXTURE_CUBE_MAP_POSITIVE_Y);
 	loadCubeMapSide(filenameNegY, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y);
 }
-GLint SkyBoxMaterial::getCubeTexture(){
+GLuint SkyBoxMaterial::getCubeTexture(){
 	return m_CubeTexture;
 }
