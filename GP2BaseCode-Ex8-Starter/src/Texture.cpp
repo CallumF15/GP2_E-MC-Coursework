@@ -88,7 +88,7 @@ GLuint loadTextureFromFont(const std::string& fontFilename, int pointSize, const
 	return textureID;
 }
 //need to add another function to the cpp file for loading the cube mapping
-GLuint loadCubeMapSide(const std::string& filename, GLenum cubeSide){
+void loadCubeMapSide(const std::string& filename, GLenum cubeSide){
 
 	//impression is this line is more important as it suggests its the line to indicate the desired file to laod.
 	SDL_Surface *imageSurface = IMG_Load(filename.c_str());
@@ -114,6 +114,7 @@ GLuint loadCubeMapSide(const std::string& filename, GLenum cubeSide){
 		}
 	}
 	glTexImage2D(cubeSide, 0, internalFormat, imageSurface->w, imageSurface->h, 0, texture_format, GL_UNSIGNED_BYTE, imageSurface->pixels);
+	
 	SDL_FreeSurface(imageSurface);
 
 }
