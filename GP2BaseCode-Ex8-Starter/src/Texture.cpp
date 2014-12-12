@@ -87,3 +87,33 @@ GLuint loadTextureFromFont(const std::string& fontFilename, int pointSize, const
 
 	return textureID;
 }
+//need to add another function to the cpp file for loading the cube mapping
+GLuint loadCubeMapSide(const std::string& filename, GLenum cubeSide){
+
+	//impression is this line is more important as it suggests its the line to indicate the desired file to laod.
+	SDL_Surface *imageSurface = IMG_Load(filename.c_str());
+
+	GLint nOfColors = imageSurface->format->BytesPerPixel;
+	GLenum texture_format = GL_RGB;
+	GLenum internalFormat = GL_RGB8;
+	if (nOfColors == 4){ //apparently contains an alpha channel -ie. brush up on your texturing terminology C
+		if (imageSurface->format->Rmask == 0x000000ff){
+			texture_format = GL_RGBA;
+			internalFormat = GL_RGBA8;
+		}
+		else{
+			texture_format = GL_BGRA;
+			internalFormat = GL_RGBA8;
+		}
+	}
+	else if (nOfColors == 3){ //this one doesnt contain an alpha channel make sure to look up what difference this would make
+		if (imageSurface->format->Rmask = 0x000000ff){
+
+			texture_format = GL_RGB;
+			internalFormat = GL_RGB8;
+		}
+	}
+	glTexImage2D(cubeSide, 0, internalFormat, imageSurface->w, imageSurface->h, 0, texture_format, GL_UNSIGNED_BYTE, imageSurface->pixels);
+	SDL_FreeSurface(imageSurface);
+
+}
