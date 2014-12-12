@@ -23,6 +23,7 @@ using glm::vec4;
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <gl/GLU.h>
+
 #endif
 
 #include "Component.h"
@@ -63,6 +64,24 @@ private:
 	vec4 m_DiffuseColour;
 	vec4 m_SpecularColour;
 	float m_SpecularPower;
+};
+
+class BaseMaterial : public Component{
+public:
+	BaseMaterial(){
+		m_Type = "BaseMaterial";
+	};
+	//!!!!Placed a Semi Colon here my syntax errors are going 100mph for it if it breaks just remove it
+
+	virtual ~BaseMaterial(){};
+	//example code did noy have semi colon seperating the previous code from the following
+	virtual void bind(){};
+	virtual void unbind(){};
+	bool loadShader(const std::string& vsFilename, const std::string& fsFilename); //reasearch what the filenames are or if they are actual files with the name filename
+	GLuint getUniformLocation(const std::string& name);
+	
+protected:
+	GLuint m_ShaderProgram;
 };
 
 #endif
