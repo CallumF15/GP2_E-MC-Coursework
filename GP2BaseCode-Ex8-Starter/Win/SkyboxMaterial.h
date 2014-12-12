@@ -13,10 +13,10 @@ public:
 
 	void loadCubeTexture(const std::string& filenamePosZ, const std::string filenameNegZ, const std::string& filenamePosX, const std::string& filenameNegX, 
 		const std::string& filenamePosY, const std::string& filenameNegY);
-	GLunit getCubeTexture();
+	GLuint getCubeTexture();
 
 private:
-	GLunit m_CubeTexture;
+	GLuint m_CubeTexture;
 
 };
 
