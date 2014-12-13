@@ -283,35 +283,64 @@ void Initialise()
 
 	type->setUpPrimitive("cube", vec3(0.0f, 0.0f, -10.0f), cubeObject, q, material, mesh);
 
-	/*Below is FBX model code (change at somepoint);*/
+	//Below code iterates through arrays to position, scale and 
+	//rotate the models in the appropriate manner.
 	vec3 rotation[] = { vec3(-90, 0, 0), vec3(0, 0, 0) };
-	vec3 scaling[] = { vec3(0.01, 0.01, 0.01), vec3(1,1,1) };
+	vec3 scaling[] = { vec3(0.01, 0.01, 0.01), vec3(1, 1, 1) };
 	vec3 modelPositions[] = { vec3(-1, 0, -10), vec3(-5, 0, -10) };
-	std::string modelFilenames[] = { "armorstand.fbx", "armoredrecon.fbx" };
+	std::string modelFilenames[] = { "knife2.fbx", "armoredrecon.fbx" };
+
+	std::string diffuseFilePath[] = { "kn5_COL.png", "armoredrecon_diff.png" };
 
 	GameObject * go;
-	//std::string modelPath = ASSET_PATH + MODEL_PATH + "armoredrecon.fbx";
-	for (int i = 0; i < 2; i++){
+	std::string diffTexturePath;
+	std::string modelPath;
 
-		std::string modelPath = ASSET_PATH + MODEL_PATH + modelFilenames[i];
-		go = loadFBXFromFile(modelPath);
 
-		for (int i = 0; i < go->getChildCount(); i++)
+		for (int i = 0; i < 2; i++)
 		{
+			modelPath = ASSET_PATH + MODEL_PATH + modelFilenames[i];
+			go = loadFBXFromFile(modelPath);
+
 			Material * material = new Material();
 			material->init();
-			std::string vsPath = ASSET_PATH + SHADER_PATH + "/specularVS.glsl";
-			std::string fsPath = ASSET_PATH + SHADER_PATH + "/specularFS.glsl";
+
+			std::string vsPath = ASSET_PATH + SHADER_PATH + "/directionalLightTextureVS.glsl";
+			std::string fsPath = ASSET_PATH + SHADER_PATH + "/directionalLightTextureFS.glsl";
 			material->loadShader(vsPath, fsPath);
 
+			diffTexturePath = ASSET_PATH + TEXTURE_PATH + diffuseFilePath[i];
+			material->loadDiffuseMap(diffTexturePath);
+			int a = go->getChildCount();
 			go->getChild(i)->setMaterial(material);
+
+			go->getTransform()->setRotation(rotation[i].x, rotation[i].y, rotation[i].z);
+			go->getTransform()->setScale(scaling[i].x, scaling[i].y, scaling[i].z);
+			go->getTransform()->setPosition(modelPositions[i].x, modelPositions[i].y, modelPositions[i].z);
+			type->displayList.push_back(go);
 		}
-		go->getTransform()->setRotation(rotation[i].x, rotation[i].y, rotation[i].z);
-		go->getTransform()->setScale(scaling[i].x, scaling[i].y, scaling[i].z);
-		go->getTransform()->setPosition(modelPositions[i].x, modelPositions[i].y, modelPositions[i].z);
-		type->displayList.push_back(go);
-	}
-	
+		
+
+		
+
+	//std::string modelPath = ASSET_PATH + MODEL_PATH + "knife2.fbx";
+	//GameObject * go = loadFBXFromFile(modelPath);
+	//for (int i = 0; i < go->getChildCount(); i++)
+	//{
+	//	Material * material = new Material();
+	//	material->init();
+	//	std::string vsPath = ASSET_PATH + SHADER_PATH +
+	//		"/directionalLightTextureVS.glsl";
+	//	std::string fsPath = ASSET_PATH + SHADER_PATH +
+	//		"/directionalLightTextureFS.glsl ";
+	//	material->loadShader(vsPath, fsPath);
+	//	std::string diffTexturePath = ASSET_PATH + TEXTURE_PATH +
+	//		"/kn5_COL.png";
+	//	material->loadDiffuseMap(diffTexturePath);
+	//	go->getChild(i)->setMaterial(material);
+	//}
+	//go->getTransform()->setPosition(2.0f, -2.0f, -6.0f);
+	//type->displayList.push_back(go);
 }
 
 
@@ -352,6 +381,8 @@ void renderGameObject(GameObject * pObject)
 		GLint specularLightLocation = currentMaterial->getUniformLocation("specularLightColour");
 		GLint specularpowerLocation = currentMaterial->getUniformLocation("specularPower");
 		GLint cameraPositionLocation = currentMaterial->getUniformLocation("cameraPosition");
+		GLint diffuseTextureLocation = currentMaterial->getUniformLocation("diffuseMap");
+
 
 		Camera * cam = mainCamera->getCamera();
 		Light* light = mainLight->getLight();
@@ -373,18 +404,18 @@ void renderGameObject(GameObject * pObject)
 
 		glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, glm::value_ptr(Model));
 		glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
-		glUniform4fv(ambientMatLocation, 1, glm::value_ptr(ambientMaterialColour));
-		glUniform4fv(ambientLightLocation, 1, glm::value_ptr(ambientLightColour));
-
-		glUniform4fv(diffuseMatLocation, 1, glm::value_ptr(diffuseMaterialColour));
-		glUniform4fv(diffuseLightLocation, 1, glm::value_ptr(diffuseLightColour));
-		glUniform3fv(lightDirectionLocation, 1, glm::value_ptr(lightDirection));
-
-		glUniform4fv(specularMatLocation, 1, glm::value_ptr(specularMaterialColour));
-		glUniform4fv(specularLightLocation, 1, glm::value_ptr(specularLightColour));
-
 		glUniform3fv(cameraPositionLocation, 1, glm::value_ptr(cameraPosition));
+
+		glUniform4fv(ambientMatLocation, 1, glm::value_ptr(ambientMaterialColour));
+		glUniform4fv(diffuseMatLocation, 1, glm::value_ptr(diffuseMaterialColour));
+		glUniform4fv(specularMatLocation, 1, glm::value_ptr(specularMaterialColour));
 		glUniform1f(specularpowerLocation, specularPower);
+
+		glUniform4fv(ambientLightLocation, 1, glm::value_ptr(ambientLightColour));
+		glUniform4fv(diffuseLightLocation, 1, glm::value_ptr(diffuseLightColour));
+		glUniform4fv(specularLightLocation, 1, glm::value_ptr(specularLightColour));
+		glUniform3fv(lightDirectionLocation, 1, glm::value_ptr(lightDirection));
+		glUniform1i(diffuseTextureLocation, 0);
 
 		glDrawElements(GL_TRIANGLES, currentMesh->getIndexCount(), GL_UNSIGNED_INT, 0);
 	}
@@ -500,9 +531,9 @@ int main(int argc, char * arg[])
 				int mouseX = event.motion.x;
 				int mouseY = event.motion.y;
 				glm::vec2 mousePos = glm::vec2(mouseX, mouseY);
-			
+
 				c->mouseUpdate(mousePos);
-		
+
 				//add code to get came working with the cursor centred to middle of the screen
 				//SDL_WarpMouseInWindow(window, 320, 240);
 				break;
@@ -513,11 +544,11 @@ int main(int argc, char * arg[])
 		elapsed_time = current_time - last_time; //on calcule le temps écoulé depuis la dernière image
 		last_time = current_time;
 
-	update();
-	render();
-}
+		update();
+		render();
+	}
 
-CleanUp();
+	CleanUp();
 
-return 0;
+	return 0;
 }
