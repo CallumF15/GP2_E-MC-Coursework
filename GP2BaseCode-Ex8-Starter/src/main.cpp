@@ -81,56 +81,59 @@ vec4 ambientLightColour = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 std::vector<GameObject*> displayList;
 GameObject * mainCamera;
+GameObject * secondCamera;
 GameObject * mainLight;
 
 primitiveType* type;
 
+float current_time, elapsed_time, last_time;
+
 Vertex triangleDatas[] = {
-		{ vec3(-0.5f, 0.5f, 0.5f), vec3(0.25f,0.25f,0.5f),vec2(0.0f, 0.0f) },// Top Left
+		{ vec3(-0.5f, 0.5f, 0.5f), vec3(0.25f, 0.25f, 0.5f), vec2(0.0f, 0.0f) },// Top Left
 		{ vec3(-0.5f, -0.5f, 0.5f), vec3(0.25f, 0.25f, 0.5f), vec2(0.0f, 1.0f) },// Bottom Left
 		{ vec3(0.5f, -0.5f, 0.5f), vec3(0.25f, -0.25f, 0.5f), vec2(1.0f, 1.0f) }, //Bottom Right
 		{ vec3(0.5f, 0.5f, 0.5f), vec3(0.25f, -0.25f, 0.5f), vec2(1.0f, 0.0f) },// Top Right
-		
-		
+
+
 		//back
 		{ vec3(-0.5f, 0.5f, -0.5f), vec3(0.25f, 0.25f, -0.5f), vec2(0.0f, 0.0f) },// Top Left
 		{ vec3(-0.5f, -0.5f, -0.5f), vec3(0.25f, 0.25f, -0.5f), vec2(0.0f, 1.0f) },// Bottom Left
-		{ vec3(0.5f, -0.5f, -0.5f), vec3(0.25f, -0.25f, -0.5f), vec2(1.0f, 1.0f)}, //Bottom Right
+		{ vec3(0.5f, -0.5f, -0.5f), vec3(0.25f, -0.25f, -0.5f), vec2(1.0f, 1.0f) }, //Bottom Right
 		{ vec3(0.5f, 0.5f, -0.5f), vec3(0.25f, -0.25f, -0.5f), vec2(1.0f, 0.0f), }// Top Right
 };
 
-GLuint indices[]={
-    //front
-    0,1,2,
-    0,3,2,
-    
-    //left
-    4,5,1,
-    4,1,0,
-    
-    //right
-    3,7,2,
-    7,6,2,
-    
-    //bottom
-    1,5,2,
-    6,2,1,
-    
-    //top
-    5,0,7,
-    5,7,3,
-    
-    //back
-    4,5,6,
-    4,7,6
+GLuint indices[] = {
+	//front
+	0, 1, 2,
+	0, 3, 2,
+
+	//left
+	4, 5, 1,
+	4, 1, 0,
+
+	//right
+	3, 7, 2,
+	7, 6, 2,
+
+	//bottom
+	1, 5, 2,
+	6, 2, 1,
+
+	//top
+	5, 0, 7,
+	5, 7, 3,
+
+	//back
+	4, 5, 6,
+	4, 7, 6
 };
 
 void CheckForErrors()
 {
-    GLenum error;
-    do{
-        error=glGetError();
-    }while(error!=GL_NO_ERROR);
+	GLenum error;
+	do{
+		error = glGetError();
+	} while (error != GL_NO_ERROR);
 }
 
 //Global functions
@@ -155,21 +158,21 @@ void CleanUp()
 
 	auto iter = type->displayList.begin();
 	while (iter != type->displayList.end())
-    {
-        (*iter)->destroy();
-        if ((*iter))
-        {
-            delete (*iter);
-            (*iter)=NULL;
+	{
+		(*iter)->destroy();
+		if ((*iter))
+		{
+			delete (*iter);
+			(*iter) = NULL;
 			iter = type->displayList.erase(iter);
-        }
-        else
-        {
-            iter++;
-        }
-    }
+		}
+		else
+		{
+			iter++;
+		}
+	}
 	type->displayList.clear();
-    
+
 	// clean up, reverse order!!!
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
@@ -183,60 +186,58 @@ void CleanUp()
 //Function to initialise OpenGL
 void initOpenGL()
 {
-    //Ask for version 3.2 of OpenGL
-    
+	//Ask for version 3.2 of OpenGL
+
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
 	//Create OpenGL Context
 	glcontext = SDL_GL_CreateContext(window);
 
-    glewExperimental = GL_TRUE;
+	glewExperimental = GL_TRUE;
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
 	{
 		/* Problem: glewInit failed, something is seriously wrong. */
 		std::cout << "Error: " << glewGetErrorString(err) << std::endl;
 	}
-    
-    //Smooth shading
-    glShadeModel( GL_SMOOTH );
-    
-    //clear the background to black
-    glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
-    
-    //Clear the depth buffer
-    glClearDepth( 1.0f );
-    
-    //Enable depth testing
-    glEnable( GL_DEPTH_TEST );
-    
-    //The depth test to go
-    glDepthFunc( GL_LEQUAL );
-    
-    //Turn on best perspective correction
-    glHint( GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST );
+
+	//Smooth shading
+	glShadeModel(GL_SMOOTH);
+
+	//clear the background to black
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+	//Clear the depth buffer
+	glClearDepth(1.0f);
+
+	//Enable depth testing
+	glEnable(GL_DEPTH_TEST);
+
+	//The depth test to go
+	glDepthFunc(GL_LEQUAL);
+
+	//Turn on best perspective correction
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 }
 
 //Function to set/reset viewport
-void setViewport( int width, int height )
+void setViewport(int width, int height)
 {
-    
-    //make sure height is always above 1
-    if ( height == 0 ) {
-        height = 1;
-    }
 
-    
-    //Setup viewport
-    glViewport( 0, 0, ( GLsizei )width, ( GLsizei )height );
+	//make sure height is always above 1
+	if (height == 0) {
+		height = 1;
+	}
+
+
+	//Setup viewport
+	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 }
 
 void Initialise()
 {
-	
-	//Not sure if the cube appears on screen, need to get camera moving to see?
 	Mesh * mesh = new Mesh();
 	Transform *q = new Transform();
 	Material * material = new Material();
@@ -247,23 +248,28 @@ void Initialise()
 
 
 
-    mainCamera=new GameObject();
-    mainCamera->setName("MainCamera");
-    
-    Transform *t=new Transform();
-    t->setPosition(0.0f,0.0f,10.0f);
-    mainCamera->setTransform(t);
-	//here I think to update camera;
-    
-    //Camera * c=new Camera();
-    c->setAspectRatio((float)(WINDOW_WIDTH/WINDOW_HEIGHT));
-    c->setFOV(45.0f);
-    c->setNearClip(0.1f);
-    c->setFarClip(1000.0f);
-    
-    mainCamera->setCamera(c);
+	mainCamera = new GameObject();
+	mainCamera->setName("MainCamera");
+	secondCamera = new GameObject();
+	secondCamera->setName("secondCamera");
+
+	Transform *t = new Transform();
+	t->setPosition(0.0f, 0.0f, 10.0f);
+	mainCamera->setTransform(t);
+
+	Transform *t2 = new Transform();
+	t->setPosition(0.0f, 0.0f, 10.0f);
+	secondCamera->setTransform(t2);
+
+	//Camera * c=new Camera();
+	c->setAspectRatio((float)(WINDOW_WIDTH / WINDOW_HEIGHT));
+	c->setFOV(45.0f);
+	c->setNearClip(0.1f);
+	c->setFarClip(1000.0f);
+
+	mainCamera->setCamera(c);
 	type->displayList.push_back(mainCamera);
-    
+
 	mainLight = new GameObject();
 	mainLight->setName("MainLight");
 
@@ -275,35 +281,48 @@ void Initialise()
 	mainLight->setLight(light);
 	type->displayList.push_back(mainLight);
 
-	//type->displayList.push_back(mainLight);
-	//type->setUpPrimitive("cube", vec3(0.0f, 0.0f, -10.0f), cubeObject, q, material, mesh);
+	type->setUpPrimitive("cube", vec3(0.0f, 0.0f, -10.0f), cubeObject, q, material, mesh);
 
-	//Below is FBX model code (change at somepoint);
-	std::string modelPath = ASSET_PATH + MODEL_PATH + "armoredrecon.fbx";
-	GameObject * go = loadFBXFromFile(modelPath);
-	for (int i = 0; i < go->getChildCount(); i++)
-	{
-		Material * material = new Material();
-		material->init();
-		std::string vsPath = ASSET_PATH + SHADER_PATH + "/specularVS.glsl";
-		std::string fsPath = ASSET_PATH + SHADER_PATH + "/specularFS.glsl";
-		material->loadShader(vsPath, fsPath);
+	/*Below is FBX model code (change at somepoint);*/
+	vec3 rotation[] = { vec3(-90, 0, 0), vec3(0, 0, 0) };
+	vec3 scaling[] = { vec3(0.01, 0.01, 0.01), vec3(1,1,1) };
+	vec3 modelPositions[] = { vec3(-1, 0, -10), vec3(-5, 0, -10) };
+	std::string modelFilenames[] = { "armorstand.fbx", "armoredrecon.fbx" };
 
-		go->getChild(i)->setMaterial(material);
+	GameObject * go;
+	//std::string modelPath = ASSET_PATH + MODEL_PATH + "armoredrecon.fbx";
+	for (int i = 0; i < 2; i++){
+
+		std::string modelPath = ASSET_PATH + MODEL_PATH + modelFilenames[i];
+		go = loadFBXFromFile(modelPath);
+
+		for (int i = 0; i < go->getChildCount(); i++)
+		{
+			Material * material = new Material();
+			material->init();
+			std::string vsPath = ASSET_PATH + SHADER_PATH + "/specularVS.glsl";
+			std::string fsPath = ASSET_PATH + SHADER_PATH + "/specularFS.glsl";
+			material->loadShader(vsPath, fsPath);
+
+			go->getChild(i)->setMaterial(material);
+		}
+		go->getTransform()->setRotation(rotation[i].x, rotation[i].y, rotation[i].z);
+		go->getTransform()->setScale(scaling[i].x, scaling[i].y, scaling[i].z);
+		go->getTransform()->setPosition(modelPositions[i].x, modelPositions[i].y, modelPositions[i].z);
+		type->displayList.push_back(go);
 	}
-	go->getTransform()->setPosition(0.0f, 0.0f, -10.0f);
-	type->displayList.push_back(go);
+	
 }
 
 
 //Function to update the game state
 void update()
 {
-    //alternative sytanx
+	//alternative sytanx
 	for (auto iter = type->displayList.begin(); iter != type->displayList.end(); iter++)
-    {
-        (*iter)->update();
-    }
+	{
+		(*iter)->update();
+	}
 }
 
 void renderGameObject(GameObject * pObject)
@@ -379,40 +398,40 @@ void renderGameObject(GameObject * pObject)
 //Function to render(aka draw)
 void render()
 {
-    //old imediate mode!
-    //Set the clear colour(background)
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); 
+	//old imediate mode!
+	//Set the clear colour(background)
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClearDepth(1.0f);
-    //clear the colour and depth buffer
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	//clear the colour and depth buffer
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//maybe here
-    
-    //alternative sytanx
+
+	//alternative sytanx
 	for (auto iter = type->displayList.begin(); iter != type->displayList.end(); iter++)
 	{
 		renderGameObject((*iter));
 	}
-    
-    SDL_GL_SwapWindow(window);
+
+	SDL_GL_SwapWindow(window);
 }
 
 
 
 //Main Method
 int main(int argc, char * arg[])
-{  
-    // init everyting - SDL, if it is nonzero we have a problem
-    if(SDL_Init(SDL_INIT_EVERYTHING) != 0)
-    {
-        std::cout << "ERROR SDL_Init " <<SDL_GetError()<< std::endl;
-        
-        return -1;
-    }
-    
+{
+	// init everyting - SDL, if it is nonzero we have a problem
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+	{
+		std::cout << "ERROR SDL_Init " << SDL_GetError() << std::endl;
+
+		return -1;
+	}
+
 	int imageInitFlags = IMG_INIT_JPG | IMG_INIT_PNG;
 	int returnInitFlags = IMG_Init(imageInitFlags);
-	if (((returnInitFlags) & (imageInitFlags)) != imageInitFlags) {
+	if (((returnInitFlags)& (imageInitFlags)) != imageInitFlags) {
 		std::cout << "ERROR SDL_Image Init " << IMG_GetError() << std::endl;
 		// handle error
 	}
@@ -420,41 +439,24 @@ int main(int argc, char * arg[])
 	if (TTF_Init() == -1) {
 		std::cout << "TTF_Init: " << TTF_GetError();
 	}
-    
+
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, false);
-    //Call our InitOpenGL Function
-    initOpenGL();
-    CheckForErrors();
-    //Set our viewport
+	//Call our InitOpenGL Function
+	initOpenGL();
+	CheckForErrors();
+	//Set our viewport
 	setViewport(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-    Initialise();
+	Initialise();
 
-	int oldTimeSinceStart = 0;
-    
-    //Value to hold the event generated by SDL
-    SDL_Event event;
-    //Game Loop
+	//Value to hold the event generated by SDL
+	SDL_Event event;
+
+	//Game Loop
 	while (running)
 	{
-		int timeSinceStart = SDL_GetTicks();
-		float deltaTime = timeSinceStart - oldTimeSinceStart;
-		oldTimeSinceStart = timeSinceStart;
-
-
-
 		//While we still have events in the queue
 		while (SDL_PollEvent(&event)) {
-
-
-			int mouseX = event.motion.x;
-			int mouseY = event.motion.y;
-
-			c->setMousePosition(mouseX, mouseY);
-
-			c->control(window, 0.1, 0.1, true);
-			c->updateCamera();
-
 
 			switch (event.type){
 
@@ -464,36 +466,58 @@ int main(int argc, char * arg[])
 			case SDL_WINDOWEVENT_CLOSE:
 				running = false;
 				break;
+
+
+
 			case SDL_KEYDOWN:
-				if (event.key.keysym.sym == SDLK_ESCAPE)
+				switch (event.key.keysym.sym){
+
+				case SDLK_ESCAPE:
 					running = false;
-				break;
+					break;
 
-			case SDL_MOUSEMOTION:			
-				//int mouseX = event.motion.x; 
-				//int mouseY = event.motion.y;
-
-				//c->setMousePosition(mouseX, mouseY);
-
-				//event.motion.x = 640 / 2;
-				//event.motion.y = 480 / 2;
-
-				//c->setTime(deltaTime);
-
-				//std::stringstream ss;
-				//ss << "X: " << mouseX << " Y: " << mouseY;
-
-				//SDL_SetWindowTitle(window, ss.str().c_str());
-
+				case SDLK_w:
+					c->movement(FORWARD);
+					//c->setMovementType(FORWARD);
+					break;
+				case SDLK_s:
+					c->movement(BACKWARD);
+					break;
+				case SDLK_a:
+					c->movement(STRAFE_LEFT);
+					break;
+				case SDLK_d:
+					c->movement(STRAFE_RIGHT);
+					break;
+				case SDLK_r:
+					c->movement(UP);
+					break;
+				case SDLK_l:
+					c->movement(RESET);
+					break;
+				}
+			case SDL_MOUSEMOTION:
+				int mouseX = event.motion.x;
+				int mouseY = event.motion.y;
+				glm::vec2 mousePos = glm::vec2(mouseX, mouseY);
+			
+				c->mouseUpdate(mousePos);
+		
+				//add code to get came working with the cursor centred to middle of the screen
+				//SDL_WarpMouseInWindow(window, 320, 240);
 				break;
 			}
-			//c->calculateMovement();
 		}
-		update();
-		render();
-	}
 
-	CleanUp();
-    
-    return 0;
+		current_time = SDL_GetTicks();
+		elapsed_time = current_time - last_time; //on calcule le temps écoulé depuis la dernière image
+		last_time = current_time;
+
+	update();
+	render();
+}
+
+CleanUp();
+
+return 0;
 }
