@@ -141,7 +141,7 @@ void InitWindow(int width, int height, bool fullscreen)
 {
 	//Create a window
 	window = SDL_CreateWindow(
-		"Lab 6",             // window title
+		"Coursework",             // window title
 		SDL_WINDOWPOS_CENTERED,     // x position, centered
 		SDL_WINDOWPOS_CENTERED,     // y position, centered
 		width,                        // width, in pixels
@@ -285,12 +285,12 @@ void Initialise()
 
 	//Below code iterates through arrays to position, scale and 
 	//rotate the models in the appropriate manner.
-	vec3 rotation[] = { vec3(-90, 0, 0), vec3(0, 0, 0) };
-	vec3 scaling[] = { vec3(0.01, 0.01, 0.01), vec3(1, 1, 1) };
-	vec3 modelPositions[] = { vec3(-1, 0, -10), vec3(-5, 0, -10) };
+	vec3 rotation[] = { vec3(-90, 0, 0), vec3(0, 0, 0), vec3(90, 0, 0) };
+	vec3 scaling[] = { vec3(0.01, 0.01, 0.01), vec3(1, 1, 1), vec3(1, 1, 1) };
+	vec3 modelPositions[] = { vec3(-1, 0, -10), vec3(-5, 0, -10), vec3(-10, 0, -10) };
 	std::string modelFilenames[] = { "knife2.fbx", "armoredrecon.fbx" };
 
-	std::string diffuseFilePath[] = { "kn5_COL.png", "armoredrecon_diff.png" };
+	std::string diffuseFilePath[] = { "armoredrecon_diff.png", "kn5_COL.png" };
 
 	GameObject * go;
 	std::string diffTexturePath;
@@ -310,7 +310,8 @@ void Initialise()
 			material->loadShader(vsPath, fsPath);
 
 			diffTexturePath = ASSET_PATH + TEXTURE_PATH + diffuseFilePath[i];
-			material->loadDiffuseMap(diffTexturePath);
+			material->loadDiffuseMap(diffTexturePath);
+
 			int a = go->getChildCount();
 			go->getChild(i)->setMaterial(material);
 
