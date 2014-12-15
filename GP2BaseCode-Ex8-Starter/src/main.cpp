@@ -84,6 +84,7 @@ vec4 ambientLightColour = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 std::vector<GameObject*> displayList;
 GameObject * mainCamera;
 GameObject * mainLight;
+GameObject * skyBox = NULL;
 
 primitiveType* type;
 
@@ -244,6 +245,7 @@ void setViewport( int width, int height )
 }
 
 void createSkyBox(){
+	
 	Vertex triangleData[] = {
 			{ vec3(-10.0f,10.0f,10.0f) },//top left
 			{vec3(-10.0f,-10.0f,10.0f)},
@@ -486,7 +488,7 @@ void renderSkyBox(){
 		glUniform1i(cubeTextureLocation, 0);
 
 		glDrawElements(GL_TRIANGLES, currentMesh->getIndexCount(), GL_UNSIGNED_INT, 0);
-		currentMaterial->unbind;
+		currentMaterial->unbind();
 		CheckForErrors();
 	}
 
