@@ -61,6 +61,8 @@ const std::string MODEL_PATH = "models/";
 #include "Light.h"
 #include "primitiveType.h"
 #include "FBXLoader.h"
+#include "SkyboxMaterial.h"
+
 
 int lasttime, currentTime;
 
@@ -153,6 +155,14 @@ void CleanUp()
 {
 	//change all of "displayList to -> type.displayList.begin();
 
+	if (skyBox){
+		skyBox->destroy();
+		delete skyBox;
+		skyBox = NULL;
+	}
+
+
+
 	auto iter = type->displayList.begin();
 	while (iter != type->displayList.end())
     {
@@ -233,9 +243,83 @@ void setViewport( int width, int height )
     glViewport( 0, 0, ( GLsizei )width, ( GLsizei )height );
 }
 
+void createSkyBox(){
+	Vertex triangleData[] = {
+			{ vec3(-10.0f,10.0f,10.0f) },//top left
+			{vec3(-10.0f,-10.0f,10.0f)},
+			{ vec3(10.0f,-10.0f,10.0f) },
+			{ vec3(10.0f,10.0f,10.0f) },
+
+			{ vec3(-10.0f,10.0f,-10.0f) },
+			{ vec3(-10.0f,-10.0f,-10.0f) },
+			{ vec3(10.0f,-10.0f,-10.0f) },
+			{ vec3(10.0f,10.0f,-10.0f) }
+
+	};
+	GLuint indices[] = {
+		//front
+		0, 1, 2,
+		0, 3, 2,
+		//left
+		4, 5, 1,
+		4, 1, 0,
+		//right
+		3, 7, 2,
+		7, 6, 2,
+		//bottom
+		1, 5, 2,
+		6, 2, 1,
+		//top
+		5, 0, 7,
+		5, 7, 3,
+		//back
+		4, 5, 6,
+		4, 7, 6
+	};
+
+	Mesh* pMesh = new Mesh();
+	pMesh->init();
+
+	pMesh->copyVertexData(8, sizeof(Vertex), (void**)triangleData);
+	pMesh->copyIndexData(36, sizeof(int), (void**)indices);
+
+	Transform*t = new Transform();
+	t->setPosition(0.0f, 0.0f, 0.0f);
+
+	//to load the textures and the skybox material as well as the shaders
+
+	SkyBoxMaterial *material = new SkyBoxMaterial();
+	material->init();
+
+	std::string vsPath = ASSET_PATH + SHADER_PATH + "/skyVS.glsl";
+	std::string fsPath = ASSET_PATH + SHADER_PATH + "/skyFS.glsl";
+	material->loadShader(vsPath, fsPath);
+
+	std::string posZTexturename = ASSET_PATH + TEXTURE_PATH + "troll.png";
+	std::string negZTexturename = ASSET_PATH + TEXTURE_PATH + "jesus.png";
+	std::string posXTexturename = ASSET_PATH + TEXTURE_PATH + "troll.png";
+	std::string negXTexturename = ASSET_PATH + TEXTURE_PATH + "jesus.png";
+	std::string posYTexturename = ASSET_PATH + TEXTURE_PATH + "troll.png";
+	std::string negYTexturename = ASSET_PATH + TEXTURE_PATH + "jesus.png";
+
+	material->loadCubeTexture(posZTexturename, negZTexturename, posXTexturename, negXTexturename, posYTexturename, negYTexturename);
+	//code to create the GameObject
+	
+	skyBox = new GameObject();
+	skyBox->setMaterial(material);
+	skyBox->setTransform(t);
+	skyBox->setMesh(pMesh);
+	CheckForErrors();
+}
+
 void Initialise()
 {
 	
+
+	createSkyBox();
+	std::string vsPath = ASSET_PATH + SHADER_PATH + "/passThroughVS.glsl";
+	std::string fsPath = ASSET_PATH + SHADER_PATH + "/colourFilterPostFS.glsl";
+
 	//Not sure if the cube appears on screen, need to get camera moving to see?
 	Mesh * mesh = new Mesh();
 	Transform *q = new Transform();
@@ -299,6 +383,7 @@ void Initialise()
 //Function to update the game state
 void update()
 {
+	skyBox->update();
     //alternative sytanx
 	for (auto iter = type->displayList.begin(); iter != type->displayList.end(); iter++)
     {
@@ -376,6 +461,38 @@ void renderGameObject(GameObject * pObject)
 	}
 }
 
+void renderSkyBox(){
+
+
+	skyBox->render();
+
+	Mesh * currentMesh = skyBox->getMesh();
+	SkyBoxMaterial * currentMaterial = (SkyBoxMaterial*)skyBox->getMaterial();
+	if (currentMesh && currentMaterial){
+
+		Camera * cam = mainCamera->getCamera();
+
+		currentMaterial->bind();
+		currentMesh->bind();
+
+		GLint cameralLocation = currentMaterial->getUniformLocation("cameraPos");
+		GLint viewLocation = currentMaterial->getUniformLocation("view");
+		GLint projectionLocation = currentMaterial->getUniformLocation("projection");
+		GLint cubeTextureLocation = currentMaterial->getUniformLocation("cubeTexture");
+
+		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(cam->getProjection()));
+		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(cam->getView()));
+		glUniform4fv(cameralLocation, 1, glm::value_ptr(mainCamera->getTransform()->getPosition()));
+		glUniform1i(cubeTextureLocation, 0);
+
+		glDrawElements(GL_TRIANGLES, currentMesh->getIndexCount(), GL_UNSIGNED_INT, 0);
+		currentMaterial->unbind;
+		CheckForErrors();
+	}
+
+
+}
+
 //Function to render(aka draw)
 void render()
 {
@@ -387,7 +504,7 @@ void render()
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 	//maybe here
-    
+	renderSkyBox();
     //alternative sytanx
 	for (auto iter = type->displayList.begin(); iter != type->displayList.end(); iter++)
 	{
