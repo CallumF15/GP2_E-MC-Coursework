@@ -69,9 +69,9 @@ SDL_Window * window = NULL;
 SDL_GLContext glcontext = NULL;
 
 //Window Width
-const int WINDOW_WIDTH = 640;
+const int WINDOW_WIDTH = 1600;
 //Window Height
-const int WINDOW_HEIGHT = 480;
+const int WINDOW_HEIGHT = 900;
 
 bool running = true;
 
@@ -232,7 +232,7 @@ void createSkyBox()
 		6, 2, 1,
 
 		//top
-		5, 0, 7,
+		5, 2, 7,
 		5, 7, 3,
 
 		//back
@@ -260,12 +260,12 @@ void createSkyBox()
 	std::string fsPath = ASSET_PATH + SHADER_PATH + "/skyFS.glsl";
 	material->loadShader(vsPath, fsPath);
 
-	std::string posZTexturename = ASSET_PATH + TEXTURE_PATH + "front.png";
-	std::string negZTexturename = ASSET_PATH + TEXTURE_PATH + "back.png";
-	std::string posXTexturename = ASSET_PATH + TEXTURE_PATH + "left.png";
-	std::string negXTexturename = ASSET_PATH + TEXTURE_PATH + "right.png";
-	std::string posYTexturename = ASSET_PATH + TEXTURE_PATH + "up.png";
-	std::string negYTexturename = ASSET_PATH + TEXTURE_PATH + "down.png";
+	std::string posZTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysFront2048.png";
+	std::string negZTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysBack2048.png";
+	std::string posXTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysLeft2048.png";
+	std::string negXTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysRight2048.png";
+	std::string posYTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysUp2048.png";
+	std::string negYTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysDown2048.png";
 
 	material->loadCubeTexture(posZTexturename, negZTexturename, posXTexturename, negXTexturename, posYTexturename, negYTexturename);
 	//create gameobject but don't add to queue!
