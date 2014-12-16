@@ -101,6 +101,9 @@
     <ClInclude Include="PostProcessing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ColourFilters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\assets\shaders\simpleFS.glsl">
@@ -155,6 +158,18 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\assets\shaders\BumpmappingVS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\shaders\boxFilterBlurFS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\shaders\colourFilterPostFS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\shaders\simplePostProcessFS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\shaders\passThroughVS.glsl">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

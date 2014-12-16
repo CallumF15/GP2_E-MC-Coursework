@@ -38,19 +38,24 @@
     <ClInclude Include="..\headers\Texture.h" />
     <ClInclude Include="..\headers\Transform.h" />
     <ClInclude Include="..\headers\Vertex.h" />
+    <ClInclude Include="ColourFilters.h" />
     <ClInclude Include="PostProcessing.h" />
     <ClInclude Include="SkyboxMaterial.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\assets\shaders\ambientFS.glsl" />
     <None Include="..\assets\shaders\ambientVS.glsl" />
+    <None Include="..\assets\shaders\boxFilterBlurFS.glsl" />
     <None Include="..\assets\shaders\BumpmappingFS.glsl" />
     <None Include="..\assets\shaders\BumpmappingVS.glsl" />
+    <None Include="..\assets\shaders\colourFilterPostFS.glsl" />
     <None Include="..\assets\shaders\diffuseFS.glsl" />
     <None Include="..\assets\shaders\diffuseVS.glsl" />
     <None Include="..\assets\shaders\directionalLightTextureFS.glsl" />
     <None Include="..\assets\shaders\directionalLightTextureVS.glsl" />
+    <None Include="..\assets\shaders\passThroughVS.glsl" />
     <None Include="..\assets\shaders\simpleFS.glsl" />
+    <None Include="..\assets\shaders\simplePostProcessFS.glsl" />
     <None Include="..\assets\shaders\simpleVS.glsl" />
     <None Include="..\assets\shaders\specularFS.glsl" />
     <None Include="..\assets\shaders\specularVS.glsl" />

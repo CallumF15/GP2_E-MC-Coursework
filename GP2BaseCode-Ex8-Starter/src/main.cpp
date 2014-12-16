@@ -61,6 +61,8 @@ const std::string MODEL_PATH = "models/";
 #include "Light.h"
 #include "primitiveType.h"
 #include "FBXLoader.h"
+#include "PostProcessing.h"
+#include "ColourFilters.h"
 
 int lasttime, currentTime;
 
@@ -83,6 +85,7 @@ std::vector<GameObject*> displayList;
 GameObject * mainCamera;
 GameObject * secondCamera;
 GameObject * mainLight;
+PostProcessing postProcessor;
 
 primitiveType* type;
 
@@ -173,6 +176,7 @@ void CleanUp()
 	}
 	type->displayList.clear();
 
+	postProcessor.destroy();
 	// clean up, reverse order!!!
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
@@ -238,6 +242,10 @@ void setViewport(int width, int height)
 
 void Initialise()
 {
+	std::string vsPath = ASSET_PATH + SHADER_PATH + "/passThroughVS.glsl";
+	std::string fsPath = ASSET_PATH + SHADER_PATH + "/boxFilterBlurFS.glsl";
+
+	postProcessor.init(WINDOW_WIDTH, WINDOW_HEIGHT, vsPath, fsPath);
 	Mesh * mesh = new Mesh();
 	Transform *q = new Transform();
 	Material * material = new Material();
@@ -430,6 +438,7 @@ void renderGameObject(GameObject * pObject)
 //Function to render(aka draw)
 void render()
 {
+	postProcessor.bind();
 	//old imediate mode!
 	//Set the clear colour(background)
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -444,6 +453,16 @@ void render()
 	{
 		renderGameObject((*iter));
 	}
+	// now switch to normal frame buffer
+	postProcessor.preDraw();
+	GLint colourFilterLocation = postProcessor.getUniformVariableLocation("colourFilter");
+	//glUniformMatrix3fv(colourFilterLocation, 1, GL_FALSE, glm::value_ptr(SEPIA_FILTER));
+	
+	//draw
+	postProcessor.draw();
+
+	//post draw
+	postProcessor.postDraw();
 
 	SDL_GL_SwapWindow(window);
 }
