@@ -28,9 +28,10 @@ Material::~Material()
 
 void Material::destroy()
 {
+	glDeleteProgram(m_ShaderProgram);
 	glDeleteTextures(1, &m_DiffuseMap);
 	//glDeleteTextures(1, &m_SpecularMap);
-    glDeleteProgram(m_ShaderProgram);
+    
 }
 
 void Material::bind()
