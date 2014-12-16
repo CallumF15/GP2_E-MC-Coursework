@@ -202,15 +202,15 @@ void createSkyBox()
 {
 
 	Vertex triangleData[] = {
-			{ vec3(-10.0f, 10.0f, 10.0f) },// Top Left
-			{ vec3(-10.0f, -10.0f, 10.0f) },// Bottom Left
-			{ vec3(10.0f, -10.0f, 10.0f) }, //Bottom Right
-			{ vec3(10.0f, 10.0f, 10.0f) },// Top Right
+			{ vec3(-50.0f, 50.0f, 50.0f) },// Top Left
+			{ vec3(-50.0f, -50.0f, 50.0f) },// Bottom Left
+			{ vec3(50.0f, -50.0f, 50.0f) }, //Bottom Right
+			{ vec3(50.0f, 50.0f, 50.0f) },// Top Right
 
-			{ vec3(-10.0f, 10.0f, -10.0f) },// Top Left
-			{ vec3(-10.0f, -10.0f, -10.0f) },// Bottom Left
-			{ vec3(10.0, -10.0f, -10.0f) }, //Bottom Right
-			{ vec3(10.0f, 10.0f, -10.0f) }// Top Right
+			{ vec3(-50.0f, 50.0f, -50.0f) },// Top Left
+			{ vec3(-50.0f, -50.0f, -50.0f) },// Bottom Left
+			{ vec3(50.0f, -50.0f, -50.0f) }, //Bottom Right
+			{ vec3(50.0f, 50.0f, -50.0f) }// Top Right
 	};
 
 
@@ -260,12 +260,12 @@ void createSkyBox()
 	std::string fsPath = ASSET_PATH + SHADER_PATH + "/skyFS.glsl";
 	material->loadShader(vsPath, fsPath);
 
-	std::string posZTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysFront2048.png";
-	std::string negZTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysBack2048.png";
-	std::string posXTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysLeft2048.png";
-	std::string negXTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysRight2048.png";
-	std::string posYTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysUp2048.png";
-	std::string negYTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysDown2048.png";
+	std::string posZTexturename = ASSET_PATH + TEXTURE_PATH + "front.png";
+	std::string negZTexturename = ASSET_PATH + TEXTURE_PATH + "back.png";
+	std::string posXTexturename = ASSET_PATH + TEXTURE_PATH + "left.png";
+	std::string negXTexturename = ASSET_PATH + TEXTURE_PATH + "right.png";
+	std::string posYTexturename = ASSET_PATH + TEXTURE_PATH + "up.png";
+	std::string negYTexturename = ASSET_PATH + TEXTURE_PATH + "down.png";
 
 	material->loadCubeTexture(posZTexturename, negZTexturename, posXTexturename, negXTexturename, posYTexturename, negYTexturename);
 	//create gameobject but don't add to queue!
