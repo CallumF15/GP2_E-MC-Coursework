@@ -6,9 +6,6 @@
 #include "Camera.h"
 #include "Transform.h"
 
-
-
-
 Camera::Camera()
 {
 	m_position = vec3(0, 1, 10);
@@ -49,7 +46,7 @@ void Camera::mouseUpdate(const glm::vec2& newMousePos)
 		return;
 	}
 
-	const float ROTATIONAL_SPEED = 0.5f;
+	const float ROTATIONAL_SPEED = 0.05f;
 
 	strafedirection = glm::cross(m_direction, m_Up);
 	glm::mat4 rotator = glm::rotate(mat4(1.0f), -mouseDelta.x * ROTATIONAL_SPEED, m_Up) *

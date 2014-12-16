@@ -21,9 +21,9 @@
     <ClCompile Include="..\src\Mesh.cpp" />
     <ClCompile Include="..\src\primitiveType.cpp" />
     <ClCompile Include="..\src\Shader.cpp" />
+    <ClCompile Include="..\src\SkyBox.cpp" />
     <ClCompile Include="..\src\Texture.cpp" />
     <ClCompile Include="..\src\Transform.cpp" />
-    <ClCompile Include="SkyBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\headers\Camera.h" />
@@ -35,11 +35,11 @@
     <ClInclude Include="..\headers\Mesh.h" />
     <ClInclude Include="..\headers\primitiveType.h" />
     <ClInclude Include="..\headers\Shader.h" />
+    <ClInclude Include="..\headers\SkyBox.h" />
     <ClInclude Include="..\headers\Texture.h" />
     <ClInclude Include="..\headers\Transform.h" />
     <ClInclude Include="..\headers\Vertex.h" />
     <ClInclude Include="SceneGraph.h" />
-    <ClInclude Include="SkyBox.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\assets\shaders\ambientFS.glsl" />
@@ -54,6 +54,8 @@
     <None Include="..\assets\shaders\ParallaxMappingVS.glsl" />
     <None Include="..\assets\shaders\simpleFS.glsl" />
     <None Include="..\assets\shaders\simpleVS.glsl" />
+    <None Include="..\assets\shaders\skyFS.glsl" />
+    <None Include="..\assets\shaders\skyVS.glsl" />
     <None Include="..\assets\shaders\specularFS.glsl" />
     <None Include="..\assets\shaders\specularFSPerPixel.glsl" />
     <None Include="..\assets\shaders\specularVS.glsl" />
@@ -107,13 +109,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Specialised Applications\FBX SDK\2015.1\include;C:\Specialised Applications\SDL2_ttf-2.0.12\include;C:\Specialised Applications\SDL2_image-2.0.0\include;C:\Users\Callum\Desktop\GP2_newCoursework\GP2Coursework\GP2Coursework\headers;Z:\GitHub\GP2BaseCode\headers;C:\Specialised Applications\glm;C:\Specialised Applications\glew-1.11.0\include;C:\Specialised Applications\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2015.1\include;C:\Specialised Applications\SDL2_ttf-2.0.12\include;C:\Specialised Applications\SDL2_image-2.0.0\include;C:\Users\cflann200\Desktop\GP2_newCoursework\GP2Coursework\GP2Coursework\headers;Z:\GitHub\GP2BaseCode\headers;C:\Specialised Applications\glm;C:\Specialised Applications\glew-1.11.0\include;C:\Specialised Applications\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Specialised Applications\FBX SDK\2015.1\lib\vs2013\x86\debug;C:\Specialised Applications\SDL2_ttf-2.0.12\lib\x86;C:\Specialised Applications\SDL2_image-2.0.0\lib\x86;C:\Specialised Applications\SDL2\lib\x86;C:\Specialised Applications\glew-1.11.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2015.1\lib\vs2013\x86\debug;C:\Specialised Applications\SDL2_ttf-2.0.12\lib\x86;C:\Specialised Applications\SDL2_image-2.0.0\lib\x86;C:\Specialised Applications\SDL2\lib\x86;C:\Specialised Applications\glew-1.11.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libfbxsdk.lib;SDL2_ttf.lib;SDL2_image.lib;sdl2.lib;sdl2main.lib;glew32.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

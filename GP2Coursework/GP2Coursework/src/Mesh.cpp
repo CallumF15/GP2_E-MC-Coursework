@@ -36,21 +36,7 @@ void Mesh::init()
 	glGenBuffers(1, &m_EBO);
 	//Make the EBO active
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-    
-    //Tell the shader that 0 is the position element
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)sizeof(vec3));
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)(sizeof(vec3) + sizeof(vec3)));
-	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)(sizeof(vec3) + sizeof(vec3)  + sizeof(vec2)));
-	glEnableVertexAttribArray(4);
-	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)(sizeof(vec3) + sizeof(vec3) + sizeof(vec2)+sizeof(vec4)));
-	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)(sizeof(vec3) + sizeof(vec3) + sizeof(vec2) + sizeof(vec4)+sizeof(vec3)));
-
+   
 }
 
 void Mesh::destroy()
@@ -72,16 +58,16 @@ void Mesh::copyVertexData(int count,int stride,void ** data)
 {
 	m_VertexCount = count;
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	//glBufferData(GL_ARRAY_BUFFER, count * stride, data, GL_STATIC_DRAW);
-	glBufferData(GL_ARRAY_BUFFER, count * stride, data, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, count * stride, data, GL_STATIC_DRAW);
+	//glBufferData(GL_ARRAY_BUFFER, count * stride, data, GL_DYNAMIC_DRAW);
 }
 
 void Mesh::copyIndexData(int count,int stride,void ** data)
 {
 	m_IndexCount = count;
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * stride, data, GL_STATIC_DRAW);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * stride, data, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * stride, data, GL_STATIC_DRAW);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * stride, data, GL_DYNAMIC_DRAW);
 }
 
 int Mesh::getVertexCount()

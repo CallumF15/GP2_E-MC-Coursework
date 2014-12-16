@@ -57,8 +57,9 @@ const std::string MODEL_PATH = "models/";
 #include "Camera.h"
 #include "Light.h"
 #include "FBXLoader.h"
-#include "primitiveType.h"
 
+#include "primitiveType.h"
+#include "SkyBox.h"
 
 Camera * c = new Camera();
 
@@ -81,8 +82,10 @@ vec4 ambientLightColour = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 GameObject * mainCamera;
 GameObject * mainLight;
 GameObject * secondLight;
+GameObject * skyBoxObject = NULL;
 
 primitiveType* type;
+
 
 
 void CheckForErrors()
@@ -109,6 +112,13 @@ void InitWindow(int width, int height, bool fullscreen)
 
 void CleanUp()
 {
+	if (skyBoxObject)
+	{
+		skyBoxObject->destroy();
+		delete skyBoxObject;
+		skyBoxObject = NULL;
+	}
+
 	auto iter = type->displayList.begin();
 	while (iter != type->displayList.end())
 	{
@@ -188,19 +198,97 @@ void setViewport(int width, int height)
 	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 }
 
+void createSkyBox()
+{
+
+	Vertex triangleData[] = {
+			{ vec3(-10.0f, 10.0f, 10.0f) },// Top Left
+			{ vec3(-10.0f, -10.0f, 10.0f) },// Bottom Left
+			{ vec3(10.0f, -10.0f, 10.0f) }, //Bottom Right
+			{ vec3(10.0f, 10.0f, 10.0f) },// Top Right
+
+			{ vec3(-10.0f, 10.0f, -10.0f) },// Top Left
+			{ vec3(-10.0f, -10.0f, -10.0f) },// Bottom Left
+			{ vec3(10.0, -10.0f, -10.0f) }, //Bottom Right
+			{ vec3(10.0f, 10.0f, -10.0f) }// Top Right
+	};
+
+
+	GLuint indices[] = {
+		//front
+		0, 1, 2,
+		0, 3, 2,
+
+		//left
+		4, 5, 1,
+		4, 1, 0,
+
+		//right
+		3, 7, 2,
+		7, 6, 2,
+
+		//bottom
+		1, 5, 2,
+		6, 2, 1,
+
+		//top
+		5, 0, 7,
+		5, 7, 3,
+
+		//back
+		4, 5, 6,
+		4, 7, 6
+	};
+
+
+
+	////creat mesh and copy in
+
+	Mesh * pMesh = new Mesh();
+	pMesh->init();
+
+	pMesh->copyVertexData(8, sizeof(Vertex), (void**)triangleData);
+	pMesh->copyIndexData(36, sizeof(int), (void**)indices);
+
+	Transform *t = new Transform();
+	t->setPosition(0.0f, 0.0f, 0.0f);
+	//load textures and skybox material + Shaders
+	SkyBox *material = new SkyBox();
+	material->init();
+
+	std::string vsPath = ASSET_PATH + SHADER_PATH + "/skyVS.glsl";
+	std::string fsPath = ASSET_PATH + SHADER_PATH + "/skyFS.glsl";
+	material->loadShader(vsPath, fsPath);
+
+	std::string posZTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysFront2048.png";
+	std::string negZTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysBack2048.png";
+	std::string posXTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysLeft2048.png";
+	std::string negXTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysRight2048.png";
+	std::string posYTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysUp2048.png";
+	std::string negYTexturename = ASSET_PATH + TEXTURE_PATH + "CloudyLightRaysDown2048.png";
+
+	material->loadCubeTexture(posZTexturename, negZTexturename, posXTexturename, negXTexturename, posYTexturename, negYTexturename);
+	//create gameobject but don't add to queue!
+	skyBoxObject = new GameObject();
+	skyBoxObject->setMaterial(material);
+	skyBoxObject->setTransform(t);
+	skyBoxObject->setMesh(pMesh);
+
+	CheckForErrors();
+}
+
 void Initialise()
 {
+	createSkyBox();
+
 	type = new primitiveType();
 
 	mainCamera = new GameObject();
 	mainCamera->setName("MainCamera");
 
-
-
 	Transform *t = new Transform();
 	t->setPosition(0.0f, 0.0f, 2.0f);
 	mainCamera->setTransform(t);
-
 
 	c->setAspectRatio((float)(WINDOW_WIDTH / WINDOW_HEIGHT));
 	c->setFOV(45.0f);
@@ -230,21 +318,23 @@ void Initialise()
 	secondLight->getLight()->setDirection(-90, 0, 0);
 	type->displayList.push_back(secondLight);
 
-	type->createPrimitive(cube, vec3(1, 1, 1), vec3(0, 0, 0), vec3(10, 10, 10));
-	type->createPrimitive(cube, vec3(10, 1, 1), vec3(0, 0, 0), vec3(5, 5, 5));
+	//type->createPrimitive(cube, vec3(1, 1, 1), vec3(0, 0, 0), vec3(10, 10, 10));
+	//type->createPrimitive(cube, vec3(10, 1, 1), vec3(0, 0, 0), vec3(5, 5, 5));
 
 	type->setModelsBump("sword4.fbx", "sword2_C.png", "sword_S.png", "sword_N.png");
 	type->setModelsBump("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png");
 	type->setModelsBump("2h_axe.fbx", "2h_axe.png", "2h_axeS.png", "2h_axeN.png");
 
-	type->setTransformation(vec3(-1, 0, -10), vec3(-90, 0, 0), vec3(0.01, 0.01, 0.01));
+	type->setTransformation(vec3(-1, 1, -10), vec3(-90, 0, 0), vec3(0.01, 0.01, 0.01));
 	type->setTransformation(vec3(-5, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));
 	type->setTransformation(vec3(-10, 1, -10), vec3(-90, 1, 1), vec3(0.01, .01, .01));
 
 	type->loadModels(bump);
 
 	primitiveType* parralaxType = new primitiveType();
-	//parralaxType->createPrimitive(cube, vec3(10, 1, 1), vec3(0, 0, 0), vec3(5, 5, 5));
+	parralaxType->CreatePrim("pavement_color.png", "pavement_spec.png", "pavement_normal.png", cube, vec3(-10, 0, -10), vec3(0, 0, 0), vec3(40, 0, 20));
+	parralaxType->setPrimitiveTexture("pavement_color.png","pavement_spec.png","pavement_normal.png");
+	parralaxType->createPrimitive(cube, vec3(-10, 0, -10), vec3(0, 0, 0), vec3(40, 0, 20));
 	parralaxType->setModelsParrallax("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png", "armoredrecon_Height.png");
 	parralaxType->setTransformation(vec3(-15, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));
 	parralaxType->loadModels(parralax);
@@ -255,6 +345,7 @@ void Initialise()
 //Function to update the game state
 void update()
 {
+	skyBoxObject->update();
 	//alternative sytanx
 	for (auto iter = type->displayList.begin(); iter != type->displayList.end(); iter++)
 	{
@@ -271,7 +362,7 @@ void renderGameObject(GameObject * pObject)
 
 	Mesh * currentMesh = pObject->getMesh();
 	Transform * currentTransform = pObject->getTransform();
-	Material * currentMaterial = pObject->getMaterial();
+	Material * currentMaterial = (Material*)pObject->getMaterial();
 
 	if (currentMesh && currentMaterial && currentTransform)
 	{
@@ -334,12 +425,44 @@ void renderGameObject(GameObject * pObject)
 		glUniform1i(heightTextureLocation, 3);
 
 		glDrawElements(GL_TRIANGLES, currentMesh->getIndexCount(), GL_UNSIGNED_INT, 0);
+
+		currentMaterial->unbind();
 	}
 
 	for (int i = 0; i < pObject->getChildCount(); i++)
 	{
 		renderGameObject(pObject->getChild(i));
 	}
+}
+
+void renderSkyBox()
+{
+	skyBoxObject->render();
+
+	Mesh * currentMesh = skyBoxObject->getMesh();
+	SkyBox * currentMaterial = (SkyBox*)skyBoxObject->getMaterial();
+	if (currentMesh && currentMaterial)
+	{
+		Camera * cam = mainCamera->getCamera();
+
+		currentMaterial->bind();
+		currentMesh->bind();
+
+		GLint cameraLocation = currentMaterial->getUniformLocation("cameraPos");
+		GLint viewLocation = currentMaterial->getUniformLocation("view");
+		GLint projectionLocation = currentMaterial->getUniformLocation("projection");
+		GLint cubeTextureLocation = currentMaterial->getUniformLocation("cubeTexture");
+
+		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(cam->getProjection()));
+		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(cam->getView()));
+		glUniform4fv(cameraLocation, 1, glm::value_ptr(mainCamera->getTransform()->getPosition()));
+		glUniform1i(cubeTextureLocation, 0);
+
+		glDrawElements(GL_TRIANGLES, currentMesh->getIndexCount(), GL_UNSIGNED_INT, 0);
+
+		currentMaterial->unbind();
+	}
+	CheckForErrors();
 }
 
 //Function to render(aka draw)
@@ -351,6 +474,8 @@ void render()
 	glClearDepth(1.0f);
 	//clear the colour and depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	renderSkyBox();
 
 	//alternative sytanx
 	for (auto iter = type->displayList.begin(); iter != type->displayList.end(); iter++)

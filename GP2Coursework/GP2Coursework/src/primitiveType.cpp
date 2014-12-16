@@ -105,8 +105,10 @@ void primitiveType::createPrimitive(primitiveShape shape, vec3 position, vec3 ro
 	  Transform* transform = new Transform();
 	 // Mesh* mesh;
 	  mesh = new Mesh();
-	  Material* material = new Material();
+	  //Material* material = new Material();
+	  
 
+	  materialPrimitive->init();
 
 	 objectShape->setName("cube");
 	 transform->setPosition(position.x, position.y, position.z);
@@ -114,17 +116,24 @@ void primitiveType::createPrimitive(primitiveShape shape, vec3 position, vec3 ro
 	 transform->setScale(scaling.x, scaling.y, scaling.z);
 	 objectShape->setTransform(transform);
 
-	 material->setDiffuseColour(10.0f, 10.0f, 10.0f, 10.0f);
-	 material->setAmbientColour(10.0f, 10.0f, 10.0f, 10.0f);
-	 material->setSpecularColour(10.0f, 10.0f, 10.0f, 10.0f);
+	 //material->setDiffuseColour(10.0f, 10.0f, 10.0f, 10.0f);
+	 //material->setAmbientColour(10.0f, 10.0f, 10.0f, 10.0f);
+	 //material->setSpecularColour(10.0f, 10.0f, 10.0f, 10.0f);
 
-	 //std::string vsPath = ASSET_PATH + SHADER_PATH + "/specularVS.glsl";
-	 //std::string fsPath = ASSET_PATH + SHADER_PATH + "/specularFS.glsl";
-	 std::string vsPath = ASSET_PATH + SHADER_PATH + "/directionalLightTextureVS.glsl";
-	 std::string fsPath = ASSET_PATH + SHADER_PATH + "/directionalLightTextureFS.glsl";
-	 material->loadShader(vsPath, fsPath);
+	 materialPrimitive->setAmbientColour(1.0f, 1.0f, 1.0f, 1.0f);
+	 materialPrimitive->setDiffuseColour(1.0f, 1.0f, 1.0f, 1.0f);
+	 materialPrimitive->setSpecularColour(1.0f, 1.0f, 1.0f, 1.0f);
+	 //materialPrimitive->setAmbientColour(.5f, .5f, .5f, .5f);
+	 //materialPrimitive->setDiffuseColour(.5f, .5f, .5f, .5f);
+	 //materialPrimitive->setSpecularColour(.5f, .5f, .5f, .5f);
 
-	 objectShape->setMaterial(material);
+	 std::string vsPath = ASSET_PATH + SHADER_PATH + "/ambientVS.glsl";
+	 std::string fsPath = ASSET_PATH + SHADER_PATH + "/ambientFS.glsl";
+	 //std::string vsPath = ASSET_PATH + SHADER_PATH + "/directionalLightTextureVS.glsl";
+	// std::string fsPath = ASSET_PATH + SHADER_PATH + "/directionalLightTextureFS.glsl";
+	 materialPrimitive->loadShader(vsPath, fsPath);
+
+	 objectShape->setMaterial(materialPrimitive);
 	 objectShape->setMesh(mesh);
 	 displayList.push_back(objectShape);
 
@@ -136,6 +145,94 @@ void primitiveType::createPrimitive(primitiveShape shape, vec3 position, vec3 ro
 	 mesh->copyVertexData(8, sizeof(Vertex), (void**)triangleData);
 	 mesh->copyIndexData(36, sizeof(int), (void**)cubeIndices);
  }
+
+void primitiveType::setPrimitiveTexture(std::string diffTexturePath, std::string specTexturePath, std::string bumpTexturePath){
+
+	diffuseArray.push_back(diffTexturePath);
+	specularArray.push_back(specTexturePath);
+	bumpArray.push_back(bumpTexturePath);
+
+	materialPrimitive = new Material();
+
+	for (int i = 0; i < diffuseArray.size(); i++) {
+
+		std::string diffTexturePath = ASSET_PATH + TEXTURE_PATH + diffuseArray[i];
+		std::string specTexturePath = ASSET_PATH + TEXTURE_PATH + specularArray[i];
+		std::string bumpTexturePath = ASSET_PATH + TEXTURE_PATH + bumpArray[i];
+
+		materialPrimitive->loadDiffuseMap(diffTexturePath);
+		materialPrimitive->loadSpecularMap(specTexturePath);
+		materialPrimitive->loadBumpMap(bumpTexturePath);
+	}
+}
+
+void primitiveType::CreatePrim(std::string diffTexturePath, std::string specTexturePath, std::string bumpTexturePath,
+	primitiveShape shape, vec3 position, vec3 rotation, vec3 scaling){
+
+
+	GameObject* objectShape = new GameObject();
+	Transform* transform = new Transform();
+	// Mesh* mesh;
+	mesh = new Mesh();
+	
+
+	diffuseArray.push_back(diffTexturePath);
+	specularArray.push_back(specTexturePath);
+	bumpArray.push_back(bumpTexturePath);
+
+	for (int i = 0; i < diffuseArray.size(); i++){
+
+		std::string diffTexturePath = ASSET_PATH + TEXTURE_PATH + diffuseArray[i];
+		//std::string specTexturePath = ASSET_PATH + TEXTURE_PATH + specularArray[i];
+		//std::string bumpTexturePath = ASSET_PATH + TEXTURE_PATH + bumpArray[i];
+
+
+
+		Material* material = new Material();
+
+		material->loadDiffuseMap(diffTexturePath);
+		
+		//material->loadSpecularMap(specTexturePath);
+		//material->loadBumpMap(bumpTexturePath);
+
+		//material->init();
+
+		objectShape->setName("cube");
+		transform->setPosition(position.x, position.y, position.z);
+		transform->setRotation(rotation.x, rotation.y, rotation.z);
+		transform->setScale(scaling.x, scaling.y, scaling.z);
+		objectShape->setTransform(transform);
+
+		//material->setDiffuseColour(10.0f, 10.0f, 10.0f, 10.0f);
+		//material->setAmbientColour(10.0f, 10.0f, 10.0f, 10.0f);
+		//material->setSpecularColour(10.0f, 10.0f, 10.0f, 10.0f);
+
+		material->setAmbientColour(1.0f, 1.0f, 1.0f, 1.0f);
+		material->setDiffuseColour(1.0f, 1.0f, 1.0f, 1.0f);
+		material->setSpecularColour(1.0f, 1.0f, 1.0f, 1.0f);
+
+		std::string vsPath = ASSET_PATH + SHADER_PATH + "/textureVS.glsl";
+		std::string fsPath = ASSET_PATH + SHADER_PATH + "/textureFS.glsl";
+		//std::string vsPath = ASSET_PATH + SHADER_PATH + "/directionalLightTextureVS.glsl";
+		// std::string fsPath = ASSET_PATH + SHADER_PATH + "/directionalLightTextureFS.glsl";
+		material->loadShader(vsPath, fsPath);
+
+		objectShape->setMaterial(material);
+		objectShape->setMesh(mesh);
+		displayList.push_back(objectShape);
+
+		for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
+		{
+			(*iter)->init();
+		}
+
+		mesh->copyVertexData(8, sizeof(Vertex), (void**)triangleData);
+		mesh->copyIndexData(36, sizeof(int), (void**)cubeIndices);
+
+	}
+}
+
+	
 
 //Sets the directories for bump mapping
 void primitiveType::setModelsBump(std::string modelFilename, std::string diffTexturePath,

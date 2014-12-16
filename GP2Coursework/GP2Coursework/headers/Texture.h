@@ -24,7 +24,7 @@ GLuint loadTextureFromFile(const std::string& filename);
 //this shouldn't be used for realtime use, build on startup!
 GLuint loadTextureFromFont(const std::string& fontFilename, int pointSize, const std::string& text);
 
-void LoadCubeSides(std::string filename, GLenum cubeSide);
+void loadCubeMapSide(const std::string& filename, GLenum cubeSide);
 void checkRgbaChannels(SDL_Surface * surface, GLenum texture_format, GLenum internalFormat);
 
 #endif

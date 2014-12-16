@@ -19,6 +19,8 @@ using glm::vec3;
 
 #include <string>
 
+#include "Material.h"
+
 enum primitiveShape 
 { 
 	cube, 
@@ -30,13 +32,18 @@ enum shaderType{
 	parralax
 };
 
-class primitiveType {
+class primitiveType{
 
 public:
 	primitiveType();
 	~primitiveType();
 
 	void createPrimitive(primitiveShape shape, vec3 position, vec3 rotation, vec3 scaling);
+	void setPrimitiveTexture(std::string diffTexturePath, std::string specTexturePath, std::string bumpTexturePath);
+
+	void CreatePrim(std::string diffTexturePath, std::string specTexturePath, std::string bumpTexturePath,
+		primitiveShape shape, vec3 position, vec3 rotation, vec3 scaling);
+
 	void setModelsBump(std::string modelPath, std::string diffusePath, 
 		std::string specularPath, std::string bumpMapPath);
 
@@ -77,6 +84,9 @@ private:
 	 std::string heightTexturePath;
 
 	 Mesh* mesh;
+	 Material* materialPrimitive;
+
+	 GLuint texture;
 };
 
 
