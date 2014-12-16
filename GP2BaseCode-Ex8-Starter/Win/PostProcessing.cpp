@@ -61,6 +61,7 @@ void PostProcessing::createFullScreenQuad()
 
 void PostProcessing::createFramebuffer(int width, int height)
 {
+	GLuint FBOTexture;
 	glActiveTexture(GL_TEXTURE0);
 	glGenTextures(1, &m_FBOTexture);
 	glBindTexture(GL_TEXTURE_2D, m_FBOTexture);
@@ -72,12 +73,14 @@ void PostProcessing::createFramebuffer(int width, int height)
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	/* Depth buffer */
+	GLuint FBODepthBuffer;
 	glGenRenderbuffers(1, &m_DepthBufferObject);
 	glBindRenderbuffer(GL_RENDERBUFFER, m_DepthBufferObject);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height);
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
 	/* Framebuffer to link everything together */
+	GLuint frameBufferObject;
 	glGenFramebuffers(1, &m_FrameBufferObject);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferObject);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_FBOTexture, 0);

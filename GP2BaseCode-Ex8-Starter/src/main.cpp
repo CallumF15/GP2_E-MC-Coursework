@@ -242,10 +242,11 @@ void setViewport(int width, int height)
 
 void Initialise()
 {
-	std::string vsPath = ASSET_PATH + SHADER_PATH + "/passThroughVS.glsl";
-	std::string fsPath = ASSET_PATH + SHADER_PATH + "/boxFilterBlurFS.glsl";
+	//std::string vsPath = ASSET_PATH + SHADER_PATH + "/passThroughVS.glsl";
+	//std::string fsPath = ASSET_PATH + SHADER_PATH + "/boxFilterBlurFS.glsl";
 
-	postProcessor.init(WINDOW_WIDTH, WINDOW_HEIGHT, vsPath, fsPath);
+	//postProcessor.init(WINDOW_WIDTH, WINDOW_HEIGHT, vsPath, fsPath);
+
 	Mesh * mesh = new Mesh();
 	Transform *q = new Transform();
 	Material * material = new Material();
@@ -296,9 +297,9 @@ void Initialise()
 	vec3 rotation[] = { vec3(-90, 0, 0), vec3(0, 0, 0), vec3(90, 0, 0) };
 	vec3 scaling[] = { vec3(0.01, 0.01, 0.01), vec3(1, 1, 1), vec3(1, 1, 1) };
 	vec3 modelPositions[] = { vec3(-1, 0, -10), vec3(-5, 0, -10), vec3(-10, 0, -10) };
-	std::string modelFilenames[] = { "knife2.fbx", "armoredrecon.fbx" };
+	std::string modelFilenames[] = { "knife2.fbx", "armoredrecon.fbx", "armorstand.fbx" };
 
-	std::string diffuseFilePath[] = { "armoredrecon_diff.png", "kn5_COL.png" };
+	std::string diffuseFilePath[] = { "armoredrecon_diff.png", "kn5_COL.png", };
 
 	GameObject * go;
 	std::string diffTexturePath;
@@ -391,7 +392,9 @@ void renderGameObject(GameObject * pObject)
 		GLint specularpowerLocation = currentMaterial->getUniformLocation("specularPower");
 		GLint cameraPositionLocation = currentMaterial->getUniformLocation("cameraPosition");
 		GLint diffuseTextureLocation = currentMaterial->getUniformLocation("diffuseMap");
-
+		GLint specTextureLocation = currentMaterial->getUniformLocation("specMap");
+		GLint bumpTextureLocation = currentMaterial->getUniformLocation("bumpMap");
+		GLint heightTextureLocation = currentMaterial->getUniformLocation("heightMap");
 
 		Camera * cam = mainCamera->getCamera();
 		Light* light = mainLight->getLight();
@@ -438,7 +441,7 @@ void renderGameObject(GameObject * pObject)
 //Function to render(aka draw)
 void render()
 {
-	postProcessor.bind();
+	//postProcessor.bind();
 	//old imediate mode!
 	//Set the clear colour(background)
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -454,15 +457,15 @@ void render()
 		renderGameObject((*iter));
 	}
 	// now switch to normal frame buffer
-	postProcessor.preDraw();
-	GLint colourFilterLocation = postProcessor.getUniformVariableLocation("colourFilter");
+	//postProcessor.preDraw();
+	//GLint colourFilterLocation = postProcessor.getUniformVariableLocation("colourFilter");
 	//glUniformMatrix3fv(colourFilterLocation, 1, GL_FALSE, glm::value_ptr(SEPIA_FILTER));
 	
 	//draw
-	postProcessor.draw();
+	//postProcessor.draw();
 
 	//post draw
-	postProcessor.postDraw();
+	//postProcessor.postDraw();
 
 	SDL_GL_SwapWindow(window);
 }
@@ -542,6 +545,9 @@ int main(int argc, char * arg[])
 					break;
 				case SDLK_r:
 					c->movement(UP);
+					break;
+				case SDLK_f:
+					c->movement(DOWN);
 					break;
 				case SDLK_l:
 					c->movement(RESET);
