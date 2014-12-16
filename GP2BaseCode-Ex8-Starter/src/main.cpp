@@ -371,8 +371,8 @@ void Initialise()
 	{
 		Material * material = new Material();
 		material->init();
-		std::string vsPath = ASSET_PATH + SHADER_PATH + "/specularVS.glsl";
-		std::string fsPath = ASSET_PATH + SHADER_PATH + "/specularFS.glsl";
+		std::string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
+		std::string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
 		material->loadShader(vsPath, fsPath);
 
 		go->getChild(i)->setMaterial(material);

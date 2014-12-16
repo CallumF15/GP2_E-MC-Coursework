@@ -95,7 +95,7 @@
     <ClInclude Include="..\headers\primitiveType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SkyboxMaterial.h">
+    <ClInclude Include="..\headers\SkyboxMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

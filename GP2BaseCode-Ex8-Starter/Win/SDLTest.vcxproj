@@ -35,10 +35,10 @@
     <ClInclude Include="..\headers\Mesh.h" />
     <ClInclude Include="..\headers\primitiveType.h" />
     <ClInclude Include="..\headers\Shader.h" />
+    <ClInclude Include="..\headers\SkyboxMaterial.h" />
     <ClInclude Include="..\headers\Texture.h" />
     <ClInclude Include="..\headers\Transform.h" />
     <ClInclude Include="..\headers\Vertex.h" />
-    <ClInclude Include="SkyboxMaterial.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\assets\shaders\ambientFS.glsl" />
