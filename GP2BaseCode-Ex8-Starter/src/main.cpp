@@ -295,11 +295,11 @@ void Initialise()
 	//Below code iterates through arrays to position, scale and 
 	//rotate the models in the appropriate manner.
 	vec3 rotation[] = { vec3(-90, 0, 0), vec3(0, 0, 0) };
-	vec3 scaling[] = { vec3(0.01, 0.01, 0.01), vec3(0.01, 0.01, 0.01) };
+	vec3 scaling[] = { vec3(0.01, 0.01, 0.01), vec3(1, 1, 1) };
 	vec3 modelPositions[] = { vec3(-1, 0, -10), vec3(-5, 0, -10)  };
-	std::string modelFilenames[] = { "shield_deco3.fbx", "knife2.fbx" };
+	std::string modelFilenames[] = { "knife2.fbx", "armoredrecon.fbx"  };
 
-	std::string diffuseFilePath[] = { "kn5_COL", "shield_C.png" };
+	std::string diffuseFilePath[] = { "armoredrecon_diff.png", "kn5_COL.png" };
 
 	GameObject * go;
 	std::string diffTexturePath;
