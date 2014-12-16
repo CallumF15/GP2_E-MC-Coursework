@@ -1,3 +1,6 @@
+/// This class is implemented by Mathew McGerty
+
+
 #include "PostProcessing.h"
 #include "Shader.h"
 

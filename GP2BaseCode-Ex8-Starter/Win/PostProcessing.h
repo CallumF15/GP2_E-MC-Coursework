@@ -1,3 +1,5 @@
+//this Class was implemented by Mathew McGerty
+
 #ifndef POST_PROCESSING_H
 #define POST_PROCESSING_H
 
