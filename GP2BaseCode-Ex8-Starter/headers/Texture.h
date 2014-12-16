@@ -24,7 +24,6 @@ GLuint loadTextureFromFile(const std::string& filename);
 //this shouldn't be used for realtime use, build on startup!
 GLuint loadTextureFromFont(const std::string& fontFilename, int pointSize, const std::string& text);
 
-//this is meant to be a void instead of a GLunit becuase its meant to return a value trying to find where i should put a return in.
 void loadCubeMapSide(const std::string& filename, GLenum cubeSide);
 
 #endif

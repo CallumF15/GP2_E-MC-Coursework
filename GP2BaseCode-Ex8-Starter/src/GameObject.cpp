@@ -1,11 +1,3 @@
-//
-//  GameObject.cpp
-//  GP2BaseCode
-//
-//  Created by Brian on 31/10/2014.
-//  Copyright (c) 2014 Glasgow Caledonian University. All rights reserved.
-//
-
 #include "GameObject.h"
 #include "Component.h"
 #include "Transform.h"
@@ -16,18 +8,18 @@
 
 GameObject::GameObject()
 {
-    m_Transform=NULL;
-    m_Mesh=NULL;
-    m_Material=NULL;
-    m_Camera=NULL;
+	m_Transform = NULL;
+	m_Mesh = NULL;
+	m_Material = NULL;
+	m_Camera = NULL;
 	m_Light = NULL;
-    m_Name="GameObject";
+	m_Name = "GameObject";
 	m_Parent = NULL;
 }
 
 GameObject::~GameObject()
 {
-    
+
 }
 
 void GameObject::init()
@@ -42,7 +34,7 @@ void GameObject::init()
 		(*iter)->init();
 	}
 
-    
+
 }
 
 void GameObject::update()
@@ -56,7 +48,7 @@ void GameObject::update()
 	{
 		(*iter)->update();
 	}
-    
+
 }
 
 void GameObject::render()
@@ -70,27 +62,27 @@ void GameObject::render()
 	{
 		(*iter)->render();
 	}
-    
+
 }
 
 void GameObject::destroy()
 {
-    auto iter=m_Components.begin();
-	while(iter!=m_Components.end())
-    {
-        (*iter)->destroy();
-        if ((*iter))
-        {
-            delete (*iter);
-            (*iter)=NULL;
-            iter=m_Components.erase(iter);
-        }
-        else
-        {
-            iter++;
-        }
-    }
-    m_Components.clear();
+	auto iter = m_Components.begin();
+	while (iter != m_Components.end())
+	{
+		(*iter)->destroy();
+		if ((*iter))
+		{
+			delete (*iter);
+			(*iter) = NULL;
+			iter = m_Components.erase(iter);
+		}
+		else
+		{
+			iter++;
+		}
+	}
+	m_Components.clear();
 
 	auto gameObjiter = m_Children.begin();
 	while (gameObjiter != m_Children.end())
@@ -108,47 +100,47 @@ void GameObject::destroy()
 		}
 	}
 	m_Children.clear();
-    
+
 }
 
 void GameObject::addComponent(Component * component)
 {
-    component->setParent(this);
-    m_Components.push_back(component);
+	component->setParent(this);
+	m_Components.push_back(component);
 }
 
 void GameObject::setName(const std::string& name)
 {
-    m_Name=name;
+	m_Name = name;
 }
 
 const std::string& GameObject::getName()
 {
-    return m_Name;
+	return m_Name;
 }
 
 void GameObject::setTransform(Transform * transform)
 {
-    m_Transform=transform;
-    addComponent(transform);
+	m_Transform = transform;
+	addComponent(transform);
 }
 
 void GameObject::setMesh(Mesh * mesh)
 {
-    m_Mesh=mesh;
-    addComponent(mesh);
+	m_Mesh = mesh;
+	addComponent(mesh);
 }
 
-void GameObject::setMaterial(Material * material)
+void GameObject::setMaterial(BaseMaterial * material)
 {
-    m_Material=material;
-    addComponent(material);
+	m_Material = material;
+	addComponent(material);
 }
 
 void GameObject::setCamera(Camera * camera)
 {
-    m_Camera=camera;
-    addComponent(camera);
+	m_Camera = camera;
+	addComponent(camera);
 }
 
 void GameObject::setLight(Light * light)
@@ -159,22 +151,22 @@ void GameObject::setLight(Light * light)
 
 Transform * GameObject::getTransform()
 {
-    return m_Transform;
+	return m_Transform;
 }
 
 Mesh * GameObject::getMesh()
 {
-    return m_Mesh;
+	return m_Mesh;
 }
 
-Material * GameObject::getMaterial()
+BaseMaterial * GameObject::getMaterial()
 {
-    return m_Material;
+	return m_Material;
 }
 
 Camera * GameObject::getCamera()
 {
-    return m_Camera;
+	return m_Camera;
 }
 
 Light * GameObject::getLight()

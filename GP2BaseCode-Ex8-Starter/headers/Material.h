@@ -1,11 +1,3 @@
-//
-//  Material.h
-//  GP2BaseCode
-//
-//  Created by Brian on 31/10/2014.
-//  Copyright (c) 2014 Glasgow Caledonian University. All rights reserved.
-//
-
 #ifndef Material_h
 #define Material_h
 
@@ -23,23 +15,39 @@ using glm::vec4;
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <gl/GLU.h>
-
 #endif
 
 #include "Component.h"
 
-class Material:public Component{
+class BaseMaterial :public Component{
 public:
-    Material();
-    ~Material();
-    
-    void destroy();
-    
-    void bind();
-    
-    bool loadShader(const std::string& vsFilename,const std::string& fsFilename);
-    GLint getUniformLocation(const std::string& name);
-	
+	BaseMaterial()
+	{
+		m_Type = "BaseMaterial";
+	};
+	virtual ~BaseMaterial(){}
+
+	virtual void bind(){};
+	virtual void unbind(){};
+
+	bool loadShader(const std::string& vsFilename, const std::string& fsFilename);
+	GLint getUniformLocation(const std::string& name);
+protected:
+	GLuint m_ShaderProgram;
+};
+
+class Material :public BaseMaterial{
+public:
+	Material();
+	~Material();
+
+	void destroy();
+
+	void bind();
+
+
+
+
 	vec4& getAmbientColour();
 	void setAmbientColour(float r, float g, float b, float a);
 
@@ -55,33 +63,25 @@ public:
 	void loadDiffuseMap(const std::string& filename);
 	GLuint getDiffuseMap();
 
+	void loadSpecularMap(const std::string& filename);
+	GLuint getSpecularMap();
 
+	void loadBumpMap(const std::string& filename);
+	GLuint getBumpMap();
+
+	void loadHeightMap(const std::string& filename);
+	GLuint getHeightMap();
 protected:
 private:
-    GLuint m_ShaderProgram;
-	GLuint m_DiffuseMap;
+
 	vec4 m_AmbientColour;
 	vec4 m_DiffuseColour;
 	vec4 m_SpecularColour;
 	float m_SpecularPower;
-};
-
-class BaseMaterial : public Component{
-public:
-	BaseMaterial(){
-		m_Type = "BaseMaterial";
-	};
-	//!!!!Placed a Semi Colon here my syntax errors are going 100mph for it if it breaks just remove it
-
-	virtual ~BaseMaterial(){};
-	//example code did noy have semi colon seperating the previous code from the following
-	virtual void bind(){};
-	virtual void unbind(){};
-	bool loadShader(const std::string& vsFilename, const std::string& fsFilename); //reasearch what the filenames are or if they are actual files with the name filename
-	GLuint getUniformLocation(const std::string& name);
-	
-protected:
-	GLuint m_ShaderProgram;
+	GLuint m_DiffuseMap;
+	GLuint m_SpecularMap;
+	GLuint m_BumpMap;
+	GLuint m_HeightMap;
 };
 
 #endif

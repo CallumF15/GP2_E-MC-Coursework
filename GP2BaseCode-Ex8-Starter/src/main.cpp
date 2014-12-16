@@ -6,8 +6,6 @@ using glm::mat4;
 using glm::vec4;
 using glm::vec3;
 
-#include <sstream>
-
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -41,7 +39,7 @@ const std::string TEXTURE_PATH;
 const std::string FONT_PATH;
 const std::string MODEL_PATH;
 #else
-const std::string ASSET_PATH="/assets/";
+const std::string ASSET_PATH = "/assets/";
 const std::string SHADER_PATH = "shaders/";
 const std::string TEXTURE_PATH = "textures/";
 const std::string FONT_PATH = "fonts/";
@@ -49,7 +47,6 @@ const std::string MODEL_PATH = "models/";
 #endif
 
 //Our headers
-
 #include "Vertex.h"
 #include "Shader.h"
 #include "Texture.h"
@@ -59,14 +56,13 @@ const std::string MODEL_PATH = "models/";
 #include "Material.h"
 #include "Camera.h"
 #include "Light.h"
-#include "primitiveType.h"
 #include "FBXLoader.h"
+
+
+
 #include "SkyboxMaterial.h"
 
 
-int lasttime, currentTime;
-
-Camera * c = new Camera();
 //SDL Window
 SDL_Window * window = NULL;
 //SDL GL Context
@@ -86,54 +82,15 @@ GameObject * mainCamera;
 GameObject * mainLight;
 GameObject * skyBox = NULL;
 
-primitiveType* type;
 
-Vertex triangleDatas[] = {
-		{ vec3(-0.5f, 0.5f, 0.5f), vec3(0.25f,0.25f,0.5f),vec2(0.0f, 0.0f) },// Top Left
-		{ vec3(-0.5f, -0.5f, 0.5f), vec3(0.25f, 0.25f, 0.5f), vec2(0.0f, 1.0f) },// Bottom Left
-		{ vec3(0.5f, -0.5f, 0.5f), vec3(0.25f, -0.25f, 0.5f), vec2(1.0f, 1.0f) }, //Bottom Right
-		{ vec3(0.5f, 0.5f, 0.5f), vec3(0.25f, -0.25f, 0.5f), vec2(1.0f, 0.0f) },// Top Right
-		
-		
-		//back
-		{ vec3(-0.5f, 0.5f, -0.5f), vec3(0.25f, 0.25f, -0.5f), vec2(0.0f, 0.0f) },// Top Left
-		{ vec3(-0.5f, -0.5f, -0.5f), vec3(0.25f, 0.25f, -0.5f), vec2(0.0f, 1.0f) },// Bottom Left
-		{ vec3(0.5f, -0.5f, -0.5f), vec3(0.25f, -0.25f, -0.5f), vec2(1.0f, 1.0f)}, //Bottom Right
-		{ vec3(0.5f, 0.5f, -0.5f), vec3(0.25f, -0.25f, -0.5f), vec2(1.0f, 0.0f), }// Top Right
-};
 
-GLuint indices[]={
-    //front
-    0,1,2,
-    0,3,2,
-    
-    //left
-    4,5,1,
-    4,1,0,
-    
-    //right
-    3,7,2,
-    7,6,2,
-    
-    //bottom
-    1,5,2,
-    6,2,1,
-    
-    //top
-    5,0,7,
-    5,7,3,
-    
-    //back
-    4,5,6,
-    4,7,6
-};
 
 void CheckForErrors()
 {
-    GLenum error;
-    do{
-        error=glGetError();
-    }while(error!=GL_NO_ERROR);
+	GLenum error;
+	do{
+		error = glGetError();
+	} while (error != GL_NO_ERROR);
 }
 
 //Global functions
@@ -141,7 +98,7 @@ void InitWindow(int width, int height, bool fullscreen)
 {
 	//Create a window
 	window = SDL_CreateWindow(
-		"Lab 6",             // window title
+		"Lab 9",             // window title
 		SDL_WINDOWPOS_CENTERED,     // x position, centered
 		SDL_WINDOWPOS_CENTERED,     // y position, centered
 		width,                        // width, in pixels
@@ -154,33 +111,30 @@ void InitWindow(int width, int height, bool fullscreen)
 
 void CleanUp()
 {
-	//change all of "displayList to -> type.displayList.begin();
-
-	if (skyBox){
+	if (skyBox)
+	{
 		skyBox->destroy();
 		delete skyBox;
 		skyBox = NULL;
 	}
+	auto iter = displayList.begin();
+	while (iter != displayList.end())
+	{
+		(*iter)->destroy();
+		if ((*iter))
+		{
+			delete (*iter);
+			(*iter) = NULL;
+			iter = displayList.erase(iter);
+		}
+		else
+		{
+			iter++;
+		}
+	}
+	displayList.clear();
 
-
-
-	auto iter = type->displayList.begin();
-	while (iter != type->displayList.end())
-    {
-        (*iter)->destroy();
-        if ((*iter))
-        {
-            delete (*iter);
-            (*iter)=NULL;
-			iter = type->displayList.erase(iter);
-        }
-        else
-        {
-            iter++;
-        }
-    }
-	type->displayList.clear();
-    
+	
 	// clean up, reverse order!!!
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
@@ -194,102 +148,110 @@ void CleanUp()
 //Function to initialise OpenGL
 void initOpenGL()
 {
-    //Ask for version 3.2 of OpenGL
-    
+	//Ask for version 3.2 of OpenGL
+
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
 	//Create OpenGL Context
 	glcontext = SDL_GL_CreateContext(window);
 
-    glewExperimental = GL_TRUE;
+	glewExperimental = GL_TRUE;
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
 	{
 		/* Problem: glewInit failed, something is seriously wrong. */
 		std::cout << "Error: " << glewGetErrorString(err) << std::endl;
 	}
-    
-    //Smooth shading
-    glShadeModel( GL_SMOOTH );
-    
-    //clear the background to black
-    glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
-    
-    //Clear the depth buffer
-    glClearDepth( 1.0f );
-    
-    //Enable depth testing
-    glEnable( GL_DEPTH_TEST );
-    
-    //The depth test to go
-    glDepthFunc( GL_LEQUAL );
-    
-    //Turn on best perspective correction
-    glHint( GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST );
+
+	//Smooth shading
+	glShadeModel(GL_SMOOTH);
+
+	//clear the background to black
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+	//Clear the depth buffer
+	glClearDepth(1.0f);
+
+	//Enable depth testing
+	glEnable(GL_DEPTH_TEST);
+
+	//The depth test to go
+	glDepthFunc(GL_LEQUAL);
+
+	//Turn on best perspective correction
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 }
 
 //Function to set/reset viewport
-void setViewport( int width, int height )
+void setViewport(int width, int height)
 {
-    
-    //make sure height is always above 1
-    if ( height == 0 ) {
-        height = 1;
-    }
 
-    
-    //Setup viewport
-    glViewport( 0, 0, ( GLsizei )width, ( GLsizei )height );
+	//make sure height is always above 1
+	if (height == 0) {
+		height = 1;
+	}
+
+
+	//Setup viewport
+	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 }
-
-void createSkyBox(){
-	
-	Vertex triangleData[] = {
-			{ vec3(-10.0f,10.0f,10.0f) },//top left
-			{vec3(-10.0f,-10.0f,10.0f)},
-			{ vec3(10.0f,-10.0f,10.0f) },
-			{ vec3(10.0f,10.0f,10.0f) },
-
-			{ vec3(-10.0f,10.0f,-10.0f) },
-			{ vec3(-10.0f,-10.0f,-10.0f) },
-			{ vec3(10.0f,-10.0f,-10.0f) },
-			{ vec3(10.0f,10.0f,-10.0f) }
-
-	};
-	GLuint indices[] = {
+GLuint indices[] = {
 		//front
 		0, 1, 2,
 		0, 3, 2,
+
 		//left
 		4, 5, 1,
 		4, 1, 0,
+
 		//right
 		3, 7, 2,
 		7, 6, 2,
+
 		//bottom
 		1, 5, 2,
 		6, 2, 1,
+
 		//top
 		5, 0, 7,
 		5, 7, 3,
+
 		//back
 		4, 5, 6,
 		4, 7, 6
 	};
+void createSkyBox()
+{
+	Vertex triangleData[] = {
+			{ vec3(-10.0f, 10.0f, 10.0f) },// Top Left
+			{ vec3(-10.0f, -10.0f, 10.0f) },// Bottom Left
+			{ vec3(10.0f, -10.0f, 10.0f) }, //Bottom Right
+			{ vec3(10.0f, 10.0f, 10.0f) },// Top Right
 
-	Mesh* pMesh = new Mesh();
+
+			//back
+			{ vec3(-10.0f, 10.0f, -10.0f) },// Top Left
+			{ vec3(-10.0f, -10.0f, -10.0f) },// Bottom Left
+			{ vec3(10.0, -10.0f, -10.0f) }, //Bottom Right
+			{ vec3(10.0f, 10.0f, -10.0f) }// Top Right
+	};
+
+
+	
+
+	//creat mesh and copy in
+
+	Mesh * pMesh = new Mesh();
 	pMesh->init();
 
 	pMesh->copyVertexData(8, sizeof(Vertex), (void**)triangleData);
 	pMesh->copyIndexData(36, sizeof(int), (void**)indices);
 
-	Transform*t = new Transform();
+	Transform *t = new Transform();
 	t->setPosition(0.0f, 0.0f, 0.0f);
-
-	//to load the textures and the skybox material as well as the shaders
-
+	//load textures and skybox material + Shaders
 	SkyBoxMaterial *material = new SkyBoxMaterial();
 	material->init();
 
@@ -297,59 +259,47 @@ void createSkyBox(){
 	std::string fsPath = ASSET_PATH + SHADER_PATH + "/skyFS.glsl";
 	material->loadShader(vsPath, fsPath);
 
-	std::string posZTexturename = ASSET_PATH + TEXTURE_PATH + "troll.png";
-	std::string negZTexturename = ASSET_PATH + TEXTURE_PATH + "jesus.png";
-	std::string posXTexturename = ASSET_PATH + TEXTURE_PATH + "troll.png";
-	std::string negXTexturename = ASSET_PATH + TEXTURE_PATH + "jesus.png";
-	std::string posYTexturename = ASSET_PATH + TEXTURE_PATH + "troll.png";
-	std::string negYTexturename = ASSET_PATH + TEXTURE_PATH + "jesus.png";
+	std::string posZTexturename = ASSET_PATH + TEXTURE_PATH + "tester.png";
+	std::string negZTexturename = ASSET_PATH + TEXTURE_PATH + "tester.png";
+	std::string posXTexturename = ASSET_PATH + TEXTURE_PATH + "tester.png";
+	std::string negXTexturename = ASSET_PATH + TEXTURE_PATH + "tester.png";
+	std::string posYTexturename = ASSET_PATH + TEXTURE_PATH + "tester.png";
+	std::string negYTexturename = ASSET_PATH + TEXTURE_PATH + "tester.png";
 
 	material->loadCubeTexture(posZTexturename, negZTexturename, posXTexturename, negXTexturename, posYTexturename, negYTexturename);
-	//code to create the GameObject
-	
+	//create gameobject but don't add to queue!
 	skyBox = new GameObject();
 	skyBox->setMaterial(material);
 	skyBox->setTransform(t);
 	skyBox->setMesh(pMesh);
+
 	CheckForErrors();
 }
 
 void Initialise()
 {
-	
-
 	createSkyBox();
 	std::string vsPath = ASSET_PATH + SHADER_PATH + "/passThroughVS.glsl";
 	std::string fsPath = ASSET_PATH + SHADER_PATH + "/colourFilterPostFS.glsl";
 
-	//Not sure if the cube appears on screen, need to get camera moving to see?
-	Mesh * mesh = new Mesh();
-	Transform *q = new Transform();
-	Material * material = new Material();
-	GameObject * cubeObject = new GameObject();
-	primitiveShape shape;
-	shape = cube;
-	type = new primitiveType(shape);
+	//postProcessor.init(WINDOW_WIDTH, WINDOW_HEIGHT, vsPath, fsPath);
 
+	mainCamera = new GameObject();
+	mainCamera->setName("MainCamera");
 
+	Transform *t = new Transform();
+	t->setPosition(0.0f, 0.0f, 2.0f);
+	mainCamera->setTransform(t);
 
-    mainCamera=new GameObject();
-    mainCamera->setName("MainCamera");
-    
-    Transform *t=new Transform();
-    t->setPosition(0.0f,0.0f,10.0f);
-    mainCamera->setTransform(t);
-	//here I think to update camera;
-    
-    //Camera * c=new Camera();
-    c->setAspectRatio((float)(WINDOW_WIDTH/WINDOW_HEIGHT));
-    c->setFOV(45.0f);
-    c->setNearClip(0.1f);
-    c->setFarClip(1000.0f);
-    
-    mainCamera->setCamera(c);
-	type->displayList.push_back(mainCamera);
-    
+	Camera * c = new Camera();
+	c->setAspectRatio((float)(WINDOW_WIDTH / WINDOW_HEIGHT));
+	c->setFOV(45.0f);
+	c->setNearClip(0.1f);
+	c->setFarClip(1000.0f);
+
+	mainCamera->setCamera(c);
+	displayList.push_back(mainCamera);
+
 	mainLight = new GameObject();
 	mainLight->setName("MainLight");
 
@@ -359,38 +309,35 @@ void Initialise()
 
 	Light * light = new Light();
 	mainLight->setLight(light);
-	type->displayList.push_back(mainLight);
+	displayList.push_back(mainLight);
 
-	//type->displayList.push_back(mainLight);
-	//type->setUpPrimitive("cube", vec3(0.0f, 0.0f, -10.0f), cubeObject, q, material, mesh);
-
-	//Below is FBX model code (change at somepoint);
 	std::string modelPath = ASSET_PATH + MODEL_PATH + "armoredrecon.fbx";
+	std::string texturePath = ASSET_PATH + TEXTURE_PATH + "troll.png";
 	GameObject * go = loadFBXFromFile(modelPath);
 	for (int i = 0; i < go->getChildCount(); i++)
 	{
 		Material * material = new Material();
 		material->init();
-		std::string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
-		std::string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
+		material->loadDiffuseMap(texturePath);
+		std::string vsPath = ASSET_PATH + SHADER_PATH + "/textureVS.glsl";
+		std::string fsPath = ASSET_PATH + SHADER_PATH + "/textureFS.glsl";
 		material->loadShader(vsPath, fsPath);
 
 		go->getChild(i)->setMaterial(material);
 	}
-	go->getTransform()->setPosition(0.0f, 0.0f, -10.0f);
-	type->displayList.push_back(go);
+	go->getTransform()->setPosition(0.0f, -1.0f, -5.0f);
+	displayList.push_back(go);
 }
-
 
 //Function to update the game state
 void update()
 {
 	skyBox->update();
-    //alternative sytanx
-	for (auto iter = type->displayList.begin(); iter != type->displayList.end(); iter++)
-    {
-        (*iter)->update();
-    }
+	//alternative sytanx
+	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
+	{
+		(*iter)->update();
+	}
 }
 
 void renderGameObject(GameObject * pObject)
@@ -402,7 +349,8 @@ void renderGameObject(GameObject * pObject)
 
 	Mesh * currentMesh = pObject->getMesh();
 	Transform * currentTransform = pObject->getTransform();
-	Material * currentMaterial = pObject->getMaterial();
+	//we know is going to be a standard material
+	Material * currentMaterial = (Material*)pObject->getMaterial();
 
 	if (currentMesh && currentMaterial && currentTransform)
 	{
@@ -420,7 +368,10 @@ void renderGameObject(GameObject * pObject)
 		GLint specularLightLocation = currentMaterial->getUniformLocation("specularLightColour");
 		GLint specularpowerLocation = currentMaterial->getUniformLocation("specularPower");
 		GLint cameraPositionLocation = currentMaterial->getUniformLocation("cameraPosition");
-
+		GLint diffuseTextureLocation = currentMaterial->getUniformLocation("diffuseMap");
+		GLint specTextureLocation = currentMaterial->getUniformLocation("specMap");
+		GLint bumpTextureLocation = currentMaterial->getUniformLocation("bumpMap");
+		GLint heightTextureLocation = currentMaterial->getUniformLocation("heightMap");
 		Camera * cam = mainCamera->getCamera();
 		Light* light = mainLight->getLight();
 
@@ -454,7 +405,14 @@ void renderGameObject(GameObject * pObject)
 		glUniform3fv(cameraPositionLocation, 1, glm::value_ptr(cameraPosition));
 		glUniform1f(specularpowerLocation, specularPower);
 
+		glUniform1i(diffuseTextureLocation, 0);
+		glUniform1i(specTextureLocation, 1);
+		glUniform1i(bumpTextureLocation, 2);
+		glUniform1i(heightTextureLocation, 3);
+
 		glDrawElements(GL_TRIANGLES, currentMesh->getIndexCount(), GL_UNSIGNED_INT, 0);
+
+		currentMaterial->unbind();
 	}
 
 	for (int i = 0; i < pObject->getChildCount(); i++)
@@ -463,75 +421,102 @@ void renderGameObject(GameObject * pObject)
 	}
 }
 
-void renderSkyBox(){
-
-
+void renderSkyBox()
+{
 	skyBox->render();
 
 	Mesh * currentMesh = skyBox->getMesh();
 	SkyBoxMaterial * currentMaterial = (SkyBoxMaterial*)skyBox->getMaterial();
-	if (currentMesh && currentMaterial){
-
+	if (currentMesh && currentMaterial)
+	{
 		Camera * cam = mainCamera->getCamera();
 
 		currentMaterial->bind();
 		currentMesh->bind();
 
-		GLint cameralLocation = currentMaterial->getUniformLocation("cameraPos");
+		GLint cameraLocation = currentMaterial->getUniformLocation("cameraPos");
 		GLint viewLocation = currentMaterial->getUniformLocation("view");
 		GLint projectionLocation = currentMaterial->getUniformLocation("projection");
 		GLint cubeTextureLocation = currentMaterial->getUniformLocation("cubeTexture");
 
 		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(cam->getProjection()));
 		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(cam->getView()));
-		glUniform4fv(cameralLocation, 1, glm::value_ptr(mainCamera->getTransform()->getPosition()));
+		glUniform4fv(cameraLocation, 1, glm::value_ptr(mainCamera->getTransform()->getPosition()));
 		glUniform1i(cubeTextureLocation, 0);
 
 		glDrawElements(GL_TRIANGLES, currentMesh->getIndexCount(), GL_UNSIGNED_INT, 0);
+
 		currentMaterial->unbind();
-		CheckForErrors();
 	}
-
-
+	CheckForErrors();
 }
 
 //Function to render(aka draw)
 void render()
 {
-    //old imediate mode!
-    //Set the clear colour(background)
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); 
-	glClearDepth(1.0f);
-    //clear the colour and depth buffer
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	//Bind Framebuffer
+	//postProcessor.bind();
 
-	//maybe here
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearDepth(1.0f);
+	//clear the colour and depth buffer
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	renderSkyBox();
-    //alternative sytanx
-	for (auto iter = type->displayList.begin(); iter != type->displayList.end(); iter++)
+
+	//alternative sytanx
+	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
 	{
 		renderGameObject((*iter));
 	}
-    
-    SDL_GL_SwapWindow(window);
+
+	//now switch to normal framebuffer
+	//postProcessor.preDraw();
+	//Grab stuff from shader
+	
+
+	//draw
+	//postProcessor.draw();
+
+	//post draw
+	//postProcessor.postDraw();
+
+	SDL_GL_SwapWindow(window);
 }
 
 
 
 //Main Method
 int main(int argc, char * arg[])
-{  
-    // init everyting - SDL, if it is nonzero we have a problem
-    if(SDL_Init(SDL_INIT_EVERYTHING) != 0)
-    {
-        std::cout << "ERROR SDL_Init " <<SDL_GetError()<< std::endl;
-        
-        return -1;
-    }
-    
+{
+	
+#ifdef __APPLE__
+	CFBundleRef mainBundle = CFBundleGetMainBundle();
+	CFURLRef resourcesURL = CFBundleCopyResourcesDirectoryURL(mainBundle);
+	char path[PATH_MAX];
+	if (!CFURLGetFileSystemRepresentation(resourcesURL, TRUE, (UInt8 *)path, PATH_MAX))
+	{
+		// error!
+	}
+	CFRelease(resourcesURL);
+
+	chdir(path);
+	std::cout << "Current Path: " << path << std::endl;
+#endif
+
+
+
+	// init everyting - SDL, if it is nonzero we have a problem
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+	{
+		std::cout << "ERROR SDL_Init " << SDL_GetError() << std::endl;
+
+		return -1;
+	}
+
 	int imageInitFlags = IMG_INIT_JPG | IMG_INIT_PNG;
 	int returnInitFlags = IMG_Init(imageInitFlags);
-	if (((returnInitFlags) & (imageInitFlags)) != imageInitFlags) {
+	if (((returnInitFlags)& (imageInitFlags)) != imageInitFlags) {
 		std::cout << "ERROR SDL_Image Init " << IMG_GetError() << std::endl;
 		// handle error
 	}
@@ -539,80 +524,38 @@ int main(int argc, char * arg[])
 	if (TTF_Init() == -1) {
 		std::cout << "TTF_Init: " << TTF_GetError();
 	}
-    
+
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, false);
-    //Call our InitOpenGL Function
-    initOpenGL();
-    CheckForErrors();
-    //Set our viewport
+	//Call our InitOpenGL Function
+	initOpenGL();
+	CheckForErrors();
+	//Set our viewport
 	setViewport(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-    Initialise();
+	Initialise();
 
-	int oldTimeSinceStart = 0;
-    
-    //Value to hold the event generated by SDL
-    SDL_Event event;
-    //Game Loop
+	//Value to hold the event generated by SDL
+	SDL_Event event;
+	//Game Loop
 	while (running)
 	{
-		int timeSinceStart = SDL_GetTicks();
-		float deltaTime = timeSinceStart - oldTimeSinceStart;
-		oldTimeSinceStart = timeSinceStart;
-
-
-
 		//While we still have events in the queue
 		while (SDL_PollEvent(&event)) {
-
-
-			int mouseX = event.motion.x;
-			int mouseY = event.motion.y;
-
-			c->setMousePosition(mouseX, mouseY);
-
-			c->control(window, 0.1, 0.1, true);
-			c->updateCamera();
-
-
-			switch (event.type){
-
-			case SDL_QUIT:
+			//Get event type
+			if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE) {
+				//set our boolean which controls the loop to false
 				running = false;
-				break;
-			case SDL_WINDOWEVENT_CLOSE:
-				running = false;
-				break;
-			case SDL_KEYDOWN:
-				if (event.key.keysym.sym == SDLK_ESCAPE)
-					running = false;
-				break;
-
-			case SDL_MOUSEMOTION:			
-				//int mouseX = event.motion.x; 
-				//int mouseY = event.motion.y;
-
-				//c->setMousePosition(mouseX, mouseY);
-
-				//event.motion.x = 640 / 2;
-				//event.motion.y = 480 / 2;
-
-				//c->setTime(deltaTime);
-
-				//std::stringstream ss;
-				//ss << "X: " << mouseX << " Y: " << mouseY;
-
-				//SDL_SetWindowTitle(window, ss.str().c_str());
-
-				break;
 			}
-			//c->calculateMovement();
 		}
 		update();
+		//render
 		render();
+
+
 	}
 
+
 	CleanUp();
-    
-    return 0;
+
+	return 0;
 }
