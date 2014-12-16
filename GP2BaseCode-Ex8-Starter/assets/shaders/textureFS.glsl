@@ -1,11 +1,12 @@
 #version 150
 
 out vec4 FragColor;
-in vec2 vertexTexCoordsOut;
+in vec3 vertexTexCoordsOut;
 
-uniform sampler2D texture0;
+uniform samplerCube cubeTexture;
 
 void main()
 {
-	FragColor = texture(texture0, vertexTexCoordsOut);
+	FragColor = texture(cubeTexture, vertexTexCoordsOut);
+	
 }
