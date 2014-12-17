@@ -257,12 +257,12 @@ void createSkyBox()
 	std::string fsPath = ASSET_PATH + SHADER_PATH + "/skyFS.glsl";
 	material->loadShader(vsPath, fsPath);
 
-	std::string posZTexturename = ASSET_PATH + TEXTURE_PATH + "aurora.png";
-	std::string negZTexturename = ASSET_PATH + TEXTURE_PATH + "aurora.png";
-	std::string posXTexturename = ASSET_PATH + TEXTURE_PATH + "aurora.png";
-	std::string negXTexturename = ASSET_PATH + TEXTURE_PATH + "aurora.png";
-	std::string posYTexturename = ASSET_PATH + TEXTURE_PATH + "aurora.png";
-	std::string negYTexturename = ASSET_PATH + TEXTURE_PATH + "aurora.png";
+	std::string posZTexturename = ASSET_PATH + TEXTURE_PATH + "aura.png";
+	std::string negZTexturename = ASSET_PATH + TEXTURE_PATH + "aura.png";
+	std::string posXTexturename = ASSET_PATH + TEXTURE_PATH + "aura.png";
+	std::string negXTexturename = ASSET_PATH + TEXTURE_PATH + "aura.png";
+	std::string posYTexturename = ASSET_PATH + TEXTURE_PATH + "aura.png";
+	std::string negYTexturename = ASSET_PATH + TEXTURE_PATH + "aura.png";
 
 	material->loadCubeTexture(posZTexturename, negZTexturename, posXTexturename, negXTexturename, posYTexturename, negYTexturename);
 	//create gameobject but don't add to queue!
@@ -315,10 +315,14 @@ void Initialise()
 	secondLight->getLight()->setDirection(-90, 0, 0);
 	type->displayList.push_back(secondLight);
 
+
+	std::string modelPath = ASSET_PATH + MODEL_PATH + "sword.fbx";
+	GameObject * go = loadFBXFromFile(modelPath);
+
 	//type->createPrimitive(cube, vec3(1, 1, 1), vec3(0, 0, 0), vec3(10, 10, 10));
 	//type->createPrimitive(cube, vec3(10, 1, 1), vec3(0, 0, 0), vec3(5, 5, 5));
 
-	type->setModelsBump("sword4.fbx", "sword2_C.png", "sword_S.png", "sword_N.png");
+	type->setModelsBump("sword2.fbx", "sword2_C.png", "sword_S.png", "sword_N.png");
 	type->setModelsBump("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png");
 	type->setModelsBump("2h_axe.fbx", "2h_axe.png", "2h_axeS.png", "2h_axeN.png");
 
@@ -336,6 +340,7 @@ void Initialise()
 	parralaxType->setTransformation(vec3(-15, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));
 	parralaxType->loadModels(parralax);
 	type->setDisplaylist(parralaxType->getDisplayList());
+
 }
 
 
