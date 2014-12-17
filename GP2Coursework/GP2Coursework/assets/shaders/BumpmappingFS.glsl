@@ -23,6 +23,7 @@ uniform sampler2D bumpMap;
 void main()
 {
 	vec3 bumpNormals = normalize(2.0 * texture2D(bumpMap, texCoordsOut).rgb - 1.0);
+	bumpNormals = normalize(bumpNormals);
 
 	float diffuseTerm = dot(bumpNormals, lightDirectionOut);
 	vec3 halfWayVec = normalize(cameraDirectionOut + lightDirectionOut);

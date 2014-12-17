@@ -23,23 +23,15 @@ uniform sampler2D specMap;
 uniform sampler2D bumpMap;
 uniform sampler2D heightMap;
 
-uniform float bias = 0.01;
-uniform float scale = 0.3;
+uniform float bias = -.189;
+uniform float scale = 0.02;
 
 void main()
 {
     //retrieve height from texture
-	float height = texture(heightMap, texCoordsOut).r*scale + bias;
-	height /= cameraDirectionOut.z;
+	float height = texture2D(heightMap, texCoordsOut).r*scale + bias;
 
-    
-	vec2 parallaxDirection = normalize(cameraDirectionOut.xy);
-	float displacementLength = length(cameraDirectionOut);
-	float parallaxLength = sqrt(displacementLength*displacementLength - cameraDirectionOut.z*cameraDirectionOut.z) / cameraDirectionOut.z;
-	vec2 parallaxOffset = (parallaxDirection*parallaxLength)*scale;
-
-    //use offset limits(scale and bias) to move texture coords
-	vec2 correctedTexCoords = parallaxOffset + cameraDirectionOut.xy*height;
+	vec2 correctedTexCoords = scale*texCoordsOut.xy*height;
     
     //Calculate new texture coords, we use these instead of normal texture coords
     correctedTexCoords=texCoordsOut-correctedTexCoords;

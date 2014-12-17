@@ -96,10 +96,6 @@ void primitiveType::createPrimitive(primitiveShape shape, vec3 position, vec3 ro
  {
 	// CheckShape(shape);
 	 new primitiveType();
-	 //objectShape = new GameObject();
-	 //transform = new Transform();
-	 //material = new Material();
-	 //mesh = new Mesh();
 
 	  GameObject* objectShape = new GameObject();
 	  Transform* transform = new Transform();
@@ -107,6 +103,9 @@ void primitiveType::createPrimitive(primitiveShape shape, vec3 position, vec3 ro
 	  mesh = new Mesh();
 	  //Material* material = new Material();
 	  
+
+	  materialPrimitive = new Material();
+
 
 	  materialPrimitive->init();
 
@@ -116,23 +115,19 @@ void primitiveType::createPrimitive(primitiveShape shape, vec3 position, vec3 ro
 	 transform->setScale(scaling.x, scaling.y, scaling.z);
 	 objectShape->setTransform(transform);
 
-	 //material->setDiffuseColour(10.0f, 10.0f, 10.0f, 10.0f);
-	 //material->setAmbientColour(10.0f, 10.0f, 10.0f, 10.0f);
-	 //material->setSpecularColour(10.0f, 10.0f, 10.0f, 10.0f);
+	 //materialPrimitive->setAmbientColour(0.0f, 0.0f, 0.0f, 1.0f);
+	 //materialPrimitive->setDiffuseColour(0.0f, 0.0f, 0.0f, 1.0f);
+	 //materialPrimitive->setSpecularColour(0.0f, 0.0f, 0.0f, 1.0f);
 
 	 materialPrimitive->setAmbientColour(1.0f, 1.0f, 1.0f, 1.0f);
 	 materialPrimitive->setDiffuseColour(1.0f, 1.0f, 1.0f, 1.0f);
 	 materialPrimitive->setSpecularColour(1.0f, 1.0f, 1.0f, 1.0f);
-	 //materialPrimitive->setAmbientColour(.5f, .5f, .5f, .5f);
-	 //materialPrimitive->setDiffuseColour(.5f, .5f, .5f, .5f);
-	 //materialPrimitive->setSpecularColour(.5f, .5f, .5f, .5f);
 
 	 std::string vsPath = ASSET_PATH + SHADER_PATH + "/ambientVS.glsl";
 	 std::string fsPath = ASSET_PATH + SHADER_PATH + "/ambientFS.glsl";
 	 //std::string vsPath = ASSET_PATH + SHADER_PATH + "/directionalLightTextureVS.glsl";
 	// std::string fsPath = ASSET_PATH + SHADER_PATH + "/directionalLightTextureFS.glsl";
 	 materialPrimitive->loadShader(vsPath, fsPath);
-
 	 objectShape->setMaterial(materialPrimitive);
 	 objectShape->setMesh(mesh);
 	 displayList.push_back(objectShape);

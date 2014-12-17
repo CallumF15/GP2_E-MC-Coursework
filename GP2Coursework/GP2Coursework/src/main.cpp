@@ -78,7 +78,7 @@ bool running = true;
 
 vec4 ambientLightColour = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-//std::vector<GameObject*> displayList;
+std::vector<GameObject*> displayList;
 GameObject * mainCamera;
 GameObject * mainLight;
 GameObject * secondLight;
@@ -119,22 +119,22 @@ void CleanUp()
 		skyBoxObject = NULL;
 	}
 
-	auto iter = type->displayList.begin();
-	while (iter != type->displayList.end())
+	auto iter = displayList.begin();
+	while (iter != displayList.end())
 	{
 		(*iter)->destroy();
 		if ((*iter))
 		{
 			delete (*iter);
 			(*iter) = NULL;
-			iter = type->displayList.erase(iter);
+			iter = displayList.erase(iter);
 		}
 		else
 		{
 			iter++;
 		}
 	}
-	type->displayList.clear();
+	displayList.clear();
 
 	// clean up, reverse order!!!
 	SDL_GL_DeleteContext(glcontext);
@@ -202,42 +202,42 @@ void createSkyBox()
 {
 
 	Vertex triangleData[] = {
-			{ vec3(-10.0f, 10.0f, 10.0f) },// Top Left
-			{ vec3(-10.0f, -10.0f, 10.0f) },// Bottom Left
-			{ vec3(10.0f, -10.0f, 10.0f) }, //Bottom Right
-			{ vec3(10.0f, 10.0f, 10.0f) },// Top Right
+			{ vec3(-50.0f, 50.0f, 50.0f) },// Top Left
+			{ vec3(-50.0f, -50.0f, 50.0f) },// Bottom Left
+			{ vec3(50.0f, -50.0f, 50.0f) }, //Bottom Right
+			{ vec3(50.0f, 50.0f, 50.0f) },// Top Right
 
-			{ vec3(-10.0f, 10.0f, -10.0f) },// Top Left
-			{ vec3(-10.0f, -10.0f, -10.0f) },// Bottom Left
-			{ vec3(10.0, -10.0f, -10.0f) }, //Bottom Right
-			{ vec3(10.0f, 10.0f, -10.0f) }// Top Right
+			{ vec3(-50.0f, 50.0f, -50.0f) },// Top Left
+			{ vec3(-50.0f, -50.0f, -50.0f) },// Bottom Left
+			{ vec3(50.0, -50.0f, -50.0f) }, //Bottom Right
+			{ vec3(50.0f, 50.0f, -50.0f) }// Top Right
 	};
 
 
 	GLuint indices[] = {
 		//front
 		0, 1, 2,
-		0, 3, 2,
+		3, 2, 0,
 
 		//left
-		4, 5, 1,
-		4, 1, 0,
+		3, 2, 6,
+		6, 7, 3,
 
 		//right
-		3, 7, 2,
-		7, 6, 2,
+		7, 6, 5,
+		5, 4, 7,
 
 		//bottom
-		1, 5, 2,
-		6, 2, 1,
+		4, 5, 1,
+		1, 0, 4,
 
 		//top
-		5, 0, 7,
-		5, 7, 3,
+		4, 0, 3,
+		3, 7, 4,
 
 		//back
-		4, 5, 6,
-		4, 7, 6
+		1, 5, 6,
+		6, 2, 1
 	};
 
 
@@ -252,6 +252,7 @@ void createSkyBox()
 
 	Transform *t = new Transform();
 	t->setPosition(0.0f, 0.0f, 0.0f);
+	t->setScale(100, 100, 100);
 	//load textures and skybox material + Shaders
 	SkyBox *material = new SkyBox();
 	material->init();
@@ -296,7 +297,7 @@ void Initialise()
 	c->setFarClip(1000.0f);
 
 	mainCamera->setCamera(c);
-	type->displayList.push_back(mainCamera);
+	displayList.push_back(mainCamera);
 
 	mainLight = new GameObject();
 	mainLight->setName("MainLight");
@@ -304,41 +305,47 @@ void Initialise()
 	secondLight = new GameObject();
 	secondLight->setName("secondLight");
 
-	t = new Transform();
-	t->setPosition(0.0f, 0.0f, 0.0f);
-	mainLight->setTransform(t);
+	Transform *b = new Transform();
+	b->setPosition(-8.0f, 1.0f, -1.0f);
+	secondLight->setTransform(b);
 
 	Light * light = new Light();
 	mainLight->setLight(light);
-	//mainLight->getLight()->setDirection(-90, 0, 0);
-	type->displayList.push_back(mainLight);
+	displayList.push_back(mainLight);
 
 	Light * light2 = new Light();
 	secondLight->setLight(light2);
-	secondLight->getLight()->setDirection(-90, 0, 0);
-	type->displayList.push_back(secondLight);
+	displayList.push_back(secondLight);
 
-	//type->createPrimitive(cube, vec3(1, 1, 1), vec3(0, 0, 0), vec3(10, 10, 10));
-	//type->createPrimitive(cube, vec3(10, 1, 1), vec3(0, 0, 0), vec3(5, 5, 5));
-
+	//Model loading
 	type->setModelsBump("sword4.fbx", "sword2_C.png", "sword_S.png", "sword_N.png");
 	type->setModelsBump("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png");
 	type->setModelsBump("2h_axe.fbx", "2h_axe.png", "2h_axeS.png", "2h_axeN.png");
+	type->setModelsBump("shield_deco3.fbx", "shield_C.png", "shield_D.png", "shield_N.png");
+	type->setModelsBump("knife2.fbx", "kn5_COL.png", "kn5_SPEC.png", "kn5_NRM.png");
 
 	type->setTransformation(vec3(-1, 1, -10), vec3(-90, 0, 0), vec3(0.01, 0.01, 0.01));
-	type->setTransformation(vec3(-5, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));
-	type->setTransformation(vec3(-10, 1, -10), vec3(-90, 1, 1), vec3(0.01, .01, .01));
+	type->setTransformation(vec3(-5, 0, -10), vec3(0, -45, 0), vec3(1, 1, 1));
+	type->setTransformation(vec3(-10, 1, -10), vec3(-90, 0, 0), vec3(0.01, .01, .01));
+	type->setTransformation(vec3(-8, 1, -10), vec3(50, 0, 0), vec3(.02, .02, .02));
+	type->setTransformation(vec3(-1, 1, -10), vec3(-90, 0, 0), vec3(0.01, 0.01, 0.01));
 
 	type->loadModels(bump);
 
 	primitiveType* parralaxType = new primitiveType();
-	parralaxType->CreatePrim("pavement_color.png", "pavement_spec.png", "pavement_normal.png", cube, vec3(-10, 0, -10), vec3(0, 0, 0), vec3(40, 0, 20));
-	parralaxType->setPrimitiveTexture("pavement_color.png","pavement_spec.png","pavement_normal.png");
-	parralaxType->createPrimitive(cube, vec3(-10, 0, -10), vec3(0, 0, 0), vec3(40, 0, 20));
 	parralaxType->setModelsParrallax("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png", "armoredrecon_Height.png");
-	parralaxType->setTransformation(vec3(-15, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));
+	parralaxType->setTransformation(vec3(-15, 0, -10), vec3(0, -45, 0), vec3(1, 1, 1));
 	parralaxType->loadModels(parralax);
-	type->setDisplaylist(parralaxType->getDisplayList());
+
+	primitiveType* primimtiveShapes = new primitiveType();
+	//parralaxType->CreatePrim("pavement_color.png", "pavement_spec.png", "pavement_normal.png", cube, vec3(-10, 0, -10), vec3(0, 0, 0), vec3(40, 0, 20));
+	primimtiveShapes->setPrimitiveTexture("pavement_color.png", "pavement_spec.png", "pavement_normal.png");
+	primimtiveShapes->createPrimitive(cube, vec3(0, -1, -10), vec3(0, 0, 0), vec3(100, 0, 100));
+	//primimtiveShapes->createPrimitive(cube, vec3(-10, 0, -10), vec3(0, 0, 0), vec3(40, 0, 20));
+
+	displayList.insert(displayList.end(), primimtiveShapes->displayList.begin(), primimtiveShapes->displayList.end());
+	displayList.insert(displayList.end(), type->displayList.begin(), type->displayList.end());
+	displayList.insert(displayList.end(), parralaxType->displayList.begin(), parralaxType->displayList.end());
 }
 
 
@@ -347,7 +354,7 @@ void update()
 {
 	skyBoxObject->update();
 	//alternative sytanx
-	for (auto iter = type->displayList.begin(); iter != type->displayList.end(); iter++)
+	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
 	{
 		(*iter)->update();
 	}
@@ -478,7 +485,7 @@ void render()
 	renderSkyBox();
 
 	//alternative sytanx
-	for (auto iter = type->displayList.begin(); iter != type->displayList.end(); iter++)
+	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
 	{
 		renderGameObject((*iter));
 	}
