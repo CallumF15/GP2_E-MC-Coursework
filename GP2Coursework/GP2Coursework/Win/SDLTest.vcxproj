@@ -24,6 +24,7 @@
     <ClCompile Include="..\src\SkyBox.cpp" />
     <ClCompile Include="..\src\Texture.cpp" />
     <ClCompile Include="..\src\Transform.cpp" />
+    <ClCompile Include="PostProcessing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\headers\Camera.h" />
@@ -39,6 +40,7 @@
     <ClInclude Include="..\headers\Texture.h" />
     <ClInclude Include="..\headers\Transform.h" />
     <ClInclude Include="..\headers\Vertex.h" />
+    <ClInclude Include="PostProcessing.h" />
     <ClInclude Include="SceneGraph.h" />
   </ItemGroup>
   <ItemGroup>

@@ -57,9 +57,10 @@ const std::string MODEL_PATH = "models/";
 #include "Camera.h"
 #include "Light.h"
 #include "FBXLoader.h"
-
+#include "PostProcessing.h"
 #include "primitiveType.h"
 #include "SkyBox.h"
+
 
 Camera * c = new Camera();
 
@@ -85,7 +86,7 @@ GameObject * secondLight;
 GameObject * skyBoxObject = NULL;
 
 primitiveType* type;
-
+PostProcessing postProcessor;
 
 
 void CheckForErrors()
