@@ -257,12 +257,12 @@ void createSkyBox()
 	std::string fsPath = ASSET_PATH + SHADER_PATH + "/skyFS.glsl";
 	material->loadShader(vsPath, fsPath);
 
-	std::string posZTexturename = ASSET_PATH + TEXTURE_PATH + "aurora.png";
-	std::string negZTexturename = ASSET_PATH + TEXTURE_PATH + "aurora.png";
-	std::string posXTexturename = ASSET_PATH + TEXTURE_PATH + "aurora.png";
-	std::string negXTexturename = ASSET_PATH + TEXTURE_PATH + "aurora.png";
-	std::string posYTexturename = ASSET_PATH + TEXTURE_PATH + "aurora.png";
-	std::string negYTexturename = ASSET_PATH + TEXTURE_PATH + "aurora.png";
+	std::string posZTexturename = ASSET_PATH + TEXTURE_PATH + "aura.png";
+	std::string negZTexturename = ASSET_PATH + TEXTURE_PATH + "aura.png";
+	std::string posXTexturename = ASSET_PATH + TEXTURE_PATH + "aura.png";
+	std::string negXTexturename = ASSET_PATH + TEXTURE_PATH + "aura.png";
+	std::string posYTexturename = ASSET_PATH + TEXTURE_PATH + "aura.png";
+	std::string negYTexturename = ASSET_PATH + TEXTURE_PATH + "aura.png";
 
 	material->loadCubeTexture(posZTexturename, negZTexturename, posXTexturename, negXTexturename, posYTexturename, negYTexturename);
 	//create gameobject but don't add to queue!
