@@ -1,0 +1,24 @@
+﻿Build started 15/12/2014 23:55:41.
+     1>Project "C:\Users\Conor\Documents\GitHub\GP2_E-MC-Coursework\GP2BaseCode-Ex8-Starter\Win\SDLTest.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Specialised Applications\glfw\glfw-3.0.4\include" /I"C:\Users\Conor\Documents\GitHub\GP2_E-MC-Coursework\GP2BaseCode-Ex8-Starter\headers" /I"C:\Specialised Applications\include" /I"C:\Specialised Applications\SDL2_ttf-2.0.12\include" /I"C:\Specialised Applications\SDL2_image-2.0.0\include" /I"C:\Specialised Applications\glm" /I"C:\Specialised Applications\glew-1.11.0\include" /I"C:\Specialised Applications\SDL2\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\main.cpp
+         main.cpp
+     1>c:\users\conor\documents\github\gp2_e-mc-coursework\gp2basecode-ex8-starter\src\main.cpp(31): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+     1>c:\users\conor\documents\github\gp2_e-mc-coursework\gp2basecode-ex8-starter\headers\primitivetype.h(49): warning C4091: 'static ' : ignored on left of 'primitiveType' when no variable is declared
+     1>c:\users\conor\documents\github\gp2_e-mc-coursework\gp2basecode-ex8-starter\src\main.cpp(69): warning C4316: 'Camera' : object allocated on the heap may not be aligned 16
+     1>c:\users\conor\documents\github\gp2_e-mc-coursework\gp2basecode-ex8-starter\src\main.cpp(288): warning C4316: 'Transform' : object allocated on the heap may not be aligned 16
+     1>c:\users\conor\documents\github\gp2_e-mc-coursework\gp2basecode-ex8-starter\src\main.cpp(311): error C2664: 'void GameObject::setMaterial(Material *)' : cannot convert argument 1 from 'SkyBoxMaterial *' to 'Material *'
+                 Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+     1>c:\users\conor\documents\github\gp2_e-mc-coursework\gp2basecode-ex8-starter\src\main.cpp(327): warning C4316: 'Transform' : object allocated on the heap may not be aligned 16
+     1>c:\users\conor\documents\github\gp2_e-mc-coursework\gp2basecode-ex8-starter\src\main.cpp(328): warning C4316: 'Material' : object allocated on the heap may not be aligned 16
+     1>c:\users\conor\documents\github\gp2_e-mc-coursework\gp2basecode-ex8-starter\src\main.cpp(339): warning C4316: 'Transform' : object allocated on the heap may not be aligned 16
+     1>c:\users\conor\documents\github\gp2_e-mc-coursework\gp2basecode-ex8-starter\src\main.cpp(356): warning C4316: 'Transform' : object allocated on the heap may not be aligned 16
+     1>c:\users\conor\documents\github\gp2_e-mc-coursework\gp2basecode-ex8-starter\src\main.cpp(360): warning C4316: 'Light' : object allocated on the heap may not be aligned 16
+     1>c:\users\conor\documents\github\gp2_e-mc-coursework\gp2basecode-ex8-starter\src\main.cpp(372): warning C4316: 'Material' : object allocated on the heap may not be aligned 16
+     1>c:\users\conor\documents\github\gp2_e-mc-coursework\gp2basecode-ex8-starter\src\main.cpp(560): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\conor\documents\github\gp2_e-mc-coursework\gp2basecode-ex8-starter\src\main.cpp(574): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Done Building Project "C:\Users\Conor\Documents\GitHub\GP2_E-MC-Coursework\GP2BaseCode-Ex8-Starter\Win\SDLTest.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:01.98
