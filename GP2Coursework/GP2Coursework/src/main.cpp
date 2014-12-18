@@ -322,17 +322,22 @@ void Initialise()
 	type->setModelsBump("sword4.fbx", "sword2_C.png", "sword_S.png", "sword_N.png");
 	type->setModelsBump("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png");
 	type->setModelsBump("2h_axe.fbx", "2h_axe.png", "2h_axeS.png", "2h_axeN.png");
+	type->setModelsBump("constuct_tower.fbx", "a_1D.png", "a_1S.png", "a_1N.png");
+	type->setModelsBump("fachwerkhaus1_LOD.fbx", "LOD_f_1.png", "LOD_f_1.png", "LOD_f_1.png");
+	type->setModelsBump("constuct_shild_A.fbx", "", "", "");
 
 	type->setTransformation(vec3(-1, 1, -10), vec3(-90, 0, 0), vec3(0.01, 0.01, 0.01));
 	type->setTransformation(vec3(-5, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));
-	type->setTransformation(vec3(-10, 1, -10), vec3(-90, 1, 1), vec3(0.01, .01, .01));
-
+	type->setTransformation(vec3(-10, 1, -10), vec3(-90, 1, 1), vec3(0.01, 0.01, 0.01));
+	type->setTransformation(vec3(-20, 1, -10), vec3(-90, 1, 1), vec3(0.04, 0.04, 0.04));
+	type->setTransformation(vec3(3, 0, -10), vec3(-90, 1, 1), vec3(0.02, 0.02, 0.02));
+	type->setTransformation(vec3(8, 0, -10), vec3(-90, 1, 1), vec3(0.05, 0.05, 0.05));
 	type->loadModels(bump);
 
 	primitiveType* parralaxType = new primitiveType();
 	parralaxType->CreatePrim("pavement_color.png", "pavement_spec.png", "pavement_normal.png", cube, vec3(-10, 0, -10), vec3(0, 0, 0), vec3(40, 0, 20));
 	parralaxType->setPrimitiveTexture("pavement_color.png","pavement_spec.png","pavement_normal.png");
-	parralaxType->createPrimitive(cube, vec3(-10, 0, -10), vec3(0, 0, 0), vec3(40, 0, 20));
+	parralaxType->createPrimitive(cube, vec3(-10, 0, -10), vec3(0, 0, 0), vec3(60, 0, 20));
 	parralaxType->setModelsParrallax("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png", "armoredrecon_Height.png");
 	parralaxType->setTransformation(vec3(-15, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));
 	parralaxType->loadModels(parralax);

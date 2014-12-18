@@ -40,6 +40,7 @@
     <ClInclude Include="..\headers\Texture.h" />
     <ClInclude Include="..\headers\Transform.h" />
     <ClInclude Include="..\headers\Vertex.h" />
+    <ClInclude Include="ColourFilters.h" />
     <ClInclude Include="PostProcessing.h" />
     <ClInclude Include="SceneGraph.h" />
   </ItemGroup>

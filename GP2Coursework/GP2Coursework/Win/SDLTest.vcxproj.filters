@@ -107,6 +107,9 @@
     <ClInclude Include="PostProcessing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ColourFilters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\assets\shaders\simpleFS.glsl">
