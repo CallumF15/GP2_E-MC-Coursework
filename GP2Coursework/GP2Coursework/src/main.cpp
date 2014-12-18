@@ -314,7 +314,7 @@ void Initialise()
 
 	Light * light2 = new Light();
 	secondLight->setLight(light2);
-	secondLight->getLight()->setDirection(-90, 0, 0);
+	secondLight->getLight()->setDirection(40, 0, 0);
 	type->displayList.push_back(secondLight);
 
 
@@ -326,10 +326,10 @@ void Initialise()
 	//type->createPrimitive(cube, vec3(1, 1, 1), vec3(0, 0, 0), vec3(10, 10, 10));
 	//type->createPrimitive(cube, vec3(10, 1, 1), vec3(0, 0, 0), vec3(5, 5, 5));
 
-	type->setModelsBump("sword2.fbx", "sword2_C.png", "sword_S.png", "sword_N.png");
+	type->setModelsBump("sword2.fbx", "sword2_D.png", "sword_S.png", "sword_N.png");
 	type->setModelsBump("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png");
 	type->setModelsBump("2h_axe.fbx", "2h_axeD.png", "2h_axeS.png", "2h_axeN.png");
-	type->setModelsBump("sword2.fbx", "sword2_C.png", "sword_S.png", "sword_N.png");
+	type->setModelsBump("sword2.fbx", "sword2_D.png", "sword_S.png", "sword_N.png");
 	type->setModelsBump("fachwerkhaus2_2_anderer_style.fbx", "LOD_f_2.png", "LOD_f_2.png", "LOD_f_2.png");
 type->setModelsBump("2h_axe.fbx", "2h_axeD.png", "2h_axeS.png", "2h_axeN.png");
 
