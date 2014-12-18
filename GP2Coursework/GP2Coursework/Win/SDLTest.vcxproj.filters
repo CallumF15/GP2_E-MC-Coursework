@@ -184,5 +184,17 @@
     <None Include="..\assets\shaders\skyVS.glsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="..\assets\shaders\colourFilterPostFS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\shaders\boxFilterBlurFS .glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\shaders\simplePostProcessVS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\shaders\passThroughVS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

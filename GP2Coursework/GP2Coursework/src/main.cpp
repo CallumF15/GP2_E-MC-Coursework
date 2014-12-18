@@ -57,9 +57,12 @@ const std::string MODEL_PATH = "models/";
 #include "Camera.h"
 #include "Light.h"
 #include "FBXLoader.h"
-#include "PostProcessing.h"
+
 #include "primitiveType.h"
 #include "SkyBox.h"
+
+#include "PostProcessing.h"
+#include "ColourFilters.h"
 
 
 Camera * c = new Camera();
@@ -102,7 +105,7 @@ void InitWindow(int width, int height, bool fullscreen)
 {
 	//Create a window
 	window = SDL_CreateWindow(
-		"Lab 6",             // window title
+		"Coursework",             // window title
 		SDL_WINDOWPOS_CENTERED,     // x position, centered
 		SDL_WINDOWPOS_CENTERED,     // y position, centered
 		width,                        // width, in pixels
@@ -138,6 +141,7 @@ void CleanUp()
 	type->displayList.clear();
 
 	// clean up, reverse order!!!
+	postProcessor.destroy();
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
 	IMG_Quit();
@@ -277,6 +281,11 @@ void createSkyBox()
 
 void Initialise()
 {
+	std::string vsPath = ASSET_PATH + SHADER_PATH + "/passThroughVS.glsl";
+	std::string fsPath = ASSET_PATH + SHADER_PATH + "/colourFilterPostFS.glsl";
+
+	postProcessor.init(WINDOW_WIDTH, WINDOW_HEIGHT, vsPath, fsPath);
+	
 	createSkyBox();
 
 	type = new primitiveType();
@@ -342,6 +351,8 @@ void Initialise()
 	parralaxType->setTransformation(vec3(-15, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));
 	parralaxType->loadModels(parralax);
 	type->setDisplaylist(parralaxType->getDisplayList());
+
+
 }
 
 
@@ -471,6 +482,8 @@ void renderSkyBox()
 //Function to render(aka draw)
 void render()
 {
+	postProcessor.bind();
+
 	//old imediate mode!
 	//Set the clear colour(background)
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -485,7 +498,16 @@ void render()
 	{
 		renderGameObject((*iter));
 	}
+	
+	postProcessor.preDraw();
+	GLint colourFilterLocation = postProcessor.getUniformVariableLocation("colourFilter");
+	glUniformMatrix3fv(colourFilterLocation, 1, GL_FALSE, glm::value_ptr(SEPIA_FILTER));
+	//draw
+	postProcessor.draw();
 
+	//post draw
+	postProcessor.postDraw();
+	
 	SDL_GL_SwapWindow(window);
 }
 

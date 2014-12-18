@@ -47,15 +47,19 @@
   <ItemGroup>
     <None Include="..\assets\shaders\ambientFS.glsl" />
     <None Include="..\assets\shaders\ambientVS.glsl" />
+    <None Include="..\assets\shaders\boxFilterBlurFS .glsl" />
     <None Include="..\assets\shaders\BumpmappingFS.glsl" />
     <None Include="..\assets\shaders\BumpmappingVS.glsl" />
+    <None Include="..\assets\shaders\colourFilterPostFS.glsl" />
     <None Include="..\assets\shaders\diffuseFS.glsl" />
     <None Include="..\assets\shaders\diffuseVS.glsl" />
     <None Include="..\assets\shaders\DirectionalLightTextureFS.glsl" />
     <None Include="..\assets\shaders\DirectionalLightTextureVS.glsl" />
     <None Include="..\assets\shaders\ParallaxMappingFS.glsl" />
     <None Include="..\assets\shaders\ParallaxMappingVS.glsl" />
+    <None Include="..\assets\shaders\passThroughVS.glsl" />
     <None Include="..\assets\shaders\simpleFS.glsl" />
+    <None Include="..\assets\shaders\simplePostProcessVS.glsl" />
     <None Include="..\assets\shaders\simpleVS.glsl" />
     <None Include="..\assets\shaders\skyFS.glsl" />
     <None Include="..\assets\shaders\skyVS.glsl" />
