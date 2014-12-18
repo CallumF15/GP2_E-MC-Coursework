@@ -128,8 +128,8 @@ void primitiveType::createPrimitive(primitiveShape shape, vec3 position, vec3 ro
 	 //materialPrimitive->setDiffuseColour(.5f, .5f, .5f, .5f);
 	 //materialPrimitive->setSpecularColour(.5f, .5f, .5f, .5f);
 
-	 std::string vsPath = ASSET_PATH + SHADER_PATH + "/ambientVS.glsl";
-	 std::string fsPath = ASSET_PATH + SHADER_PATH + "/ambientFS.glsl";
+	 std::string vsPath = ASSET_PATH + SHADER_PATH + "/textureVS.glsl";
+	 std::string fsPath = ASSET_PATH + SHADER_PATH + "/textureFS.glsl";
 	 //std::string vsPath = ASSET_PATH + SHADER_PATH + "/directionalLightTextureVS.glsl";
 	// std::string fsPath = ASSET_PATH + SHADER_PATH + "/directionalLightTextureFS.glsl";
 	 materialPrimitive->loadShader(vsPath, fsPath);

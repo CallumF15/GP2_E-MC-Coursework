@@ -328,30 +328,37 @@ void Initialise()
 
 	type->setModelsBump("sword2.fbx", "sword2_C.png", "sword_S.png", "sword_N.png");
 	type->setModelsBump("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png");
-	type->setModelsBump("2h_axe.fbx", "2h_axe.png", "2h_axeS.png", "2h_axeN.png");
+	type->setModelsBump("2h_axe.fbx", "2h_axeD.png", "2h_axeS.png", "2h_axeN.png");
 	type->setModelsBump("sword2.fbx", "sword2_C.png", "sword_S.png", "sword_N.png");
-	type->setModelsBump("fachwerkhaus2_2_LOD.fbx", "houseT.png", "houseT.png", "houseT.png");
-
+	type->setModelsBump("fachwerkhaus2_2_anderer_style.fbx", "LOD_f_2.png", "LOD_f_2.png", "LOD_f_2.png");
+type->setModelsBump("2h_axe.fbx", "2h_axeD.png", "2h_axeS.png", "2h_axeN.png");
 
 	
-	
+	//type->setModelsBump("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png");
 	type->setTransformation(vec3(-1, 1, -10), vec3(-90, 45, 0), vec3(0.001, 0.001, 0.001));//sword
-
+	
 	type->setTransformation(vec3(-5, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));//car
 	type->setTransformation(vec3(-10, 1, -10), vec3(-90, 1, 1), vec3(0.01, .01, .01));//ax
 	type->setTransformation(vec3(-3, 8, -10), vec3(-90, 45, 0), vec3(0.001, 0.001, 0.001));//sword2
-	type->setTransformation(vec3(-18,1, -9), vec3(-80.2,-160.2, -1), vec3(0.01, 0.01, 0.01));//house
-
+	type->setTransformation(vec3(-18,1, -9), vec3(-89.35,0, 0), vec3(0.01, 0.01, 0.01));//house
+	type->setTransformation(vec3(-15, 1, -10), vec3(-90, 1, 1), vec3(0.01, 0.01, 0.01));//ax
+	
 	type->loadModels(bump);
 	
 	primitiveType* parralaxType = new primitiveType();
 	parralaxType->CreatePrim("pavement_color.png", "pavement_spec.png", "pavement_normal.png", cube, vec3(-10, 0, -10), vec3(0, 0, 0), vec3(40, 0, 20));
 	parralaxType->setPrimitiveTexture("pavement_color.png","pavement_spec.png","pavement_normal.png");
 	parralaxType->createPrimitive(cube, vec3(-10, 0, -10), vec3(0, 0, 0), vec3(40, 0, 20));
-	parralaxType->setModelsParrallax("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png", "armoredrecon_Height.png");
+	
 	parralaxType->setTransformation(vec3(-15, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));
 	parralaxType->loadModels(parralax);
 	type->setDisplaylist(parralaxType->getDisplayList());
+
+	//primitiveType* primitive = new primitiveType();
+
+	//primitive->CreatePrim("pavement_color.png", "pavement_spec.png", "pavement_normal.png", cube, vec3(-10, 0, -10), vec3(0, 0, 0), vec3(40, 0, 20));
+	//primitive->setPrimitiveTexture("pavement_color.png", "pavement_spec.png", "pavement_normal.png");
+	//parralaxType->createPrimitive(cube, vec3(-10, 0, -10), vec3(0, 0, 0), vec3(40, 0, 20));
 	
 }
 
