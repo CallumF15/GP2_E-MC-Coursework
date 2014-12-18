@@ -330,17 +330,17 @@ void Initialise()
 	type->setModelsBump("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png");
 	type->setModelsBump("2h_axe.fbx", "2h_axe.png", "2h_axeS.png", "2h_axeN.png");
 	type->setModelsBump("sword2.fbx", "sword2_C.png", "sword_S.png", "sword_N.png");
-	type->setModelsBump("fachwerkhaus2_2_LOD.fbx", "sword2_C.png", "sword_S.png", "sword_N.png");
+	type->setModelsBump("fachwerkhaus2_2_LOD.fbx", "houseT.png", "houseT.png", "houseT.png");
 
 
 	
 	
-	type->setTransformation(vec3(-1, 1, -10), vec3(-90, 45, 0), vec3(0.001, 0.001, 0.001));
+	type->setTransformation(vec3(-1, 1, -10), vec3(-90, 45, 0), vec3(0.001, 0.001, 0.001));//sword
 
-	type->setTransformation(vec3(-5, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));
-	type->setTransformation(vec3(-10, 1, -10), vec3(-90, 1, 1), vec3(0.01, .01, .01));
-	type->setTransformation(vec3(-3, 8, -10), vec3(-90, 45, 0), vec3(0.001, 0.001, 0.001));
-	type->setTransformation(vec3(-8,0, -10), vec3(-90, 0, 0), vec3(0.01, 0.01, 0.01));
+	type->setTransformation(vec3(-5, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));//car
+	type->setTransformation(vec3(-10, 1, -10), vec3(-90, 1, 1), vec3(0.01, .01, .01));//ax
+	type->setTransformation(vec3(-3, 8, -10), vec3(-90, 45, 0), vec3(0.001, 0.001, 0.001));//sword2
+	type->setTransformation(vec3(-18,1, -9), vec3(-80.2,-160.2, -1), vec3(0.01, 0.01, 0.01));//house
 
 	type->loadModels(bump);
 	

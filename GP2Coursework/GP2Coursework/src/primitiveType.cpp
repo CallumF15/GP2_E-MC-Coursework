@@ -121,8 +121,9 @@ void primitiveType::createPrimitive(primitiveShape shape, vec3 position, vec3 ro
 	 //material->setSpecularColour(10.0f, 10.0f, 10.0f, 10.0f);
 
 	 materialPrimitive->setAmbientColour(1.0f, 1.0f, 1.0f, 1.0f);
-	 materialPrimitive->setDiffuseColour(1.0f, 1.0f, 1.0f, 1.0f);
+	 materialPrimitive->setDiffuseColour(10.0f, 10.0f, 10.0f, 10.0f);
 	 materialPrimitive->setSpecularColour(1.0f, 1.0f, 1.0f, 1.0f);
+
 	 //materialPrimitive->setAmbientColour(.5f, .5f, .5f, .5f);
 	 //materialPrimitive->setDiffuseColour(.5f, .5f, .5f, .5f);
 	 //materialPrimitive->setSpecularColour(.5f, .5f, .5f, .5f);
@@ -203,13 +204,13 @@ void primitiveType::CreatePrim(std::string diffTexturePath, std::string specText
 		transform->setScale(scaling.x, scaling.y, scaling.z);
 		objectShape->setTransform(transform);
 
-		//material->setDiffuseColour(10.0f, 10.0f, 10.0f, 10.0f);
-		//material->setAmbientColour(10.0f, 10.0f, 10.0f, 10.0f);
-		//material->setSpecularColour(10.0f, 10.0f, 10.0f, 10.0f);
+		material->setDiffuseColour(0.0f, 0.0f, 0.0f, 1.0f);
+		material->setAmbientColour(0.0f, 0.0f, 0.0f, 1.0f);
+		material->setSpecularColour(0.0f, 0.0f, 0.0f, 1.0f);
 
-		material->setAmbientColour(1.0f, 1.0f, 1.0f, 1.0f);
-		material->setDiffuseColour(1.0f, 1.0f, 1.0f, 1.0f);
-		material->setSpecularColour(1.0f, 1.0f, 1.0f, 1.0f);
+		//material->setAmbientColour(1.0f, 1.0f, 1.0f, 1.0f);
+		//material->setDiffuseColour(1.0f, 1.0f, 1.0f, 1.0f);
+		//material->setSpecularColour(1.0f, 1.0f, 1.0f, 1.0f);
 
 		std::string vsPath = ASSET_PATH + SHADER_PATH + "/textureVS.glsl";
 		std::string fsPath = ASSET_PATH + SHADER_PATH + "/textureFS.glsl";
