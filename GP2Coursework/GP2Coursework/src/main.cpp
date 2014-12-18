@@ -73,9 +73,9 @@ SDL_Window * window = NULL;
 SDL_GLContext glcontext = NULL;
 
 //Window Width
-const int WINDOW_WIDTH = 1600;
+const int WINDOW_WIDTH = 1200;
 //Window Height
-const int WINDOW_HEIGHT = 900;
+const int WINDOW_HEIGHT = 800;
 
 bool running = true;
 
