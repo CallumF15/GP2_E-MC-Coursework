@@ -18,6 +18,7 @@ class Mesh;
 class BaseMaterial;
 class Camera;
 class Light;
+class SplashScreen;
 
 class GameObject
 {
@@ -42,6 +43,7 @@ public:
 	void setMaterial(BaseMaterial * material);
     void setCamera(Camera * camera);
 	void setLight(Light * light);
+	void setScreen(SplashScreen * screen); 
 
 	void addChild(GameObject * obj);
 	void setParent(GameObject *parent);
@@ -53,6 +55,7 @@ public:
 	BaseMaterial *getMaterial();
     Camera * getCamera();
 	Light* getLight();
+	SplashScreen* getScreen();
 
 	int getChildCount();
 	GameObject * getChild(int index);
@@ -70,6 +73,7 @@ private:
 	BaseMaterial *m_Material;
     Camera *m_Camera;
 	Light *m_Light;
+	SplashScreen* m_Screen;
 
 	GameObject *m_Parent;
 };

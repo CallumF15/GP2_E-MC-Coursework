@@ -11,17 +11,17 @@ const std::string MODEL_PATH = "models/";
 
 Vertex triangleData[] =
 {
-		{ vec3(-0.5f, 0.5f, 0.5f), vec3(0.25f, 0.25f, 0.5f), vec2(0.0f, 0.0f) },// Top Left
-		{ vec3(-0.5f, -0.5f, 0.5f), vec3(0.25f, 0.25f, 0.5f), vec2(0.0f, 1.0f) },// Bottom Left
-		{ vec3(0.5f, -0.5f, 0.5f), vec3(0.25f, -0.25f, 0.5f), vec2(1.0f, 1.0f) }, //Bottom Right
-		{ vec3(0.5f, 0.5f, 0.5f), vec3(0.25f, -0.25f, 0.5f), vec2(1.0f, 0.0f) },// Top Right
+	{ vec3(-0.5f, 0.5f, 0.5f), vec3(0.25f, 0.25f, 0.5f), vec2(0.0f, 0.0f) },// Top Left
+	{ vec3(-0.5f, -0.5f, 0.5f), vec3(0.25f, 0.25f, 0.5f), vec2(0.0f, 1.0f) },// Bottom Left
+	{ vec3(0.5f, -0.5f, 0.5f), vec3(0.25f, -0.25f, 0.5f), vec2(1.0f, 1.0f) }, //Bottom Right
+	{ vec3(0.5f, 0.5f, 0.5f), vec3(0.25f, -0.25f, 0.5f), vec2(1.0f, 0.0f) },// Top Right
 
 
-		//back
-		{ vec3(-0.5f, 0.5f, -0.5f), vec3(0.25f, 0.25f, -0.5f), vec2(0.0f, 0.0f) },// Top Left
-		{ vec3(-0.5f, -0.5f, -0.5f), vec3(0.25f, 0.25f, -0.5f), vec2(0.0f, 1.0f) },// Bottom Left
-		{ vec3(0.5f, -0.5f, -0.5f), vec3(0.25f, -0.25f, -0.5f), vec2(1.0f, 1.0f) }, //Bottom Right
-		{ vec3(0.5f, 0.5f, -0.5f), vec3(0.25f, -0.25f, -0.5f), vec2(1.0f, 0.0f), }// Top Right
+	//back
+	{ vec3(-0.5f, 0.5f, -0.5f), vec3(0.25f, 0.25f, -0.5f), vec2(0.0f, 0.0f) },// Top Left
+	{ vec3(-0.5f, -0.5f, -0.5f), vec3(0.25f, 0.25f, -0.5f), vec2(0.0f, 1.0f) },// Bottom Left
+	{ vec3(0.5f, -0.5f, -0.5f), vec3(0.25f, -0.25f, -0.5f), vec2(1.0f, 1.0f) }, //Bottom Right
+	{ vec3(0.5f, 0.5f, -0.5f), vec3(0.25f, -0.25f, -0.5f), vec2(1.0f, 0.0f), }// Top Right
 };
 
 //GLuint triangleIndices[];
@@ -70,76 +70,37 @@ primitiveType::~primitiveType(){
 
 
 
-//GLuint primitiveType::getIndices(){
-//	return m_indices;
-//}
-
-//void primitiveType::setIndices(GLuint indices[]){
-//	//int arrayCount = sizeof(indices);
-//	for (int i = 0; i < 37; i++)
-//		m_indices[i] = { indices[i] };
-//}
-
-
-//I think its moaning at this
-//void primitiveType::CheckShape(primitiveShape shape)
-//{
-//	if (shape == cube){
-//		m_indices == cubeIndices;
-//	}
-//	//else if (shape == triangle)
-//	//setIndices(triangleIndices);
-//}
-
 //Allow's you to create a shape at a given position
-void primitiveType::createPrimitive(primitiveShape shape, vec3 position, vec3 rotation, vec3 scaling)
- {
-	// CheckShape(shape);
-	 new primitiveType();
+void primitiveType::createPrimitive(shaderType type, vec3 position, vec3 rotation, vec3 scaling)
+{
+	GameObject* objectShape = new GameObject();
+	Transform* transform = new Transform();
+	Mesh *mesh = new Mesh();
 
-	  GameObject* objectShape = new GameObject();
-	  Transform* transform = new Transform();
-	 // Mesh* mesh;
-	  mesh = new Mesh();
-	  //Material* material = new Material();
-	  
+	determineShader(type);
 
-	  materialPrimitive = new Material();
+	objectShape->setName("cube");
+	transform->setPosition(position.x, position.y, position.z);
+	transform->setRotation(rotation.x, rotation.y, rotation.z);
+	transform->setScale(scaling.x, scaling.y, scaling.z);
+	objectShape->setTransform(transform);
 
+	std::string vsPath = ASSET_PATH + SHADER_PATH + "shadowVS.glsl";
+	std::string fsPath = ASSET_PATH + SHADER_PATH + "shadowFS.glsl";
+	materialPrimitive->loadShader(vsPath, fsPath);
 
-	  materialPrimitive->init();
+	objectShape->setMaterial(materialPrimitive);
+	objectShape->setMesh(mesh);
+	displayList.push_back(objectShape);
 
-	 objectShape->setName("cube");
-	 transform->setPosition(position.x, position.y, position.z);
-	 transform->setRotation(rotation.x, rotation.y, rotation.z);
-	 transform->setScale(scaling.x, scaling.y, scaling.z);
-	 objectShape->setTransform(transform);
+	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
+	{
+		(*iter)->init();
+	}
 
-	 //materialPrimitive->setAmbientColour(0.0f, 0.0f, 0.0f, 1.0f);
-	 //materialPrimitive->setDiffuseColour(0.0f, 0.0f, 0.0f, 1.0f);
-	 //materialPrimitive->setSpecularColour(0.0f, 0.0f, 0.0f, 1.0f);
-
-	 materialPrimitive->setAmbientColour(1.0f, 1.0f, 1.0f, 1.0f);
-	 materialPrimitive->setDiffuseColour(1.0f, 1.0f, 1.0f, 1.0f);
-	 materialPrimitive->setSpecularColour(1.0f, 1.0f, 1.0f, 1.0f);
-
-	 std::string vsPath = ASSET_PATH + SHADER_PATH + "/ambientVS.glsl";
-	 std::string fsPath = ASSET_PATH + SHADER_PATH + "/ambientFS.glsl";
-	 //std::string vsPath = ASSET_PATH + SHADER_PATH + "/directionalLightTextureVS.glsl";
-	// std::string fsPath = ASSET_PATH + SHADER_PATH + "/directionalLightTextureFS.glsl";
-	 materialPrimitive->loadShader(vsPath, fsPath);
-	 objectShape->setMaterial(materialPrimitive);
-	 objectShape->setMesh(mesh);
-	 displayList.push_back(objectShape);
-
-	 for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
-	 {
-		 (*iter)->init();
-	 }
-
-	 mesh->copyVertexData(8, sizeof(Vertex), (void**)triangleData);
-	 mesh->copyIndexData(36, sizeof(int), (void**)cubeIndices);
- }
+	mesh->copyVertexData(8, sizeof(Vertex), (void**)triangleData);
+	mesh->copyIndexData(36, sizeof(int), (void**)cubeIndices);
+}
 
 void primitiveType::setPrimitiveTexture(std::string diffTexturePath, std::string specTexturePath, std::string bumpTexturePath){
 
@@ -147,9 +108,9 @@ void primitiveType::setPrimitiveTexture(std::string diffTexturePath, std::string
 	specularArray.push_back(specTexturePath);
 	bumpArray.push_back(bumpTexturePath);
 
-	materialPrimitive = new Material();
-
 	for (int i = 0; i < diffuseArray.size(); i++) {
+
+		materialPrimitive = new Material();
 
 		std::string diffTexturePath = ASSET_PATH + TEXTURE_PATH + diffuseArray[i];
 		std::string specTexturePath = ASSET_PATH + TEXTURE_PATH + specularArray[i];
@@ -160,74 +121,6 @@ void primitiveType::setPrimitiveTexture(std::string diffTexturePath, std::string
 		materialPrimitive->loadBumpMap(bumpTexturePath);
 	}
 }
-
-void primitiveType::CreatePrim(std::string diffTexturePath, std::string specTexturePath, std::string bumpTexturePath,
-	primitiveShape shape, vec3 position, vec3 rotation, vec3 scaling){
-
-
-	GameObject* objectShape = new GameObject();
-	Transform* transform = new Transform();
-	// Mesh* mesh;
-	mesh = new Mesh();
-	
-
-	diffuseArray.push_back(diffTexturePath);
-	specularArray.push_back(specTexturePath);
-	bumpArray.push_back(bumpTexturePath);
-
-	for (int i = 0; i < diffuseArray.size(); i++){
-
-		std::string diffTexturePath = ASSET_PATH + TEXTURE_PATH + diffuseArray[i];
-		//std::string specTexturePath = ASSET_PATH + TEXTURE_PATH + specularArray[i];
-		//std::string bumpTexturePath = ASSET_PATH + TEXTURE_PATH + bumpArray[i];
-
-
-
-		Material* material = new Material();
-
-		material->loadDiffuseMap(diffTexturePath);
-		
-		//material->loadSpecularMap(specTexturePath);
-		//material->loadBumpMap(bumpTexturePath);
-
-		//material->init();
-
-		objectShape->setName("cube");
-		transform->setPosition(position.x, position.y, position.z);
-		transform->setRotation(rotation.x, rotation.y, rotation.z);
-		transform->setScale(scaling.x, scaling.y, scaling.z);
-		objectShape->setTransform(transform);
-
-		//material->setDiffuseColour(10.0f, 10.0f, 10.0f, 10.0f);
-		//material->setAmbientColour(10.0f, 10.0f, 10.0f, 10.0f);
-		//material->setSpecularColour(10.0f, 10.0f, 10.0f, 10.0f);
-
-		material->setAmbientColour(1.0f, 1.0f, 1.0f, 1.0f);
-		material->setDiffuseColour(1.0f, 1.0f, 1.0f, 1.0f);
-		material->setSpecularColour(1.0f, 1.0f, 1.0f, 1.0f);
-
-		std::string vsPath = ASSET_PATH + SHADER_PATH + "/textureVS.glsl";
-		std::string fsPath = ASSET_PATH + SHADER_PATH + "/textureFS.glsl";
-		//std::string vsPath = ASSET_PATH + SHADER_PATH + "/directionalLightTextureVS.glsl";
-		// std::string fsPath = ASSET_PATH + SHADER_PATH + "/directionalLightTextureFS.glsl";
-		material->loadShader(vsPath, fsPath);
-
-		objectShape->setMaterial(material);
-		objectShape->setMesh(mesh);
-		displayList.push_back(objectShape);
-
-		for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
-		{
-			(*iter)->init();
-		}
-
-		mesh->copyVertexData(8, sizeof(Vertex), (void**)triangleData);
-		mesh->copyIndexData(36, sizeof(int), (void**)cubeIndices);
-
-	}
-}
-
-	
 
 //Sets the directories for bump mapping
 void primitiveType::setModelsBump(std::string modelFilename, std::string diffTexturePath,
@@ -270,7 +163,7 @@ void primitiveType::loadModels(shaderType type){
 
 		determineShader(type);
 
-		if(type == parralax)
+		if (type == parralax)
 			heightTexturePath = ASSET_PATH + TEXTURE_PATH + heightArray[i];
 
 		GameObject * go = loadFBXFromFile(modelPath);
@@ -290,7 +183,6 @@ void primitiveType::loadModels(shaderType type){
 
 			if (type == parralax)
 				material->loadHeightMap(heightTexturePath);
-
 
 			go->getChild(b)->setMaterial(material);
 		}
@@ -314,7 +206,18 @@ void primitiveType::determineShader(shaderType type){
 	case bump:
 		shaderFilenameVS = "/BumpmappingVS.glsl";
 		shaderFilenameFS = "/BumpmappingFS.glsl";
-
+		break;
+	case directionalLight:
+		shaderFilenameVS = "/DirectionalLightTextureVS.glsl";
+		shaderFilenameFS = "/DirectionalLightTextureFS.glsl";
+		break;
+	case texturing:
+		shaderFilenameVS = "/textureVS.glsl";
+		shaderFilenameFS = "/textureFS.glsl";
+		break;
+	case point:
+		shaderFilenameVS = "/shadowVS.glsl";
+		shaderFilenameFS = "/shadowFS.glsl";
 		break;
 	default:
 

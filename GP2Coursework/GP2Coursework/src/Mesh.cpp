@@ -58,16 +58,16 @@ void Mesh::copyVertexData(int count,int stride,void ** data)
 {
 	m_VertexCount = count;
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	glBufferData(GL_ARRAY_BUFFER, count * stride, data, GL_STATIC_DRAW);
-	//glBufferData(GL_ARRAY_BUFFER, count * stride, data, GL_DYNAMIC_DRAW);
+	//glBufferData(GL_ARRAY_BUFFER, count * stride, data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, count * stride, data, GL_DYNAMIC_DRAW);
 }
 
 void Mesh::copyIndexData(int count,int stride,void ** data)
 {
 	m_IndexCount = count;
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * stride, data, GL_STATIC_DRAW);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * stride, data, GL_DYNAMIC_DRAW);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * stride, data, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * stride, data, GL_DYNAMIC_DRAW);
 }
 
 int Mesh::getVertexCount()

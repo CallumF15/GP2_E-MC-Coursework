@@ -15,14 +15,18 @@
     <ClCompile Include="..\src\Component.cpp" />
     <ClCompile Include="..\src\FBXLoader.cpp" />
     <ClCompile Include="..\src\GameObject.cpp" />
+    <ClCompile Include="..\src\gameScreen.cpp" />
     <ClCompile Include="..\src\Light.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\Material.cpp" />
     <ClCompile Include="..\src\Mesh.cpp" />
     <ClCompile Include="..\src\primitiveType.cpp" />
+    <ClCompile Include="..\src\ScreenManager.cpp" />
     <ClCompile Include="..\src\Shader.cpp" />
     <ClCompile Include="..\src\SkyBox.cpp" />
+    <ClCompile Include="..\src\SplashScreen.cpp" />
     <ClCompile Include="..\src\Texture.cpp" />
+    <ClCompile Include="..\src\TitleScreen.cpp" />
     <ClCompile Include="..\src\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -30,13 +34,17 @@
     <ClInclude Include="..\headers\Component.h" />
     <ClInclude Include="..\headers\FBXLoader.h" />
     <ClInclude Include="..\headers\GameObject.h" />
+    <ClInclude Include="..\headers\gameScreen.h" />
     <ClInclude Include="..\headers\Light.h" />
     <ClInclude Include="..\headers\Material.h" />
     <ClInclude Include="..\headers\Mesh.h" />
     <ClInclude Include="..\headers\primitiveType.h" />
+    <ClInclude Include="..\headers\ScreenManager.h" />
     <ClInclude Include="..\headers\Shader.h" />
     <ClInclude Include="..\headers\SkyBox.h" />
+    <ClInclude Include="..\headers\SplashScreen.h" />
     <ClInclude Include="..\headers\Texture.h" />
+    <ClInclude Include="..\headers\TitleScreen.h" />
     <ClInclude Include="..\headers\Transform.h" />
     <ClInclude Include="..\headers\Vertex.h" />
     <ClInclude Include="SceneGraph.h" />
@@ -52,6 +60,8 @@
     <None Include="..\assets\shaders\DirectionalLightTextureVS.glsl" />
     <None Include="..\assets\shaders\ParallaxMappingFS.glsl" />
     <None Include="..\assets\shaders\ParallaxMappingVS.glsl" />
+    <None Include="..\assets\shaders\shadowFS.glsl" />
+    <None Include="..\assets\shaders\shadowVS.glsl" />
     <None Include="..\assets\shaders\simpleFS.glsl" />
     <None Include="..\assets\shaders\simpleVS.glsl" />
     <None Include="..\assets\shaders\skyFS.glsl" />

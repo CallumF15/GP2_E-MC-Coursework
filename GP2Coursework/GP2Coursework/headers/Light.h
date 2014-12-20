@@ -19,11 +19,15 @@ public:
 	vec4& getSpecularColour();
 	void setSpecularColour(float r, float g, float b, float a);
 
+	vec4& getAmbientColour();
+	void setAmbientColour(float r, float g, float b, float a);
+
 	vec3& getDirection();
 	void setDirection(float x, float y, float z);
 private:
 	vec4 m_DiffuseColour;
 	vec4 m_SpecularColour;
+	vec4 m_AmbientColour;
 
 	vec3 m_LightDirection;
 protected:

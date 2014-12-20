@@ -5,16 +5,18 @@
 
 #include "Camera.h"
 #include "Transform.h"
+#include "GameObject.h"
 
 Camera::Camera()
 {
-	m_position = vec3(0, 1, 10);
+	
 	m_Type = "Camera";
 
+	m_position = vec3(0, 1, 10);
 	m_direction = vec3(0.0, 0.0, -1.0f);
+
 	m_LookAt = vec3(0.0f, 0.0f, 0.0f);
 	m_Up = vec3(0.0f, 1.0f, 0.0f);
-
 	m_NearClip = 0.1f;
 	m_FarClip = 100.0f;
 	m_FOV = 45.0f;
@@ -32,7 +34,7 @@ Camera::~Camera()
 void Camera::update()
 {
 	//need to sort out why this "getTransform()" doesn't get the proper position value
-	//m_position = m_Parent->getTransform()->getPosition();
+	m_Parent->getTransform()->setPosition(m_position.x, m_position.y, m_position.z);
 	m_Projection = glm::perspective(m_FOV, m_AspectRatio, m_NearClip, m_FarClip);
 	m_View = glm::lookAt(m_position, m_position + m_direction, m_Up);
 }
@@ -41,14 +43,14 @@ void Camera::mouseUpdate(const glm::vec2& newMousePos)
 {
 	glm::vec2 mouseDelta = newMousePos - oldMousePos;
 
-	if (glm::length(mouseDelta) > 50.0f){
+	if (glm::length(mouseDelta) > 30.0f){
 		oldMousePos = newMousePos;
 		return;
 	}
 
 
 	const float ROTATIONAL_SPEED = 0.3f;
-
+	
 	strafedirection = glm::cross(m_direction, m_Up);
 	glm::mat4 rotator = glm::rotate(mat4(1.0f), -mouseDelta.x * ROTATIONAL_SPEED, m_Up) *
 		glm::rotate(mat4(1.0f), -mouseDelta.y * ROTATIONAL_SPEED, strafedirection);

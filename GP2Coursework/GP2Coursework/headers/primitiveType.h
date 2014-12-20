@@ -21,15 +21,12 @@ using glm::vec3;
 
 #include "Material.h"
 
-enum primitiveShape 
-{ 
-	cube, 
-	triangle
-};
-
 enum shaderType{
 	bump,
-	parralax
+	parralax,
+	directionalLight,
+	texturing,
+	point
 };
 
 class primitiveType{
@@ -38,11 +35,9 @@ public:
 	primitiveType();
 	~primitiveType();
 
-	void createPrimitive(primitiveShape shape, vec3 position, vec3 rotation, vec3 scaling);
+	void createPrimitive(shaderType type, vec3 position, vec3 rotation, vec3 scaling);
 	void setPrimitiveTexture(std::string diffTexturePath, std::string specTexturePath, std::string bumpTexturePath);
 
-	void CreatePrim(std::string diffTexturePath, std::string specTexturePath, std::string bumpTexturePath,
-		primitiveShape shape, vec3 position, vec3 rotation, vec3 scaling);
 
 	void setModelsBump(std::string modelPath, std::string diffusePath, 
 		std::string specularPath, std::string bumpMapPath);
@@ -59,14 +54,8 @@ public:
 	std::vector<GameObject*> getDisplayList();
 	void setDisplaylist(std::vector<GameObject*> List);
 
-	//May delete this
-	GLuint getIndices();
-	void setIndices(GLuint indices[]);
-
 private:
-	 void CheckShape(primitiveShape shape);
-
-	 primitiveShape shape;
+	 Material *materialPrimitive;
 	 std::vector<std::string> fileArray;
 	 std::vector<std::string> diffuseArray;
 	 std::vector<std::string> specularArray;
@@ -82,9 +71,6 @@ private:
 	
 	 std::string shaderFilenameVS, shaderFilenameFS;
 	 std::string heightTexturePath;
-
-	 Mesh* mesh;
-	 Material* materialPrimitive;
 
 	 GLuint texture;
 };
