@@ -234,17 +234,19 @@ void createMirror(){
 			};
 
 //loads the mesh with the cube points and indices//
-	Mesh * pMesh = new Mesh();
-	pMesh->init();
-	pMesh->copyVertexData(8, sizeof(Vertex), (void**)cubepoints);
-	pMesh->copyIndexData(36, sizeof(int), (void**)indices);
+	Mesh * lMesh = new Mesh();
+	lMesh->init();
+	lMesh->copyVertexData(8, sizeof(Vertex), (void**)cubepoints);
+	lMesh->copyIndexData(36, sizeof(int), (void**)indices);
 
 //moves the mesh in the game world//
 	Transform *t = new Transform();
 	t->setPosition(0.0f, 0.0f, 0.0f);
+	t->setRotation(23.0f,14.0f,0.0f);
+
 	//loads textures and skybox material + Shaders//
 	SkyBox *material = new SkyBox();
-	material->init();
+	//material->init();
 
 	std::string vsPath = ASSET_PATH + SHADER_PATH + "/reflectVS.glsl";
 	std::string fsPath = ASSET_PATH + SHADER_PATH + "/reflectFS.glsl";
@@ -257,7 +259,7 @@ void createMirror(){
 
 
 	Mirror->setTransform(t);
-	Mirror->setMesh(pMesh);
+	Mirror->setMesh(lMesh);
 
 	CheckForErrors();
 
