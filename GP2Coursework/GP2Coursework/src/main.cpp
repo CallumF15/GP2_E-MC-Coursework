@@ -248,9 +248,9 @@ void createMirror(){
 	SkyBox *material = new SkyBox();
 	//material->init();
 
-	std::string vsPath = ASSET_PATH + SHADER_PATH + "/reflectVS.glsl";
-	std::string fsPath = ASSET_PATH + SHADER_PATH + "/reflectFS.glsl";
-	material->loadShader(vsPath, fsPath);
+	std::string vertexpath = ASSET_PATH + SHADER_PATH + "/reflectVS.glsl";
+	std::string fragmentpath = ASSET_PATH + SHADER_PATH + "/reflectFS.glsl";
+	material->loadShader(vertexpath, fragmentpath );
 
 	Mirror = new GameObject();
 
