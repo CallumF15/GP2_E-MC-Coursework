@@ -83,7 +83,7 @@ GameObject * mainCamera;
 GameObject * mainLight;
 GameObject * secondLight;
 GameObject * skyBoxObject = NULL;
-GameObject * Mirror;
+GameObject * Mirror = NULL;
 
 primitiveType* type;
 GameObject * house;
