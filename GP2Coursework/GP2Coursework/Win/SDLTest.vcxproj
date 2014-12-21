@@ -52,6 +52,8 @@
     <None Include="..\assets\shaders\DirectionalLightTextureVS.glsl" />
     <None Include="..\assets\shaders\ParallaxMappingFS.glsl" />
     <None Include="..\assets\shaders\ParallaxMappingVS.glsl" />
+    <None Include="..\assets\shaders\reflectFS.glsl" />
+    <None Include="..\assets\shaders\reflectVS.glsl" />
     <None Include="..\assets\shaders\simpleFS.glsl" />
     <None Include="..\assets\shaders\simpleVS.glsl" />
     <None Include="..\assets\shaders\skyFS.glsl" />
