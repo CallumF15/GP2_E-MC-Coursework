@@ -83,6 +83,7 @@ GameObject * mainCamera;
 GameObject * mainLight;
 GameObject * secondLight;
 GameObject * skyBoxObject = NULL;
+GameObject * Mirror;
 
 primitiveType* type;
 GameObject * house;
@@ -197,7 +198,70 @@ void setViewport(int width, int height)
 	//Setup viewport
 	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 }
+void createMirror(){
+	Vertex cubepoints[] = {
+			{ vec3(-10.0f, 10.0f, 10.0f) },// Top Left
+			{ vec3(-10.0f, -10.0f, 10.0f) },// Bottom Left
+			{ vec3(10.0f, -10.0f, 10.0f) }, //Bottom Right
+			{ vec3(10.0f, 10.0f, 10.0f) },// Top Right
 
+			{ vec3(-10.0f, 10.0f, -10.0f) },// Top Left
+			{ vec3(-10.0f, -10.0f, -10.0f) },// Bottom Left
+			{ vec3(10.0f, -10.0f, -10.0f) }, //Bottom Right
+			{ vec3(10.0f, 10.0f, -10.0f) }// Top Right
+	};
+
+	GLuint indices[] = {
+				// front
+				0, 1, 2,
+				2, 3, 0,
+				// top
+				3, 2, 6,
+				6, 7, 3,
+				// back
+				7, 6, 5,
+				5, 4, 7,
+				// bottom
+				4, 5, 1,
+				1, 0, 4,
+				// left
+				4, 0, 3,
+				3, 7, 4,
+				// right
+				1, 5, 6,
+				6, 2, 1,
+
+			};
+
+//loads the mesh with the cube points and indices//
+	Mesh * pMesh = new Mesh();
+	pMesh->init();
+	pMesh->copyVertexData(8, sizeof(Vertex), (void**)cubepoints);
+	pMesh->copyIndexData(36, sizeof(int), (void**)indices);
+
+//moves the mesh in the game world//
+	Transform *t = new Transform();
+	t->setPosition(0.0f, 0.0f, 0.0f);
+	//loads textures and skybox material + Shaders//
+	SkyBox *material = new SkyBox();
+	material->init();
+
+	std::string vsPath = ASSET_PATH + SHADER_PATH + "/reflectVS.glsl";
+	std::string fsPath = ASSET_PATH + SHADER_PATH + "/reflectFS.glsl";
+	material->loadShader(vsPath, fsPath);
+
+	Mirror = new GameObject();
+
+	//dont think this is needed since the object should be doing a reflection//
+	//Mirror->setMaterial(material);
+
+
+	Mirror->setTransform(t);
+	Mirror->setMesh(pMesh);
+
+	CheckForErrors();
+
+}
 void createSkyBox()
 {
 
@@ -277,7 +341,7 @@ void createSkyBox()
 void Initialise()
 {
 	createSkyBox();
-
+	createMirror();
 	type = new primitiveType();
 
 	
@@ -367,6 +431,7 @@ type->setModelsBump("2h_axe.fbx", "2h_axeD.png", "2h_axeS.png", "2h_axeN.png");
 void update()
 {
 	skyBoxObject->update();
+	Mirror->update();
 	//alternative sytanx
 	for (auto iter = type->displayList.begin(); iter != type->displayList.end(); iter++)
 	{
@@ -486,6 +551,36 @@ void renderSkyBox()
 	CheckForErrors();
 }
 
+void renderMirror()
+{
+	Mirror->render();
+
+	Mesh * currentMesh = Mirror->getMesh();
+	SkyBox * currentMaterial = (SkyBox*)skyBoxObject->getMaterial();
+	if (currentMesh && currentMaterial)
+	{
+		Camera * cam = mainCamera->getCamera();
+
+		currentMaterial->bind();
+		currentMesh->bind();
+
+		GLint cameraLocation = currentMaterial->getUniformLocation("cameraPos");
+		GLint viewLocation = currentMaterial->getUniformLocation("view");
+		GLint projectionLocation = currentMaterial->getUniformLocation("projection");
+		GLint cubeTextureLocation = currentMaterial->getUniformLocation("cubeTexture");
+
+		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(cam->getProjection()));
+		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(cam->getView()));
+		glUniform4fv(cameraLocation, 1, glm::value_ptr(mainCamera->getTransform()->getPosition()));
+		glUniform1i(cubeTextureLocation, 0);
+
+		glDrawElements(GL_TRIANGLES, currentMesh->getIndexCount(), GL_UNSIGNED_INT, 0);
+
+		currentMaterial->unbind();
+	}
+	CheckForErrors();
+}
+
 //Function to render(aka draw)
 void render()
 {
@@ -497,6 +592,7 @@ void render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	renderSkyBox();
+	renderMirror();
 
 	//alternative sytanx
 	for (auto iter = type->displayList.begin(); iter != type->displayList.end(); iter++)
