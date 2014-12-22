@@ -131,18 +131,31 @@ void SplashScreen::LoadContent(){
 	type->loadModels(bump);
 
 
-
+//to load models for the little village plus all extra shenanigans//
 
 
 	primitiveType* pointType = new primitiveType();
-	pointType->setModelsBump("2h_axe.fbx", "2h_axe.png", "2h_axeS.png", "2h_axeN.png");
-	pointType->setModelsBump("fachwerkhaus2_2_LOD.fbx", "LOD_f_22.png", "LOD_f_22.png", "LOD_f_22.png");
-	pointType->setModelsBump("fachwerkhaus2_LOD.fbx", "LOD_f_2.png", "LOD_f_2.png", "LOD_f_2.png");
-	pointType->setModelsBump("constuct_soldier.fbx", "marble.png", "marble.png", "marble.png");
-	pointType->setTransformation(vec3(-10, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, .01, .01));
-    pointType->setTransformation(vec3(-1, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));
-	pointType->setTransformation(vec3(-15, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));
-	pointType->setTransformation(vec3(-10, 1, -15), vec3(-89.5, 0.1, -1), vec3(0.01, 0.01, 0.01));
+	pointType->setModelsBump("2h_axe.fbx", "2h_axe.png", "2h_axeS.png", "2h_axeN.png");		//ax//
+	pointType->setModelsBump("fachwerkhaus2_2_LOD.fbx", "LOD_f_22.png", "LOD_f_22.png", "LOD_f_22.png"); //single house 1//
+	pointType->setModelsBump("fachwerkhaus2_LOD.fbx", "LOD_f_2.png", "LOD_f_2.png", "LOD_f_2.png");//double house 1//
+	pointType->setModelsBump("constuct_soldier.fbx", "marble.png", "marble.png", "marble.png");//green marble statue//
+	pointType->setModelsBump("fachwerkhaus2_2_LOD.fbx", "LOD_f_22.png", "LOD_f_22.png", "LOD_f_22.png");//single house 2//
+	pointType->setModelsBump("fachwerkhaus2_2_LOD.fbx", "LOD_f_22.png", "LOD_f_22.png", "LOD_f_22.png");//single house 3//
+	pointType->setModelsBump("fachwerkhaus2_2_LOD.fbx", "LOD_f_22.png", "LOD_f_22.png", "LOD_f_22.png");//single house 4//
+	pointType->setModelsBump("fachwerkhaus2_2_LOD.fbx", "LOD_f_23.png", "LOD_f_23.png", "LOD_f_23.png");//single house 5//
+	pointType->setModelsBump("fachwerkhaus2_LOD.fbx", "LOD_f_2.png", "LOD_f_2.png", "LOD_f_2.png");//double house 2//
+
+	//co-ordinates for the models i.e. little village//
+
+	pointType->setTransformation(vec3(-10, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, .01, .01)); //position for the ax//
+    pointType->setTransformation(vec3(-1, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//position for house 1//
+	pointType->setTransformation(vec3(-15, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//postion for double house 1//
+	pointType->setTransformation(vec3(-10, 2, -15), vec3(-89.5, 0.1, -1), vec3(0.01, 0.01, 0.01));//position for green marble statue/
+	pointType->setTransformation(vec3(-17.75, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//position for house 2//
+	pointType->setTransformation(vec3(-12.25, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//position for house 3//
+	pointType->setTransformation(vec3(-6, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//posiotion for house 4//
+	pointType->setTransformation(vec3(-19.5, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//posiotion for house 5//
+	pointType->setTransformation(vec3(-22.5, 0, -7), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//postion for double house 2//
 	pointType->loadModels(point);
 
 
