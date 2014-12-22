@@ -24,6 +24,26 @@ Vertex triangleData[] =
 	{ vec3(0.5f, 0.5f, -0.5f), vec3(0.25f, -0.25f, -0.5f), vec2(1.0f, 0.0f), }// Top Right
 };
 
+Vertex triangleData2[] =
+{
+	{ vec3(0.5f, 0.5f, 0.5f), vec3(0.25f, -0.25f, 0.5f), vec2(1.0f, 0.0f) },// Top Right
+	{ vec3(-0.5f, 0.5f, 0.5f), vec3(0.25f, 0.25f, 0.5f), vec2(0.0f, 0.0f) },// Top Left
+	{ vec3(-0.5f, 0.5f, -0.5f), vec3(0.25f, 0.25f, -0.5f), vec2(0.0f, 0.0f) },// Top Left
+	{ vec3(0.5f, 0.5f, -0.5f), vec3(0.25f, -0.25f, -0.5f), vec2(1.0f, 0.0f), }// Top Right
+};
+
+//GLuint planeindices[] = {
+//		//front
+//		0, 1, 2,
+//		0, 3, 2
+//	};
+
+GLuint planeindices[] = {
+	//front
+	3, 0, 4,
+	3, 8, 4
+};
+
 //GLuint triangleIndices[];
 
 //GLuint m_indices[];
@@ -54,14 +74,9 @@ GLuint cubeIndices[] = {
 	4, 7, 6
 };
 
-//Initialize objects
 primitiveType::primitiveType()
 {
-	//objectShape = new GameObject();
-	//transform = new Transform();
-	//material = new Material();
-	//mesh = new Mesh();
-	//mesh = new Mesh();
+
 }
 
 primitiveType::~primitiveType(){
@@ -78,28 +93,26 @@ void primitiveType::createPrimitive(shaderType type, vec3 position, vec3 rotatio
 	Mesh *mesh = new Mesh();
 
 	determineShader(type);
-
-	objectShape->setName("cube");
-	transform->setPosition(position.x, position.y, position.z);
-	transform->setRotation(rotation.x, rotation.y, rotation.z);
-	transform->setScale(scaling.x, scaling.y, scaling.z);
-	objectShape->setTransform(transform);
-
-	std::string vsPath = ASSET_PATH + SHADER_PATH + "shadowVS.glsl";
-	std::string fsPath = ASSET_PATH + SHADER_PATH + "shadowFS.glsl";
+	
+	std::string vsPath = ASSET_PATH + SHADER_PATH + shaderFilenameVS;
+	std::string fsPath = ASSET_PATH + SHADER_PATH + shaderFilenameFS;
 	materialPrimitive->loadShader(vsPath, fsPath);
 
 	objectShape->setMaterial(materialPrimitive);
 	objectShape->setMesh(mesh);
+
+	transform->setPosition(position.x, position.y, position.z);
+	transform->setRotation(rotation.x, rotation.y, rotation.z);
+	transform->setScale(scaling.x, scaling.y, scaling.z);
+	objectShape->setTransform(transform);
 	displayList.push_back(objectShape);
 
 	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
 	{
 		(*iter)->init();
+		(*iter)->getMesh()->copyVertexData(8, sizeof(Vertex), (void**)triangleData);
+		(*iter)->getMesh()->copyIndexData(36, sizeof(int), (void**)planeindices);
 	}
-
-	mesh->copyVertexData(8, sizeof(Vertex), (void**)triangleData);
-	mesh->copyIndexData(36, sizeof(int), (void**)cubeIndices);
 }
 
 void primitiveType::setPrimitiveTexture(std::string diffTexturePath, std::string specTexturePath, std::string bumpTexturePath){
@@ -170,6 +183,7 @@ void primitiveType::loadModels(shaderType type){
 
 		for (int b = 0; b < go->getChildCount(); b++)
 		{
+			go->setName("a");
 			Material * material = new Material();
 			material->init();
 
@@ -216,8 +230,8 @@ void primitiveType::determineShader(shaderType type){
 		shaderFilenameFS = "/textureFS.glsl";
 		break;
 	case point:
-		shaderFilenameVS = "/shadowVS.glsl";
-		shaderFilenameFS = "/shadowFS.glsl";
+		shaderFilenameVS = "/pointLightVS.glsl";
+		shaderFilenameFS = "/pointLightFS.glsl";
 		break;
 	default:
 

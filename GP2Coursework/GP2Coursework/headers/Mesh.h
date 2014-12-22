@@ -37,10 +37,24 @@ public:
     
     int getVertexCount();
     int getIndexCount();
+
+	//vec3 getBBmin();
+	//vec3 getBBmax();
+
+	//void setBBmin(vec3 bbmin);
+	//void setBBmax(vec3 bbmax);
+
+	//void calculateBbox();
+
+
 protected:
 private:
     int m_VertexCount;
     int m_IndexCount;
+
+	//vec3 bbmin;
+	//vec3 bbmax;
+
     GLuint m_VBO;
     GLuint m_EBO;
     GLuint m_VAO;

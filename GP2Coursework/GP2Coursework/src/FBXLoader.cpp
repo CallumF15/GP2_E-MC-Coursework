@@ -160,6 +160,7 @@ void processMesh(FbxMesh * mesh, GameObject *go)
 
 	calculateTagentAndBinormals(pVerts, numVerts, pIndices, numIndices);
 
+	//meshComponent->setBBmax()
 	meshComponent->copyIndexData(numIndices, sizeof(int), (void**)pIndices);
 	meshComponent->copyVertexData(numVerts, sizeof(Vertex), (void**)pVerts);
 

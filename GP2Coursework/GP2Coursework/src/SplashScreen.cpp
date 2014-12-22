@@ -29,7 +29,6 @@ const std::string FONT_PATH = "fonts/";
 const std::string MODEL_PATH = "models/";
 #endif
 
-
 #include "Vertex.h"
 #include "Shader.h"
 #include "Texture.h"
@@ -42,17 +41,12 @@ const std::string MODEL_PATH = "models/";
 #include "FBXLoader.h"
 #include "primitiveType.h"
 #include "SkyBox.h"
-//#include "ScreenManager.h"
 
 #include "SplashScreen.h"
 #include <vector>
 
-
-
-//std::vector<GameObject*> displayList2;
 GameObject * mainCamera;
 GameObject * mainLight;
-GameObject * secondLight;
 GameObject * skyBoxObject = NULL;
 
 primitiveType* type;
@@ -90,69 +84,62 @@ void SplashScreen::LoadContent(){
 	mainLight = new GameObject();
 	mainLight->setName("MainLight");
 
-	secondLight = new GameObject();
-	secondLight->setName("secondLight");
-
 	t = new Transform();
-	t->setPosition(0.0f, 0.0f, 0.0f);
+	t->setPosition(46.0f, 32.0f, -47.0f);
 	mainLight->setTransform(t);
-
-	//Transform *b = new Transform();
-	//b->setPosition(-5.0f, 0.0f, -15.0f);
-	//b->setRotation(-180, 0.0f, 0.0f);
-	//secondLight->setTransform(b);
 
 	Light * light = new Light();
 	mainLight->setLight(light);
 	displayList.push_back(mainLight);
 
-	//Light * light2 = new Light();
-	//secondLight->setLight(light2);
-	//displayList.push_back(secondLight);
-
-	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
-	{
-		(*iter)->init();
-	}
-
 	//Model loading
-	type->setModelsBump("sword4.fbx", "sword2_C.png", "sword_S.png", "sword_N.png");
 	type->setModelsBump("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png");
-	type->setModelsBump("shield_deco3.fbx", "shield_C.png", "shield_D.png", "shield_N.png");
-	type->setModelsBump("knife2.fbx", "kn5_COL.png", "kn5_SPEC.png", "kn5_NRM.png");
-
-	type->setTransformation(vec3(-1, 1, -10), vec3(-90, 0, 0), vec3(0.01, 0.01, 0.01));
 	type->setTransformation(vec3(-5, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));
-
-	type->setTransformation(vec3(-8, 1, -10), vec3(50, 0, 0), vec3(.02, .02, .02));
-	type->setTransformation(vec3(-1, 1, -10), vec3(-90, 0, 0), vec3(0.01, 0.01, 0.01));
 	type->loadModels(bump);
 
-	primitiveType* pointType = new primitiveType();
-	pointType->setModelsBump("2h_axe.fbx", "2h_axe.png", "2h_axeS.png", "2h_axeN.png");
 
-	pointType->setTransformation(vec3(-10, 1, -10), vec3(-90, 0, 0), vec3(0.01, .01, .01));
+	primitiveType* pointType = new primitiveType();
+
+	//include file for models
+	pointType->setModelsBump("sword4.fbx", "sword2_C.png", "sword_S.png", "sword_N.png");
+	pointType->setModelsBump("2h_axe.fbx", "2h_axe.png", "2h_axeS.png", "2h_axeN.png");
+	pointType->setModelsBump("knife2.fbx", "kn5_COL.png", "kn5_SPEC.png", "kn5_NRM.png");
+	pointType->setModelsBump("shield_deco3.fbx", "shield_C.png", "shield_D.png", "shield_N.png");
+	pointType->setModelsBump("constuct_bridge.fbx", "s_12.png", "s_12S.png", "s_12N.png");
+	pointType->setModelsBump("constuct_shild_A.fbx", "p_1.png", "p_1S.png", "s_12N.png");
+	pointType->setModelsBump("constuct_understand_wood.fbx", "u_8.png", "u_8S.png", "u_8N.png");
+	//set transformations for models
+	pointType->setTransformation(vec3(-1, 1, -10), vec3(-89.4, 0, 0), vec3(.01, .01, .01));
+	pointType->setTransformation(vec3(-10, 1, -10), vec3(-89.4, 0, 0), vec3(0.01, .01, .01));
+	pointType->setTransformation(vec3(-1, 1, -10), vec3(-89.4, 0, 0), vec3(0.01, 0.01, 0.01));
+	pointType->setTransformation(vec3(-8, 1, -10), vec3(-89.4, 0, 0), vec3(.02, .02, .02));
+	pointType->setTransformation(vec3(-8, 1, 0), vec3(-89.5, 0, 0), vec3(.02, .02, .02));  //bridge
+	pointType->setTransformation(vec3(-8, 1, -5), vec3(0, 0, 0), vec3(.04, .04, .04));
+	pointType->setTransformation(vec3(-10, 1, -5), vec3(-89.4, 0, 0), vec3(.02, .04, .02));
+	//plane related
+
 	pointType->loadModels(point);
 
 
-	primitiveType* parralaxType = new primitiveType();
-	//parralaxType->setModelsParrallax("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png", "armoredrecon_Height.png");
-	//parralaxType->setTransformation(vec3(0, 0, 2), vec3(0, 0, 0), vec3(1, 1, 1));
+	//primitiveType* parralaxType = new primitiveType();
+	//parralaxType->setModelsBump("plane.fbx", "pavement_color.png", "pavement_spec.png", "pavement_normal.png");
+	//parralaxType->setTransformation(vec3(-10, 1, -5), vec3(-90, 0, 0), vec3(.02, .04, .02));
+	////parralaxType->setModelsParrallax("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png", "armoredrecon_Height.png");
+	////parralaxType->setTransformation(vec3(0, 0, 2), vec3(0, 0, 0), vec3(1, 1, 1));
 	//parralaxType->loadModels(parralax);
 
 	primitiveType* primimtiveShapes = new primitiveType();
-	primimtiveShapes->setPrimitiveTexture("pavement_color.png", "pavement_spec.png", "pavement_normal.png");
-	primimtiveShapes->createPrimitive(point, vec3(0, -1, -10), vec3(0, 0, 0), vec3(100, 0, 100));
+	primimtiveShapes->setModelsBump("plane.fbx", "pavement_color.png", "pavement_spec.png", "pavement_normal.png");
+	primimtiveShapes->setModelsBump("plane.fbx", "pavement_color.png", "pavement_spec.png", "pavement_normal.png");
+	pointType->setTransformation(vec3(-10, 1, 0), vec3(-89.5, 0, 0), vec3(.2, .2, 1));
+	pointType->setTransformation(vec3(-10, 1, 0), vec3(-90, 0, 0), vec3(.1, .1, 1));
+	primimtiveShapes->loadModels(point);
 
-	////primimtiveShapes->setPrimitiveTexture("pavement_color.png", "pavement_spec.png", "pavement_normal.png");
-	////primimtiveShapes->createPrimitive(texturing, vec3(0, 0, -10), vec3(0, 0, 0), vec3(100, 1, 100));
-	//primimtiveShapes->createPrimitive(cube, vec3(-10, 0, -10), vec3(0, 0, 0), vec3(40, 0, 20));
-
-	//Add to the displaylist in order for models etc to be loaded/rendered
+	////Add to the displaylist in order for models etc to be loaded/rendered
 	displayList.insert(displayList.end(), pointType->displayList.begin(), pointType->displayList.end());
 	displayList.insert(displayList.end(), primimtiveShapes->displayList.begin(), primimtiveShapes->displayList.end());
 	displayList.insert(displayList.end(), type->displayList.begin(), type->displayList.end());
-	displayList.insert(displayList.end(), parralaxType->displayList.begin(), parralaxType->displayList.end());
+	//displayList.insert(displayList.end(), parralaxType->displayList.begin(), parralaxType->displayList.end());
 }
 
 void SplashScreen::Update(SDL_Event event)
@@ -222,7 +209,6 @@ void SplashScreen::renderGameObject(GameObject * pObject)
 
 		Camera * cam = mainCamera->getCamera();
 		Light* light = mainLight->getLight();
-		Light*  light2 = secondLight->getLight();
 
 		mat4 MVP = cam->getProjection()*cam->getView()*currentTransform->getModel();
 		mat4 Model = currentTransform->getModel();
@@ -284,7 +270,6 @@ void SplashScreen::UpdateInput(SDL_Event event){
 	case SDL_KEYDOWN:
 		switch (event.key.keysym.sym){
 
-	
 		case SDLK_w:
 			c->movement(FORWARD);
 			break;
@@ -306,8 +291,18 @@ void SplashScreen::UpdateInput(SDL_Event event){
 		case SDLK_l:
 			c->movement(RESET);
 			break;
-		}
+		case SDLK_k:
+			for (int i = 0; i < displayList.size(); i++){
+				//determine which ones are models (have the name "a")
+				if (displayList[i]->getName() == "a"){
+					vec3 rotation = displayList[i]->getTransform()->getRotation();
+					rotation.y += -1;
 
+					displayList[i]->getTransform()->setRotation(rotation.x, rotation.y, rotation.z);
+				}
+			}
+			break;
+		}//end key switch
 	case SDL_MOUSEMOTION:
 		int mouseX = event.motion.x;
 		int mouseY = event.motion.y;

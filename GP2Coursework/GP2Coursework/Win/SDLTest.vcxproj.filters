@@ -199,10 +199,16 @@
     <None Include="..\assets\shaders\skyVS.glsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="..\assets\shaders\shadowFS.glsl">
+    <None Include="..\assets\shaders\pointLightFS.glsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="..\assets\shaders\shadowVS.glsl">
+    <None Include="..\assets\shaders\pointLightVS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\shaders\reflectionFS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\shaders\reflectionVS.glsl">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

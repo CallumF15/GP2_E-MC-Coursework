@@ -43,13 +43,13 @@ void Camera::mouseUpdate(const glm::vec2& newMousePos)
 {
 	glm::vec2 mouseDelta = newMousePos - oldMousePos;
 
-	if (glm::length(mouseDelta) > 30.0f){
+	if (glm::length(mouseDelta) > 50.0f){
 		oldMousePos = newMousePos;
 		return;
 	}
 
 
-	const float ROTATIONAL_SPEED = 0.3f;
+	const float ROTATIONAL_SPEED = 0.01f;
 	
 	strafedirection = glm::cross(m_direction, m_Up);
 	glm::mat4 rotator = glm::rotate(mat4(1.0f), -mouseDelta.x * ROTATIONAL_SPEED, m_Up) *
