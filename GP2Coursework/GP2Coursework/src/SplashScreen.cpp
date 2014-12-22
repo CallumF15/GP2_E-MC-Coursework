@@ -153,6 +153,9 @@ void SplashScreen::LoadContent(){
 
 	pointType->setModelsBump("sword2.fbx", "sword2_C.png", "sword2_C.png", "sword2_C.png");//sword2  number 1//
 	pointType->setModelsBump("sword4.fbx", "sword4_c.png", "sword4_c.png", "sword4_c.png");//sword4  number 1//
+	pointType->setModelsBump("sword.fbx", "sword_C.png", "sword_C.png", "sword_C.png");//sword  number 1//
+
+	pointType->setModelsBump("holzbank.fbx", "whitemarble.png", "whitemarble.png", "whitemarble.png");//bench  number 1//
 
 	//co-ordinates for the models i.e. little village//
 
@@ -172,8 +175,11 @@ void SplashScreen::LoadContent(){
 	pointType->setTransformation(vec3(-15, 0, -5.5), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//position for single house type 2 number 1//
 	pointType->setTransformation(vec3(-10, 0, -7), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//position for Armorstand number 1//
 
-	pointType->setTransformation(vec3(-9, 0, -7), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//position for sword2 number 1//
+	pointType->setTransformation(vec3(-12, 0, -7), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//position for sword2 number 1//
 	pointType->setTransformation(vec3(-11, 2, -7), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//position for sword4 number 1//
+	pointType->setTransformation(vec3(-13, 2, -7), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//position for sword4 number 1//
+
+	pointType->setTransformation(vec3(-13, 2, -7), vec3(-89.52, 0, 89.5), vec3(0.05, 0.05, 0.05));//position for sword4 number 1//
 
 	pointType->loadModels(point);
 
