@@ -121,17 +121,26 @@ void SplashScreen::LoadContent(){
 	type->setModelsBump("shield_deco3.fbx", "shield_C.png", "shield_D.png", "shield_N.png");
 	type->setModelsBump("knife2.fbx", "kn5_COL.png", "kn5_SPEC.png", "kn5_NRM.png");
 
+
 	type->setTransformation(vec3(-1, 1, -10), vec3(-90, 0, 0), vec3(0.01, 0.01, 0.01));
 	type->setTransformation(vec3(-5, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));
 
 	type->setTransformation(vec3(-8, 1, -10), vec3(50, 0, 0), vec3(.02, .02, .02));
 	type->setTransformation(vec3(-1, 1, -10), vec3(-90, 0, 0), vec3(0.01, 0.01, 0.01));
+	
 	type->loadModels(bump);
+
+
+
+
 
 	primitiveType* pointType = new primitiveType();
 	pointType->setModelsBump("2h_axe.fbx", "2h_axe.png", "2h_axeS.png", "2h_axeN.png");
-
+	pointType->setModelsBump("fachwerkhaus2_2_LOD.fbx", "LOD_f_22.png", "LOD_f_22.png", "LOD_f_22.png");
+	pointType->setModelsBump("fachwerkhaus2_LOD.fbx", "LOD_f_2.png", "LOD_f_2.png", "LOD_f_2.png");
 	pointType->setTransformation(vec3(-10, 1, -10), vec3(-90, 0, 0), vec3(0.01, .01, .01));
+    pointType->setTransformation(vec3(-1, 1, -10), vec3(-90, 0, 0), vec3(0.01, 0.01, 0.01));
+	pointType->setTransformation(vec3(-15, 1, -10), vec3(-90, 0, 0), vec3(0.01, 0.01, 0.01));
 	pointType->loadModels(point);
 
 
