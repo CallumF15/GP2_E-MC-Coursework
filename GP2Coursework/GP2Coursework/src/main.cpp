@@ -251,12 +251,12 @@ void createMirror(){
 	t->setRotation(23.0f,14.0f,0.0f);
 
 	//loads textures and skybox material + Shaders//
-	SkyBox *material = new SkyBox();
+	SkyBox *materials = new SkyBox();
 	//material->init();
 
 	std::string vertexpath = ASSET_PATH + SHADER_PATH + "/reflectionVS.glsl";
 	std::string fragmentpath = ASSET_PATH + SHADER_PATH + "/reflectionFS.glsl";
-	material->loadShader(vertexpath, fragmentpath );
+	materials->loadShader(vertexpath, fragmentpath );
 
 	Mirror = new GameObject();
 
