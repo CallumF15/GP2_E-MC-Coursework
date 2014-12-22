@@ -332,15 +332,15 @@ void Initialise()
 	type->setModelsBump("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png");
 	type->setModelsBump("2h_axe.fbx", "2h_axe.png", "2h_axeS.png", "2h_axeN.png");
 	type->setModelsBump("constuct_tower.fbx", "a_1D.png", "a_1S.png", "a_1N.png");
-	type->setModelsBump("house_1lod.fbx", "1_lod.png", "1_lod.png", "1_lod.png");
-	type->setModelsBump("fachwerkhaus1_LOD.fbx", "LOD_f_1.png", "LOD_f_1.png", "LOD_f_1.png");
+	//type->setModelsBump("house_1lod.fbx", "1_lod.png", "1_lod.png", "1_lod.png");
+	type->setModelsBump("constuct_bridge.fbx", "S_12.png", "S_12N.png", "S_12S.png");
 	
 
 	type->setTransformation(vec3(-1, 1, -10), vec3(-90, 0, 0), vec3(0.01, 0.01, 0.01));
 	type->setTransformation(vec3(-5, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));
 	type->setTransformation(vec3(-10, 1, -10), vec3(-90, 1, 1), vec3(0.01, 0.01, 0.01));
 	type->setTransformation(vec3(-20, 1, -10), vec3(-90, 1, 1), vec3(0.04, 0.04, 0.04));
-	type->setTransformation(vec3(8, 2, -10), vec3(-90, 1, 1), vec3(0.05, 0.05, 0.05));
+	//type->setTransformation(vec3(8, 2, -10), vec3(-90, 1, 1), vec3(0.05, 0.05, 0.05));
 	type->setTransformation(vec3(3, 0, -10), vec3(-90, 1, 1), vec3(0.02, 0.02, 0.02));
 	
 	type->loadModels(bump);
