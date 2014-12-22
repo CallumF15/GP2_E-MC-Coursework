@@ -108,14 +108,20 @@ void SplashScreen::LoadContent(){
 	pointType->setModelsBump("constuct_bridge.fbx", "s_12.png", "s_12S.png", "s_12N.png");
 	pointType->setModelsBump("constuct_shild_A.fbx", "p_1.png", "p_1S.png", "s_12N.png");
 	pointType->setModelsBump("constuct_understand_wood.fbx", "u_8.png", "u_8S.png", "u_8N.png");
+	pointType->setModelsBump("planet_earth.fbx", "mat_plan2.png", "mat_plan2.png", "mat_plan2.png");
+	pointType->setModelsBump("Tank1.fbx", "Tank1DF.png", "Tank1_S.png", "Tank1_H.png" );
+	pointType->setModelsBump("barrel.fbx", "barrel_color_01.png", "barrel_spec_01.png", "barrel_nmap_01png");
 	//set transformations for models
 	pointType->setTransformation(vec3(-1, 1, -10), vec3(-89.4, 0, 0), vec3(.01, .01, .01));
 	pointType->setTransformation(vec3(-10, 1, -10), vec3(-89.4, 0, 0), vec3(0.01, .01, .01));
 	pointType->setTransformation(vec3(-1, 1, -10), vec3(-89.4, 0, 0), vec3(0.01, 0.01, 0.01));
 	pointType->setTransformation(vec3(-8, 1, -10), vec3(-89.4, 0, 0), vec3(.02, .02, .02));
-	pointType->setTransformation(vec3(-8, 1, 0), vec3(-89.5, 0, 0), vec3(.02, .02, .02));  //bridge
+	pointType->setTransformation(vec3(-8, 1, 0), vec3(-90, 0, 0), vec3(.02, .02, .02));  //bridge
 	pointType->setTransformation(vec3(-8, 1, -5), vec3(0, 0, 0), vec3(.04, .04, .04));
 	pointType->setTransformation(vec3(-10, 1, -5), vec3(-89.4, 0, 0), vec3(.02, .04, .02));
+	pointType->setTransformation(vec3(-46, 32, -40), vec3(-90, 0, 90), vec3(0.2, 0.2, 0.2));
+	pointType->setTransformation(vec3(-13, 1, 0), vec3(180, 90, 180), vec3(0.5, 0.5, 0.5));  //tank
+	pointType->setTransformation(vec3(-15, 1, 0), vec3(180, 90, 180), vec3(0.02, 0.02, 0.02));  //barrel
 	//plane related
 
 	pointType->loadModels(point);
@@ -131,8 +137,8 @@ void SplashScreen::LoadContent(){
 	primitiveType* primimtiveShapes = new primitiveType();
 	primimtiveShapes->setModelsBump("plane.fbx", "pavement_color.png", "pavement_spec.png", "pavement_normal.png");
 	primimtiveShapes->setModelsBump("plane.fbx", "pavement_color.png", "pavement_spec.png", "pavement_normal.png");
-	pointType->setTransformation(vec3(-10, 1, 0), vec3(-89.5, 0, 0), vec3(.2, .2, 1));
-	pointType->setTransformation(vec3(-10, 1, 0), vec3(-90, 0, 0), vec3(.1, .1, 1));
+	primimtiveShapes->setTransformation(vec3(-10, 1, 0), vec3(-89.5, 0, 0), vec3(.2, .2, 1));
+	primimtiveShapes->setTransformation(vec3(-10, 1, 0), vec3(-90, 0, 0), vec3(.1, .1, 1));
 	primimtiveShapes->loadModels(point);
 
 	////Add to the displaylist in order for models etc to be loaded/rendered
