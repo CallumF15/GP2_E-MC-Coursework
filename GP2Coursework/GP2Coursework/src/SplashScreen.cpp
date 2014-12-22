@@ -139,10 +139,10 @@ void SplashScreen::LoadContent(){
 	pointType->setModelsBump("fachwerkhaus2_2_LOD.fbx", "LOD_f_22.png", "LOD_f_22.png", "LOD_f_22.png");
 	pointType->setModelsBump("fachwerkhaus2_LOD.fbx", "LOD_f_2.png", "LOD_f_2.png", "LOD_f_2.png");
 	pointType->setModelsBump("constuct_soldier.fbx", "marble.png", "marble.png", "marble.png");
-	pointType->setTransformation(vec3(-10, 1, -10), vec3(-90, 0, 0), vec3(0.01, .01, .01));
-    pointType->setTransformation(vec3(-1, 1, -10), vec3(-90, 0, 0), vec3(0.01, 0.01, 0.01));
-	pointType->setTransformation(vec3(-15, 1, -10), vec3(-90, 0, 0), vec3(0.01, 0.01, 0.01));
-	pointType->setTransformation(vec3(-10, 3, -15), vec3(-89.75, 0, 0), vec3(0.01, 0.01, 0.01));
+	pointType->setTransformation(vec3(-10, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, .01, .01));
+    pointType->setTransformation(vec3(-1, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));
+	pointType->setTransformation(vec3(-15, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));
+	pointType->setTransformation(vec3(-10, 1, -15), vec3(-89.5, 0.1, -1), vec3(0.01, 0.01, 0.01));
 	pointType->loadModels(point);
 
 
