@@ -181,5 +181,11 @@
     <None Include="..\assets\shaders\reflectVS.glsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="..\assets\shaders\reflectionFS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\shaders\reflectionVS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -119,6 +119,12 @@ void CleanUp()
 		delete skyBoxObject;
 		skyBoxObject = NULL;
 	}
+	if (Mirror)
+	{
+		Mirror->destroy();
+		delete Mirror;
+		Mirror = NULL;
+	}
 
 	auto iter = type->displayList.begin();
 	while (iter != type->displayList.end())
@@ -248,8 +254,8 @@ void createMirror(){
 	SkyBox *material = new SkyBox();
 	//material->init();
 
-	std::string vertexpath = ASSET_PATH + SHADER_PATH + "/reflectVS.glsl";
-	std::string fragmentpath = ASSET_PATH + SHADER_PATH + "/reflectFS.glsl";
+	std::string vertexpath = ASSET_PATH + SHADER_PATH + "/reflectionVS.glsl";
+	std::string fragmentpath = ASSET_PATH + SHADER_PATH + "/reflectionFS.glsl";
 	material->loadShader(vertexpath, fragmentpath );
 
 	Mirror = new GameObject();
@@ -473,6 +479,8 @@ void renderGameObject(GameObject * pObject)
 		GLint bumpTextureLocation = currentMaterial->getUniformLocation("bumpMap");
 		GLint heightTextureLocation = currentMaterial->getUniformLocation("heightMap");
 
+		
+
 		Camera * cam = mainCamera->getCamera();
 		Light* light = mainLight->getLight();
 
@@ -503,6 +511,8 @@ void renderGameObject(GameObject * pObject)
 
 		glUniform4fv(specularMatLocation, 1, glm::value_ptr(specularMaterialColour));
 		glUniform4fv(specularLightLocation, 1, glm::value_ptr(specularLightColour));
+
+
 
 		glUniform3fv(cameraPositionLocation, 1, glm::value_ptr(cameraPosition));
 		glUniform1f(specularpowerLocation, specularPower);

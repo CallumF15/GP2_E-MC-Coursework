@@ -4,7 +4,7 @@ in vec3 pos_eye;
 in vec3 n_eye;
 uniform samplerCube cube_texture;
 uniform mat4 V;
-out vec4 frag_colour;
+out vec4 Fragcolour;
 
 void main () {
   /* reflect ray around normal from eye to surface */
