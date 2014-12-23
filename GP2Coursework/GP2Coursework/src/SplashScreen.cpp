@@ -1,7 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//This class was implemented by Callum Flannagan. Contributions were made by Mathew McGerty & Conor McDonald //
+//This class was implemented by Callum Flannagan. Contributions were made by Mathew McGerty & Conor Johnston //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 #include <iostream>
 #include <GL/glew.h>
@@ -109,7 +108,7 @@ void SplashScreen::LoadContent(){
 	mainLight->setName("MainLight");
 
 	t = new Transform();
-	t->setPosition(46.0f, 32.0f, -47.0f);
+	t->setPosition(45.0f, 41.0f, 43.0f);
 	mainLight->setTransform(t);
 
 	Light * light = new Light();
@@ -120,84 +119,53 @@ void SplashScreen::LoadContent(){
 	type->setModelsBump("plane.fbx", "pavement_color.png", "pavement_spec.png", "pavement_normal.png");
 	type->setTransformation(vec3(-10, -1, 0), vec3(-90, 0, 0), vec3(1, 1, 1));
 	type->loadModels(bump);
-	//don't touch above model CONOR!
-
 
 	primitiveType* pointType = new primitiveType();
-
-	//include file for models
-	//pointType->setModelsBump("sword4.fbx", "sword2_C.png", "sword_S.png", "sword_N.png");
-	//pointType->setModelsBump("2h_axe.fbx", "2h_axe.png", "2h_axeS.png", "2h_axeN.png");
-	//pointType->setModelsBump("knife2.fbx", "kn5_COL.png", "kn5_SPEC.png", "kn5_NRM.png");
-
 	pointType->setModelsBump("shield_deco3.fbx", "shield_C.png", "shield_D.png", "shield_N.png");//shield 1//
 	pointType->setModelsBump("constuct_bridge.fbx", "s_12.png", "s_12S.png", "s_12N.png");//bridge//
 	pointType->setModelsBump("constuct_shild_A.fbx", "p_1.png", "p_1S.png", "s_12N.png");//sign//
-
 	pointType->setModelsBump("constuct_understand_wood.fbx", "u_8.png", "u_8S.png", "u_8N.png");
-	//the positioned models
 	pointType->setModelsBump("2h_axe.fbx", "2h_axe.png", "2h_axeS.png", "2h_axeN.png");		//axe//
 	pointType->setModelsBump("fachwerkhaus2_2_LOD.fbx", "LOD_f_22.png", "LOD_f_22.png", "LOD_f_22.png"); //single house 1//
 	pointType->setModelsBump("fachwerkhaus2_LOD.fbx", "LOD_f_2.png", "LOD_f_2.png", "LOD_f_2.png");//double house 1//
-
 	pointType->setModelsBump("constuct_soldier.fbx", "marble.png", "marble.png", "marble.png");//green marble statue//
 	pointType->setModelsBump("fachwerkhaus2_2_LOD.fbx", "LOD_f_22.png", "LOD_f_22.png", "LOD_f_22.png");//single house 2//
 	pointType->setModelsBump("fachwerkhaus2_2_LOD.fbx", "LOD_f_22.png", "LOD_f_22.png", "LOD_f_22.png");//single house 3//
-
 	pointType->setModelsBump("fachwerkhaus2_2_LOD.fbx", "LOD_f_22.png", "LOD_f_22.png", "LOD_f_22.png");//single house 4//
 	pointType->setModelsBump("fachwerkhaus2_2_LOD.fbx", "LOD_f_23.png", "LOD_f_23.png", "LOD_f_23.png");//single house 5//
 	pointType->setModelsBump("fachwerkhaus2_LOD.fbx", "LOD_f_2.png", "LOD_f_2.png", "LOD_f_2.png");//double house 2//
-
 	pointType->setModelsBump("shield_deco3.fbx", "shield3.png", "shield3.png", "shield3.png");//position for shield 2//
 	pointType->setModelsBump("fachwerkhaus2_3_LOD.fbx", "LOD_f_23.png", "LOD_f_23.png", "LOD_f_23.png");//single house type 2 number 1//
 	pointType->setModelsBump("armorstand.fbx", "2h_axe.png", "2h_axeS.png", "2h_axeN.png");//Armorstand 1//
-
 	pointType->setModelsBump("sword2.fbx", "sword2_C.png", "sword2_C.png", "sword2_C.png");//sword2  number 1//
 	pointType->setModelsBump("sword4.fbx", "sword4_c.png", "sword4_c.png", "sword4_c.png");//sword4  number 1//
 	pointType->setModelsBump("sword.fbx", "sword_C.png", "sword_C.png", "sword_C.png");//sword  number 1//
-
 	pointType->setModelsBump("holzbank.fbx", "whitemarble.png", "whitemarble.png", "whitemarble.png");//bench  number 1//
+	pointType->setModelsBump("plane.fbx", "pavement_color.png", "pavement_spec.png", "pavement_normal.png");
 
 
-	////co-ordinates for the models i.e. little village//
-
-	//
-
-
-	////set transformations for models
-
-	//pointType->setTransformation(vec3(-1, 1, -10), vec3(-89.4, 0, 0), vec3(.01, .01, .01));
-	//pointType->setTransformation(vec3(-10, 1, -10), vec3(-89.4, 0, 0), vec3(0.01, .01, .01));
-	//pointType->setTransformation(vec3(-1, 1, -10), vec3(-89.4, 0, 0), vec3(0.01, 0.01, 0.01));
-
+	//TRANSLATIONS FOR MODELS
 	pointType->setTransformation(vec3(-8, 1, -6), vec3(-89.4, 0, 0), vec3(.002, .002, .002));//shield 1//
 	pointType->setTransformation(vec3(-3.75, -1, -10), vec3(-89.52, 0, 0), vec3(.009, .009, .009));  //bridge//
 	pointType->setTransformation(vec3(-15, 1, -6.5), vec3(-89.52, 0, 0), vec3(.008, .008, .008));//sign//
-
 	pointType->setTransformation(vec3(-13, -1, -5.5), vec3(-89.52, 0, 0), vec3(.008, .008, .008));//wood canopy//
-	//the positioned co-ordinates
 	pointType->setTransformation(vec3(-10.25, -0.75, -6), vec3(-89.5, 0, 0), vec3(0.002, 0.002, 0.002)); //position for the ax//
 	pointType->setTransformation(vec3(-1.5, -1, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//position for house 1//
 	pointType->setTransformation(vec3(-15, -1, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//postion for double house 1//
-
 	pointType->setTransformation(vec3(-10.5, 2, -10), vec3(-89.52, 0, 0), vec3(0.01, 0.01, 0.01));//position for green marble statue//
 	pointType->setTransformation(vec3(-17.75, -1, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//position for house 2//
 	pointType->setTransformation(vec3(-12.25, -1, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//position for house 3//
-
 	pointType->setTransformation(vec3(-6, -1, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//posiotion for house 4//
 	pointType->setTransformation(vec3(-19.5, -1, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//posiotion for house 5//
 	pointType->setTransformation(vec3(-22.5, -1, -7), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//postion for double house 2//
-
 	pointType->setTransformation(vec3(-16, -0.8, -9), vec3(-89.52, 0, 0), vec3(0.009, 0.009, 0.009));//position for Shield 2//
 	pointType->setTransformation(vec3(-15, -1, -5.5), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//position for single house type 2 number 1//
 	pointType->setTransformation(vec3(-10, -1, -6), vec3(-89.52, 0, 0), vec3(0.004, 0.004, 0.004));//position for Armorstand number 1//
-
 	pointType->setTransformation(vec3(-9.8, -0.75, -6), vec3(-89.52, 0, 0), vec3(0.0005, 0.0005, 0.0005));//position for sword2 number 1//
 	pointType->setTransformation(vec3(-9.85, -0.75, -6), vec3(-89.52, 0, 0), vec3(0.002, 0.002, 0.002));//position for sword4 number 1//
 	pointType->setTransformation(vec3(-9.7, -0.75, -6), vec3(-89.52, 0, 89.5), vec3(0.001, 0.001, 0.001));//position for sword number 1//
-
 	pointType->setTransformation(vec3(-11.5, -1.25, -8.5), vec3(-89.52, 0, 0), vec3(0.009, 0.009, 0.009));//position for bench number 1//
-
+	pointType->setTransformation(vec3(-10, -1.5, 0), vec3(-89.5, 0, 0), vec3(1, .8, 1));
 	pointType->loadModels(point);
 
 	//primitiveType* parralaxType = new primitiveType();
@@ -205,16 +173,8 @@ void SplashScreen::LoadContent(){
 	////parralaxType->setTransformation(vec3(0, 0, 2), vec3(0, 0, 0), vec3(1, 1, 1));
 	//parralaxType->loadModels(parralax);
 
-	primitiveType* primimtiveShapes = new primitiveType();
-	//primimtiveShapes->setModelsBump("plane.fbx", "pavement_color.png", "pavement_spec.png", "pavement_normal.png");
-	primimtiveShapes->setModelsBump("plane.fbx", "pavement_color.png", "pavement_spec.png", "pavement_normal.png");
-	//primimtiveShapes->setTransformation(vec3(-10, -2, 10), vec3(0, 0, 0), vec3(1, 1, 1));
-	primimtiveShapes->setTransformation(vec3(-10, -1.5, 0), vec3(-89.5, 0, 0), vec3(1, .8, 1));
-	primimtiveShapes->loadModels(point);
-
 	////Add to the displaylist in order for models etc to be loaded/rendered
 	displayList.insert(displayList.end(), pointType->displayList.begin(), pointType->displayList.end());
-	displayList.insert(displayList.end(), primimtiveShapes->displayList.begin(), primimtiveShapes->displayList.end());
 	displayList.insert(displayList.end(), type->displayList.begin(), type->displayList.end());
 	//displayList.insert(displayList.end(), parralaxType->displayList.begin(), parralaxType->displayList.end());
 }

@@ -64,7 +64,7 @@ void PostProcessing::createFullScreenQuad()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0); //bind buffer
 }
-
+// Creating a Frame buffer that will be switched.
 void PostProcessing::createFramebuffer(int width, int height)
 {
 	glActiveTexture(GL_TEXTURE0);
@@ -94,12 +94,13 @@ void PostProcessing::createFramebuffer(int width, int height)
 	}
 
 }
-
+// Binding Post Processing to the frame buffer object.
 void PostProcessing::bind()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferObject);
 }
-
+// Before the game is rendered Textures are activated and binded, the post processing program is used and textures are located. 
+//The vertex array is enabled  
 void PostProcessing::preDraw()
 {
 	glActiveTexture(GL_TEXTURE0);
@@ -121,13 +122,13 @@ void PostProcessing::preDraw()
 		0                   // offset of first element
 		);
 }
-
+// After the Game is rendered Vertex array is disabled and the frame buffer is binded. 
 void PostProcessing::postDraw()
 {
 	glDisableVertexAttribArray(0);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
-
+// During the rendering stage the frame buffer is binded, The clear function is set and arrays are drawn.
 void PostProcessing::draw()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -139,7 +140,7 @@ void PostProcessing::draw()
 
 
 }
-
+// Destroys Post processor
 void PostProcessing::destroy()
 {
 	glDeleteBuffers(1, &m_FullScreenVBO);
@@ -148,7 +149,7 @@ void PostProcessing::destroy()
 	glDeleteTextures(1, &m_FBOTexture);
 	glDeleteFramebuffers(1, &m_FrameBufferObject);
 }
-
+// The GlGetUniformLocation is returned and the string is converted to a char.
 GLint PostProcessing::getUniformVariableLocation(const std::string& name)
 {
 	return glGetUniformLocation(m_PostProcessingProgram, name.c_str());

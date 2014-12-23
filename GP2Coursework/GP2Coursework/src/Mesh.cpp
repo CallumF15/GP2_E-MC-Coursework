@@ -70,28 +70,6 @@ void Mesh::copyIndexData(int count,int stride,void ** data)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * stride, data, GL_DYNAMIC_DRAW);
 }
 
-//void Mesh::calculateBbox(){
-//
-//}
-//
-//
-//void Mesh::setBBmax(vec3 BBMAX){
-//	bbmax = BBMAX;
-//}
-//
-//void Mesh::setBBmin(vec3 BBMIN){
-//	bbmin = BBMIN;
-//}
-//
-//vec3 Mesh::getBBmax(){
-//	return bbmax;
-//}
-//
-//vec3 Mesh::getBBmin(){
-//	return bbmin;
-//}
-
-
 int Mesh::getVertexCount()
 {
     return m_VertexCount;
