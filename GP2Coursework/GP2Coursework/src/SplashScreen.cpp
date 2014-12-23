@@ -117,13 +117,13 @@ void SplashScreen::LoadContent(){
 
 	//Model loading
 	type->setModelsBump("sword4.fbx", "sword2_C.png", "sword_S.png", "sword_N.png");
-	type->setModelsBump("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png");
+	//type->setModelsBump("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png");
 	type->setModelsBump("shield_deco3.fbx", "shield_C.png", "shield_D.png", "shield_N.png");
 	type->setModelsBump("knife2.fbx", "kn5_COL.png", "kn5_SPEC.png", "kn5_NRM.png");
 
 
 	type->setTransformation(vec3(-1, 1, -10), vec3(-90, 0, 0), vec3(0.01, 0.01, 0.01));
-	type->setTransformation(vec3(-5, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));
+	//type->setTransformation(vec3(-5, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));
 
 	type->setTransformation(vec3(-8, 1, -10), vec3(50, 0, 0), vec3(.02, .02, .02));
 	type->setTransformation(vec3(-1, 1, -10), vec3(-90, 0, 0), vec3(0.01, 0.01, 0.01));
@@ -147,7 +147,7 @@ void SplashScreen::LoadContent(){
 	pointType->setModelsBump("fachwerkhaus2_2_LOD.fbx", "LOD_f_23.png", "LOD_f_23.png", "LOD_f_23.png");//single house 5//
 	pointType->setModelsBump("fachwerkhaus2_LOD.fbx", "LOD_f_2.png", "LOD_f_2.png", "LOD_f_2.png");//double house 2//
 
-	pointType->setModelsBump("shield_deco3.fbx", "shield3.png", "shield3.png", "shield3.png");//position for shield 1//
+	pointType->setModelsBump("shield_deco3.fbx", "shield3.png", "shield3.png", "shield3.png");//position for shield 2//
 	pointType->setModelsBump("fachwerkhaus2_3_LOD.fbx", "LOD_f_23.png", "LOD_f_23.png", "LOD_f_23.png");//single house type 2 number 1//
 	pointType->setModelsBump("armorstand.fbx", "2h_axe.png", "2h_axeS.png", "2h_axeN.png");//Armorstand 1//
 
@@ -159,27 +159,27 @@ void SplashScreen::LoadContent(){
 
 	//co-ordinates for the models i.e. little village//
 
-	pointType->setTransformation(vec3(-10, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, .01, .01)); //position for the ax//
-    pointType->setTransformation(vec3(-1, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//position for house 1//
-	pointType->setTransformation(vec3(-15, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//postion for double house 1//
+	pointType->setTransformation(vec3(-10, -1, -10), vec3(-89.5, 0, 0), vec3(0.004, 0.004, 0.004)); //position for the ax//
+    pointType->setTransformation(vec3(-1, -1, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//position for house 1//
+	pointType->setTransformation(vec3(-15, -1, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//postion for double house 1//
 
-	pointType->setTransformation(vec3(-10, 2, -15), vec3(-89.5, 0.1, -1), vec3(0.01, 0.01, 0.01));//position for green marble statue/
-	pointType->setTransformation(vec3(-17.75, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//position for house 2//
-	pointType->setTransformation(vec3(-12.25, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//position for house 3//
+	pointType->setTransformation(vec3(-10, 2, -15), vec3(-89.52, 0, 0), vec3(0.01, 0.01, 0.01));//position for green marble statue/
+	pointType->setTransformation(vec3(-17.75, -1, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//position for house 2//
+	pointType->setTransformation(vec3(-12.25, -1, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//position for house 3//
 
-	pointType->setTransformation(vec3(-6, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//posiotion for house 4//
-	pointType->setTransformation(vec3(-19.5, 0, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//posiotion for house 5//
-	pointType->setTransformation(vec3(-22.5, 0, -7), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//postion for double house 2//
+	pointType->setTransformation(vec3(-6, -1, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//posiotion for house 4//
+	pointType->setTransformation(vec3(-19.5, -1, -10), vec3(-89.5, 0, 0), vec3(0.01, 0.01, 0.01));//posiotion for house 5//
+	pointType->setTransformation(vec3(-22.5, -1, -7), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//postion for double house 2//
 
-	pointType->setTransformation(vec3(-15, 0, -7), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//position for Shield 1//
-	pointType->setTransformation(vec3(-15, 0, -5.5), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//position for single house type 2 number 1//
-	pointType->setTransformation(vec3(-10, 0, -7), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//position for Armorstand number 1//
+	pointType->setTransformation(vec3(-16, -1, -8.5), vec3(-89.52, 0, 0), vec3(0.009, 0.009, 0.009));//position for Shield 2//
+	pointType->setTransformation(vec3(-15, -1, -5.5), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//position for single house type 2 number 1//
+	pointType->setTransformation(vec3(-10, -1, -6), vec3(-89.52, 0, 0), vec3(0.004, 0.004, 0.004));//position for Armorstand number 1//
 
-	pointType->setTransformation(vec3(-12, 0, -7), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//position for sword2 number 1//
-	pointType->setTransformation(vec3(-11, 2, -7), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//position for sword4 number 1//
-	pointType->setTransformation(vec3(-13, 2, -7), vec3(-89.52, 0, 89.5), vec3(0.01, 0.01, 0.01));//position for sword4 number 1//
+	pointType->setTransformation(vec3(-10, 2, -7), vec3(-89.52, 0, 89.5), vec3(0.001, 0.001, 0.001));//position for sword2 number 1//
+	pointType->setTransformation(vec3(-9.75, -0.55, -6), vec3(-89.52, 0, 0), vec3(0.002, 0.002, 0.002));//position for sword4 number 1//
+	pointType->setTransformation(vec3(-10, 1, -7), vec3(-89.52, 0, 89.5), vec3(0.001, 0.001, 0.001));//position for sword number 1//
 
-	pointType->setTransformation(vec3(-13, 2, -7), vec3(-89.52, 0, 89.5), vec3(0.05, 0.05, 0.05));//position for sword4 number 1//
+	pointType->setTransformation(vec3(-11.5, -1, -8.5), vec3(-89.52, 0, 0), vec3(0.009, 0.009, 0.009));//position for bench number 1//
 
 	pointType->loadModels(point);
 
