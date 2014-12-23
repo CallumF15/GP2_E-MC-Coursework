@@ -1,3 +1,7 @@
+// This class was contributred to by Mathew McGerty, Conor Johnston, Calum Flannagan.
+// Post Processing was implemented in My earlier branch and moved to Calums branch, just modelling and textures are in this one along with 
+// skybox and plane. Models were taken from all three folders.
+
 #include <iostream>
 #include <GL/glew.h>
 //maths headers
@@ -93,9 +97,7 @@ void SplashScreen::LoadContent(){
 	displayList.push_back(mainLight);
 
 	//Model loading
-	type->setModelsBump("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png");
-	type->setTransformation(vec3(-5, 0, -10), vec3(0, 0, 0), vec3(1, 1, 1));
-	type->loadModels(bump);
+	
 
 
 	primitiveType* pointType = new primitiveType();
@@ -109,19 +111,17 @@ void SplashScreen::LoadContent(){
 	pointType->setModelsBump("constuct_shild_A.fbx", "p_1.png", "p_1S.png", "s_12N.png");
 	pointType->setModelsBump("constuct_understand_wood.fbx", "u_8.png", "u_8S.png", "u_8N.png");
 	pointType->setModelsBump("planet_earth.fbx", "mat_plan2.png", "mat_plan2.png", "mat_plan2.png");
-	pointType->setModelsBump("Tank1.fbx", "Tank1DF.png", "Tank1_S.png", "Tank1_H.png" );
 	pointType->setModelsBump("barrel.fbx", "barrel_color_01.png", "barrel_spec_01.png", "barrel_nmap_01png");
 	//set transformations for models
 	pointType->setTransformation(vec3(-1, 1, -10), vec3(-89.4, 0, 0), vec3(.01, .01, .01));
-	pointType->setTransformation(vec3(-10, 1, -10), vec3(-89.4, 0, 0), vec3(0.01, .01, .01));
-	pointType->setTransformation(vec3(-1, 1, -10), vec3(-89.4, 0, 0), vec3(0.01, 0.01, 0.01));
-	pointType->setTransformation(vec3(-8, 1, -10), vec3(-89.4, 0, 0), vec3(.02, .02, .02));
+	pointType->setTransformation(vec3(-10, 1.9, -10), vec3(-89.4, 0, 0), vec3(0.01, .01, .01));
+	pointType->setTransformation(vec3(-1, 1, -5), vec3(-89.4, 0, 0), vec3(0.01, 0.01, 0.01));
+	pointType->setTransformation(vec3(-8, 1.8, -10), vec3(-89.4, 0, 0), vec3(.02, .02, .02));
 	pointType->setTransformation(vec3(-8, 1, 0), vec3(-90, 0, 0), vec3(.02, .02, .02));  //bridge
-	pointType->setTransformation(vec3(-8, 1, -5), vec3(0, 0, 0), vec3(.04, .04, .04));
+	pointType->setTransformation(vec3(-8, 1.7, -5), vec3(0, 0, 0), vec3(.04, .04, .04));
 	pointType->setTransformation(vec3(-10, 1, -5), vec3(-89.4, 0, 0), vec3(.02, .04, .02));
 	pointType->setTransformation(vec3(-46, 32, -40), vec3(-90, 0, 90), vec3(0.2, 0.2, 0.2));
-	pointType->setTransformation(vec3(-13, 1, 0), vec3(180, 90, 180), vec3(0.5, 0.5, 0.5));  //tank
-	pointType->setTransformation(vec3(-15, 1, 0), vec3(180, 90, 180), vec3(0.02, 0.02, 0.02));  //barrel
+	pointType->setTransformation(vec3(-15, 1, 0), vec3(180, 90, 180), vec3(0.01, 0.01, 0.01));  //barrel
 	//plane related
 
 	pointType->loadModels(point);
