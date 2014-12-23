@@ -1,3 +1,8 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//This class was implemented by Callum Flannagan. Contributions were made by Mathew McGerty & Conor McDonald //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 #include <iostream>
 #include <GL/glew.h>
 //maths headers
@@ -50,17 +55,36 @@ GameObject * mainLight;
 GameObject * skyBoxObject = NULL;
 
 primitiveType* type;
+PostProcessing postProcessor;
 
+int switchNumber = 0;
+colourFilterType colourtype;
+mat3 selectedColour;
+
+
+//Constructor
 SplashScreen::SplashScreen()
 {
 
 }
 
+//Destructor
 SplashScreen::~SplashScreen(){
 
 }
 
+//This is where all the content is loaded into the game.
+//Used for setting up GameObjects, setting their translations/positions
+//Used to load up multiple models by calling another class.
+//Also used to intialize the postprocessing.
+//Adds all GameObjects into a vector array.
 void SplashScreen::LoadContent(){
+
+	std::string vsPath = ASSET_PATH + SHADER_PATH + "/passThroughVS.glsl";
+	std::string fsPath = ASSET_PATH + SHADER_PATH + "/colourFilterPostFS.glsl";  //change this to boxFilterBlurFS for blur
+
+	postProcessor.init(1024, 768, vsPath, fsPath);
+
 	createSkyBox();
 
 	type = new primitiveType();
@@ -113,15 +137,14 @@ void SplashScreen::LoadContent(){
 	pointType->setTransformation(vec3(-10, 1, -10), vec3(-89.4, 0, 0), vec3(0.01, .01, .01));
 	pointType->setTransformation(vec3(-1, 1, -10), vec3(-89.4, 0, 0), vec3(0.01, 0.01, 0.01));
 	pointType->setTransformation(vec3(-8, 1, -10), vec3(-89.4, 0, 0), vec3(.02, .02, .02));
-	pointType->setTransformation(vec3(-8, 1, 0), vec3(-89.5, 0, 0), vec3(.02, .02, .02));  //bridge
+	pointType->setTransformation(vec3(-8, 1, 0), vec3(-90, 0, 0), vec3(.02, .02, .02));  //bridge
 	pointType->setTransformation(vec3(-8, 1, -5), vec3(0, 0, 0), vec3(.04, .04, .04));
 	pointType->setTransformation(vec3(-10, 1, -5), vec3(-89.4, 0, 0), vec3(.02, .04, .02));
-	//plane related
-
 	pointType->loadModels(point);
 
-
+	
 	//primitiveType* parralaxType = new primitiveType();
+	//parralaxType->setModelsBump()
 	//parralaxType->setModelsBump("plane.fbx", "pavement_color.png", "pavement_spec.png", "pavement_normal.png");
 	//parralaxType->setTransformation(vec3(-10, 1, -5), vec3(-90, 0, 0), vec3(.02, .04, .02));
 	////parralaxType->setModelsParrallax("armoredrecon.fbx", "armoredrecon_diff.png", "armoredrecon_spec.png", "armoredrecon_N.png", "armoredrecon_Height.png");
@@ -131,8 +154,8 @@ void SplashScreen::LoadContent(){
 	primitiveType* primimtiveShapes = new primitiveType();
 	primimtiveShapes->setModelsBump("plane.fbx", "pavement_color.png", "pavement_spec.png", "pavement_normal.png");
 	primimtiveShapes->setModelsBump("plane.fbx", "pavement_color.png", "pavement_spec.png", "pavement_normal.png");
-	pointType->setTransformation(vec3(-10, 1, 0), vec3(-89.5, 0, 0), vec3(.2, .2, 1));
-	pointType->setTransformation(vec3(-10, 1, 0), vec3(-90, 0, 0), vec3(.1, .1, 1));
+	primimtiveShapes->setTransformation(vec3(-10, 1, 0), vec3(-89.5, 0, 0), vec3(.2, .2, 1));
+	primimtiveShapes->setTransformation(vec3(-10, 1, 0), vec3(-90, 0, 0), vec3(.1, .1, 1));
 	primimtiveShapes->loadModels(point);
 
 	////Add to the displaylist in order for models etc to be loaded/rendered
@@ -142,6 +165,8 @@ void SplashScreen::LoadContent(){
 	//displayList.insert(displayList.end(), parralaxType->displayList.begin(), parralaxType->displayList.end());
 }
 
+//Iterates through each component in displayList
+//then the method is called repeatly to update gameobjects
 void SplashScreen::Update(SDL_Event event)
 {
 	skyBoxObject->update();
@@ -152,8 +177,13 @@ void SplashScreen::Update(SDL_Event event)
 	}
 }
 
+//Used to bind the postprocessing, and clear the screen and the colour buffer
+//to get the screen ready, then renders the Skybox and other GameObjects
+//then adds renders the postprocessing effects.
 void SplashScreen::render(SDL_Window *window)
 {
+	postProcessor.bind();
+
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClearDepth(1.0f);
 	//clear the colour and depth buffer
@@ -167,9 +197,23 @@ void SplashScreen::render(SDL_Window *window)
 		renderGameObject((*iter));
 	}
 
+	postProcessor.preDraw();
+	GLint colourFilterLocation = postProcessor.getUniformVariableLocation("colourFilter");
+	glUniformMatrix3fv(colourFilterLocation, 1, GL_FALSE, glm::value_ptr(selectedColour));
+	//draw
+	postProcessor.draw();
+
+	//post draw
+	postProcessor.postDraw();
+
 	SDL_GL_SwapWindow(window);
 }
 
+//Renders each object in pObject, then proceeds to get the transform mesh and material for that object
+//then binds the mesh/material for said object and proceeds to assign locations for each uniform location
+//which will be needed for the shader files. We then get the Camera and light GameObject so we can access
+//data for said objects to assign values to variables which will be passed into the shader to calculate
+//other related stuff. From here it'll then draw the mesh and render each game object.
 void SplashScreen::renderGameObject(GameObject * pObject)
 {
 	if (!pObject)
@@ -260,6 +304,12 @@ void SplashScreen::renderGameObject(GameObject * pObject)
 	}
 }
 
+//Gets the mainCamera Object and assigns to variable.
+//Checks for keyinput and calls appropriate camera method
+//with appropriate enum type for movement which will then
+//proceed to update the cameras position on screen.
+//You can also rotate all objects on the screen 
+//Mouse motion calls the camera's mouse method to deal with rotating the camera
 void SplashScreen::UpdateInput(SDL_Event event){
 	//While we still have events in the queue
 	Camera * c = new Camera();
@@ -301,7 +351,18 @@ void SplashScreen::UpdateInput(SDL_Event event){
 					displayList[i]->getTransform()->setRotation(rotation.x, rotation.y, rotation.z);
 				}
 			}
+
 			break;
+		case SDLK_i:
+			switchNumber += 1;
+
+			if (switchNumber > 3){
+				switchNumber = 0;
+			}
+
+			FilterChanger();
+			break;
+
 		}//end key switch
 	case SDL_MOUSEMOTION:
 		int mouseX = event.motion.x;
@@ -312,6 +373,10 @@ void SplashScreen::UpdateInput(SDL_Event event){
 	}
 }
 
+//Calls the Skybox render function to render the skybox which is set up to render the skybox in a specific way
+//then gets uniforms so that it knows what variables it's accessing the appropriate shader file.
+//then passes values to the shader for it to calculate texture coordinates and such then proceeds
+//to draw the cube mesh to screen.
 void SplashScreen::renderSkyBox()
 	{
 		skyBoxObject->render();
@@ -346,6 +411,10 @@ void SplashScreen::renderSkyBox()
 		} while (error != GL_NO_ERROR);
 	}
 
+//Sets up the appropriate vertice positions for the cube, selects the appropriate indices to form the cube,
+//then intiailizes the mesh so we can copy the mesh related data(indices/triangledata) to the mesh so we are ready
+//for setting the material. We set up the position, intialize the material and load in the cube texture then set
+//the material/mesh and transform then check to make sure no errors occur.
 void SplashScreen::createSkyBox()
 {
 	Vertex triangleData[] = {
@@ -417,13 +486,14 @@ void SplashScreen::createSkyBox()
 	skyBoxObject->setTransform(t);
 	skyBoxObject->setMesh(pMesh);
 
-	//CheckForErrors();
 	GLenum error;
 	do{
 		error = glGetError();
 	} while (error != GL_NO_ERROR);
 }
 
+//Cleans up the screen by destroying all objects rendered on the screen
+//clears all gameobjects in displayList, and destroys the postprocessing
 void  SplashScreen::cleanUp(){
 
 	if (skyBoxObject)
@@ -450,5 +520,29 @@ void  SplashScreen::cleanUp(){
 	}
 
 	displayList.clear();
+	postProcessor.destroy();
 }
+
+
+//switch int enum which is based on user input, changes the type 
+//of postprocessing active on the screen
+void SplashScreen::FilterChanger(){
+	
+	switch (switchNumber){
+
+	case 0:
+		selectedColour = mat3(1);
+		break;
+	case 1:
+		selectedColour = SEPIA_FILTER;
+		break;
+	case 2:
+		selectedColour = BLACK_AND_WHITE_FILTER;
+		break;
+	case 3:
+		selectedColour = GREEN_SCALE_FILTER;
+		break;
+	}
+}
+
 

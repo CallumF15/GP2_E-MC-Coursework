@@ -4,6 +4,9 @@
 #include "gameScreen.h"
 #include "GameObject.h"
 #include "Component.h"
+#include "PostProcessing.h"
+#include "ColourFilters.h"
+
 
 
 class SplashScreen : public gameScreen{
@@ -23,8 +26,8 @@ public:
 
 	void createSkyBox();
 	void renderSkyBox();
+	void FilterChanger();
 
-	//void keyboardInput(SDL_Event event);
 
 	void cleanUp();
 

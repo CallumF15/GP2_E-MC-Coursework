@@ -1,14 +1,22 @@
+///////////////////////////////////////////////////
+//This class was implemented by Callum Flannagan//
+//////////////////////////////////////////////////
+
 
 #include "gameScreen.h"
 
+//constructor
 gameScreen::gameScreen(){
 
 }
-
+//destructor
 gameScreen::~gameScreen(){
 
 }
 
+
+//below are all virtual methods which are methods which are 
+//automatically called when any class inherits from this class.
 void gameScreen::LoadContent(){
 
 }

@@ -234,7 +234,6 @@ void primitiveType::determineShader(shaderType type){
 		shaderFilenameFS = "/pointLightFS.glsl";
 		break;
 	default:
-
 		break;
 	}
 }

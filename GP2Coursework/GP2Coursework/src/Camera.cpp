@@ -7,6 +7,8 @@
 #include "Transform.h"
 #include "GameObject.h"
 
+
+//Constructor. Assign values to header variables.
 Camera::Camera()
 {
 	
@@ -25,12 +27,13 @@ Camera::Camera()
 	m_Projection = mat4();
 }
 
+//Destructor.
 Camera::~Camera()
 {
 
 }
 
-
+//Update method. Called to constantly update the position of the camera based off the calculations off other methods.
 void Camera::update()
 {
 	//need to sort out why this "getTransform()" doesn't get the proper position value
@@ -39,6 +42,7 @@ void Camera::update()
 	m_View = glm::lookAt(m_position, m_position + m_direction, m_Up);
 }
 
+//Calculates the rotation in 3D space with the mouse.
 void Camera::mouseUpdate(const glm::vec2& newMousePos)
 {
 	glm::vec2 mouseDelta = newMousePos - oldMousePos;
@@ -60,6 +64,9 @@ void Camera::mouseUpdate(const glm::vec2& newMousePos)
 	oldMousePos = newMousePos;
 }
 
+//Passed in variable determines which sort of movement occurs and
+//calls the appropriate enum of type MovementType and either calculates
+//or calls appropriate method
 void Camera::movement(MovementType movementType)
 {
 	switch (movementType){
@@ -89,19 +96,19 @@ void Camera::movement(MovementType movementType)
 	}
 }
 
+//Calculates movement to the left
 void Camera::strafeLeft(){
 	m_position -= movementSpeed * strafedirection;
 }
 
+//Calculates movement to the Right
 void Camera::strafeRight()
 {
 	m_position += movementSpeed * strafedirection;
 }
 
-MovementType Camera::setMovementType(MovementType type){
-	return m_movementType = type;
-}
 
+//Returns the position of the casmera
 vec3 Camera::getPosition(){
 	return m_position;
 }
@@ -116,7 +123,7 @@ vec3 Camera::getPosition(){
 
 
 
-
+//Below are just setters/getters which assign and return values
 void Camera::setLook(float x, float y, float z)
 {
 	m_LookAt = vec3(x, y, z);

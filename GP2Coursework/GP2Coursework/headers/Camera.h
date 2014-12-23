@@ -44,7 +44,6 @@ public:
 	mat4& getView();
 	mat4& getProjection();
 
-	MovementType setMovementType(MovementType type);
 	void setMousePosition(int X, int Y, int xVel, int yVel);
 	void movement(MovementType movementType);
 	void mouseUpdate(const glm::vec2& newMousePos);
@@ -58,7 +57,6 @@ protected:
 private:
 	vec3 strafedirection;
 	glm::vec2 oldMousePos;
-	MovementType m_movementType;
 
 	vec3 m_position;
 	vec3 m_direction;

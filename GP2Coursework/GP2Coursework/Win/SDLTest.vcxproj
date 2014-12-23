@@ -20,6 +20,7 @@
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\Material.cpp" />
     <ClCompile Include="..\src\Mesh.cpp" />
+    <ClCompile Include="..\src\PostProcessing.cpp" />
     <ClCompile Include="..\src\primitiveType.cpp" />
     <ClCompile Include="..\src\ScreenManager.cpp" />
     <ClCompile Include="..\src\Shader.cpp" />
@@ -31,6 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\headers\Camera.h" />
+    <ClInclude Include="..\headers\ColourFilters.h" />
     <ClInclude Include="..\headers\Component.h" />
     <ClInclude Include="..\headers\FBXLoader.h" />
     <ClInclude Include="..\headers\GameObject.h" />
@@ -38,6 +40,7 @@
     <ClInclude Include="..\headers\Light.h" />
     <ClInclude Include="..\headers\Material.h" />
     <ClInclude Include="..\headers\Mesh.h" />
+    <ClInclude Include="..\headers\PostProcessing.h" />
     <ClInclude Include="..\headers\primitiveType.h" />
     <ClInclude Include="..\headers\ScreenManager.h" />
     <ClInclude Include="..\headers\Shader.h" />
@@ -52,19 +55,24 @@
   <ItemGroup>
     <None Include="..\assets\shaders\ambientFS.glsl" />
     <None Include="..\assets\shaders\ambientVS.glsl" />
+    <None Include="..\assets\shaders\boxFilterBlurFS.glsl" />
     <None Include="..\assets\shaders\BumpmappingFS.glsl" />
     <None Include="..\assets\shaders\BumpmappingVS.glsl" />
+    <None Include="..\assets\shaders\colourFilterPostFS.glsl" />
     <None Include="..\assets\shaders\diffuseFS.glsl" />
     <None Include="..\assets\shaders\diffuseVS.glsl" />
     <None Include="..\assets\shaders\DirectionalLightTextureFS.glsl" />
     <None Include="..\assets\shaders\DirectionalLightTextureVS.glsl" />
+    <None Include="..\assets\shaders\lightIntensityFS.glsl" />
     <None Include="..\assets\shaders\ParallaxMappingFS.glsl" />
     <None Include="..\assets\shaders\ParallaxMappingVS.glsl" />
+    <None Include="..\assets\shaders\passThroughVS.glsl" />
     <None Include="..\assets\shaders\pointLightFS.glsl" />
     <None Include="..\assets\shaders\pointLightVS.glsl" />
     <None Include="..\assets\shaders\reflectionFS.glsl" />
     <None Include="..\assets\shaders\reflectionVS.glsl" />
     <None Include="..\assets\shaders\simpleFS.glsl" />
+    <None Include="..\assets\shaders\simplePostProcessVS.glsl" />
     <None Include="..\assets\shaders\simpleVS.glsl" />
     <None Include="..\assets\shaders\skyFS.glsl" />
     <None Include="..\assets\shaders\skyVS.glsl" />

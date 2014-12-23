@@ -20,6 +20,7 @@ GLuint convertSDLSurfaceToGLTexture(SDL_Surface * surface)
 	return textureID;
 }
 
+//changed the glTexParameter so that we could the way the texture is applied to a surface.
 GLuint loadTextureFromFile(const std::string& filename)
 {
 	GLuint textureID = 0;
@@ -33,7 +34,7 @@ GLuint loadTextureFromFile(const std::string& filename)
 	textureID = convertSDLSurfaceToGLTexture(imageSurface);
 
 	//if (isRepeat){
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);			
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
